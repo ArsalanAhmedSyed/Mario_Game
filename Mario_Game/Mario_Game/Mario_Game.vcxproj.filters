@@ -36,9 +36,4 @@
       <Filter>Source Files</Filter>
     </Library>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="constants.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
 </Project>
