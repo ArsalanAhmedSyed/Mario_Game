@@ -1,3 +1,7 @@
 ﻿  Source.cpp
-  LINK : C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Debug\Mario_Game.exe not found or not built by the last incremental link; performing full link
-  Mario_Game.vcxproj -> C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Debug\Mario_Game.exe
+  Texture2D.cpp
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Texture2D.cpp(78,27): error C2084: function 'int Texture2D::GetWidth(void)' already has a body
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Texture2D.h(21): message : see previous definition of 'GetWidth'
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Texture2D.cpp(79,28): error C2084: function 'int Texture2D::GetHeight(void)' already has a body
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Texture2D.h(22): message : see previous definition of 'GetHeight'
+  Generating Code...

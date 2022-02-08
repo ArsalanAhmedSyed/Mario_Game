@@ -8,6 +8,8 @@
 
 //Header files
 #include "constants.h"
+#include "Texture2D.h"
+#include "Commons.h"
 
 using namespace std;
 
@@ -16,15 +18,11 @@ bool InitSDL();
 void CloseSDL();
 bool Update();
 void Render();
-void FreeTexture();
 bool LoadMedia();
-
-SDL_Texture* LoadTextureFromFile(string path);
-
 
 SDL_Window* g_Window = nullptr;
 SDL_Renderer* g_Renderer = nullptr;
-SDL_Texture* g_Texture = nullptr;
+Texture2D* g_Texture = nullptr;
 
 //Initialise SDL
 bool InitSDL()
@@ -72,10 +70,10 @@ bool LoadMedia()
 {
 	bool success = true;
 
-	g_Texture = LoadTextureFromFile("Images/test.bmp");
-	if (g_Texture == nullptr)
+	g_Texture = new Texture2D(g_Renderer);
+
+	if (!g_Texture->LoadFromFile("Images/test.bmp"))
 	{
-		cout << "Failed to load texture Image!\n";
 		success = false;
 	}
 
@@ -87,63 +85,20 @@ void Render()
 	//Clear the screen
 	SDL_SetRenderDrawColor(g_Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(g_Renderer);
-
-	//Create rendering location
-	SDL_Rect renderLocation
-	{
-		renderLocation.x = 0,
-		renderLocation.y = 0,
-		renderLocation.w = SCREEN_WIDTH,
-		renderLocation.h = SCREEN_HEIGHT
-	};
-
-	//Render to screen
-	SDL_RenderCopyEx(g_Renderer, g_Texture, NULL, &renderLocation, 0, NULL, SDL_FLIP_NONE);
 	
+	g_Texture->Render(Vector2D(), SDL_FLIP_NONE);
+
 	//Update the screen
 	SDL_RenderPresent(g_Renderer);
 }
 
-SDL_Texture* LoadTextureFromFile(string path)
-{
-	FreeTexture();
-
-	SDL_Texture* p_Texture = nullptr;
-
-	SDL_Surface* p_Surface = IMG_Load(path.c_str());
-	if (p_Surface == nullptr)
-	{
-		cout << "Unable to create texture from surface. IMG_Error: %s\n" << IMG_GetError();
-	}
-	else
-	{
-		p_Texture = SDL_CreateTextureFromSurface(g_Renderer, p_Surface);
-		if (p_Texture == nullptr)
-		{
-			cout << "Unable to create texture from surface. IMG_Error: %s\n" << IMG_GetError();
-		}
-
-		SDL_FreeSurface(p_Surface);
-	}
-
-	return p_Texture;
-}
-
-void FreeTexture()
-{
-	//check if texture exist before removing
-	if (g_Texture != nullptr)
-	{
-		SDL_DestroyTexture(g_Texture);
-		g_Texture = nullptr;
-	}
-}
 
 //close everything
 void CloseSDL()
 {
-	//Clear texture
-	FreeTexture();
+
+	delete g_Texture;
+	g_Texture = nullptr;
 
 	//Release the renderer
 	SDL_DestroyRenderer(g_Renderer);
