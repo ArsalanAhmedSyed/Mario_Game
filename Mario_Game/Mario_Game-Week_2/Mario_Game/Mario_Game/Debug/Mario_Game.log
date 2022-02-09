@@ -1,6 +1,0 @@
-﻿  Source.cpp
-  Texture2D.cpp
-C:\Users\sarsa\Downloads\Mario_Game-Week_2\Mario_Game-Week_2\Mario_Game\Mario_Game\Texture2D.cpp(68,34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\sarsa\Downloads\Mario_Game-Week_2\Mario_Game-Week_2\Mario_Game\Mario_Game\Texture2D.cpp(69,34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  Generating Code...
-  Mario_Game.vcxproj -> C:\Users\sarsa\Downloads\Mario_Game-Week_2\Mario_Game-Week_2\Mario_Game\Debug\Mario_Game.exe
