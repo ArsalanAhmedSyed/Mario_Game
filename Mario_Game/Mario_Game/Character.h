@@ -18,8 +18,11 @@ public:
 
 	virtual void Render();
 	virtual void Update(float deltaTime, SDL_Event e);
+
 	void SetPosition(Vector2D new_position);
 	Vector2D getPosition();
+
+	float GetCollisionRaidus();
 
 protected:
 	SDL_Renderer* m_Renderer;
@@ -31,6 +34,8 @@ protected:
 
 	virtual void MoveLeft(float deltaTime);
 	virtual void MoveRight(float deltaTime);
+
+	float m_collision_radius;
 
 private:
 	FACING m_facing_direction;
