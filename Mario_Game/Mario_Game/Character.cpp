@@ -41,6 +41,18 @@ void Character::Render()
 
 void Character::Update(float deltaTime, SDL_Event e)
 {
+	AddGravity(deltaTime);
+	if (m_jumping)
+	{
+		m_Position.y -= m_jump_force * deltaTime;
+		m_jump_force -= JUMP_FORCE_DECREMENT * deltaTime;
+
+		//if (m_jump_force <= 0.0f)
+		//{
+		//	//m_jumping = false;
+		//}
+	}
+
 	if (m_moving_left)
 	{
 		MoveLeft(deltaTime);
@@ -60,9 +72,10 @@ void Character::Update(float deltaTime, SDL_Event e)
 			m_moving_left = true;
 			break;
 		case SDLK_RIGHT:
-			//m_Position.x += 1;
-			//m_facing_direction = FACING_RIGHT;
 			m_moving_right = true;
+			break;
+		case SDLK_UP:
+			Jump();
 			break;
 		}
 	}
@@ -77,7 +90,6 @@ void Character::Update(float deltaTime, SDL_Event e)
 			m_moving_right = false;
 		}
 	}
-	
 }
 
 void Character::SetPosition(Vector2D new_position)
@@ -102,7 +114,32 @@ void Character::MoveRight(float deltaTime)
 	m_facing_direction = FACING_RIGHT;
 }
 
+void Character::AddGravity(float deltaTime)
+{
+	if (m_Position.y + m_Texture->GetHeight() <= SCREEN_HEIGHT)
+	{
+		m_Position.y += GRAVITY * deltaTime;
+	}
+	else
+	{
+		m_Position.y = SCREEN_HEIGHT - m_Texture->GetHeight();
+		m_can_jump = true;
+	}
+}
+
+void Character::Jump()
+{
+	if (m_can_jump)
+	{
+		m_jump_force = INITIAL_JUMP_FORCE;
+		m_jumping = true;
+		m_can_jump = false;
+	}
+}
+
+
 float Character::GetCollisionRaidus()
 {
 	return m_collision_radius;
 }
+
