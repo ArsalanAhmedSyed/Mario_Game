@@ -2,9 +2,8 @@
 #define _CHARACTER_H
 
 #include <SDL.h>
-#include <string>
 #include "Commons.h"
-
+#include <iostream>
 using namespace std;
 
 class Texture2D;

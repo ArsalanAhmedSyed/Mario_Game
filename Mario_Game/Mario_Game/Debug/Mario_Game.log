@@ -1,6 +1,16 @@
 ﻿  Character.cpp
+  CharacterLuigi.cpp
+C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterLuigi.cpp(108,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   CharacterMario.cpp
-C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterMario.cpp(113,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterMario.cpp(109,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  Collisions.cpp
+  GameScreen.cpp
   GameScreenLevel1.cpp
+  GameScreenManager.cpp
+C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenManager.cpp(50,9): warning C4102: 'defualt': unreferenced label
+  Source.cpp
+  Texture2D.cpp
+C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\Texture2D.cpp(68,34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\Texture2D.cpp(69,34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   Generating Code...
-  Mario_Game.vcxproj -> C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Debug\Mario_Game.exe
+  Mario_Game.vcxproj -> C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Debug\Mario_Game.exe

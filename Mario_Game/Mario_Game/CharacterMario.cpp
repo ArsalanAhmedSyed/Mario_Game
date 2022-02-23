@@ -1,8 +1,6 @@
 #include "CharacterMario.h"
 #include "Texture2D.h"
 #include "constants.h"
-#include <iostream>
-
 
 CharacterMario::CharacterMario(SDL_Renderer* renderer, string imagePath, Vector2D start_position) : Character(renderer, imagePath, start_position)
 {
@@ -14,8 +12,7 @@ CharacterMario::CharacterMario(SDL_Renderer* renderer, string imagePath, Vector2
 
 	m_facing_direction = FACING_RIGHT;
 
-	m_moving_left = false;
-	m_moving_right = false;
+	m_collision_radius = 15.0f;
 }
 
 CharacterMario::~CharacterMario()
