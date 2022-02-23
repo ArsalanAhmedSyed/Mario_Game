@@ -1,15 +1,6 @@
 ﻿  Character.cpp
-C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.cpp(125,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   CharacterMario.cpp
-C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterMario.h(7,132): error C2969: syntax error: ';': expected member function definition to end with '}'
-C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterMario.cpp(2,1): fatal error C1004: unexpected end-of-file found
-  Collisions.cpp
-  GameScreen.cpp
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterMario.cpp(113,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   GameScreenLevel1.cpp
-  GameScreenManager.cpp
-C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenManager.cpp(50,9): warning C4102: 'defualt': unreferenced label
-  Source.cpp
-  Texture2D.cpp
-C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\Texture2D.cpp(68,34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\Texture2D.cpp(69,34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   Generating Code...
+  Mario_Game.vcxproj -> C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Debug\Mario_Game.exe

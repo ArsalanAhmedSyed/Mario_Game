@@ -2,9 +2,8 @@
 #define _CHARACTER_H
 
 #include <SDL.h>
-#include <iostream>
+#include <string>
 #include "Commons.h"
-#include <string.h>
 
 using namespace std;
 
@@ -34,8 +33,8 @@ protected:
 
 	virtual void MoveLeft(float deltaTime);
 	virtual void MoveRight(float deltaTime);
-	virtual void AddGravity(float deltaTime);
 
+	virtual void AddGravity(float deltaTime);
 	virtual void Jump();
 
 	bool m_can_jump;

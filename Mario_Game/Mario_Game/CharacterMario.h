@@ -2,6 +2,8 @@
 #define _CHARACTERMARIO_H
 
 #include "Character.h"
+#include "Commons.h"
+
 class CharacterMario : Character
 {
 public:
@@ -11,6 +13,14 @@ public:
 	void Render() override;
 	void Update(float deltaTime, SDL_Event e) override;
 
+	void MoveRight(float deltaTime) override;
+	void MoveLeft(float deltaTime) override;
+
+	void AddGravity(float deltaTime) override;
+	void Jump() override;
+
+private:
+	FACING m_facing_direction;
 
 };
 
