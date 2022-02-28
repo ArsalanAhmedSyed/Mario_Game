@@ -6,6 +6,7 @@
 
 
 class Texture2D;
+class LevelMap;
 class CharacterMario;
 class CharacterLuigi;
 
@@ -19,9 +20,13 @@ public:
 	void Update(float deltaTime, SDL_Event e) override;
 
 private:
-	Texture2D* m_background_Texture;
-	bool SetUpLevel();
 	
+	bool SetUpLevel();
+	void SetLevelMap();
+	
+	Texture2D* m_background_Texture;
+	LevelMap* m_level_map;
+
 	//Character* my_Character;
 	CharacterMario* mario_Character;
 	CharacterLuigi* Luigi_Character;

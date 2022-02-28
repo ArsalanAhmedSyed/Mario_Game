@@ -3,6 +3,7 @@
 #include "CharacterMario.h"
 #include "CharacterLuigi.h"
 #include "Collisions.h"
+#include "LevelMap.h"
 #include <iostream>
 
 using namespace std;
@@ -10,12 +11,16 @@ using namespace std;
 GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer) : GameScreen(renderer)
 {
 	SetUpLevel();
+	m_level_map = nullptr;
 }
 
 GameScreenLevel1::~GameScreenLevel1()
 {
 	delete m_background_Texture;
 	m_background_Texture = nullptr;
+
+	delete m_level_map;
+	m_level_map = nullptr;
 
 	delete mario_Character;
 	mario_Character = nullptr;
@@ -59,7 +64,35 @@ bool GameScreenLevel1::SetUpLevel()
 	}
 
 	mario_Character = new CharacterMario(m_Renderer, "Images/Mario.png", Vector2D(64, 330));
-	Luigi_Character = new CharacterLuigi(m_Renderer, "Images/Luigi.png", Vector2D(64, 330));
+	Luigi_Character = new CharacterLuigi(m_Renderer, "Images/Luigi.png", Vector2D(100, 330));
+
+	SetLevelMap();
 
 	return success;
+}
+
+void GameScreenLevel1::SetLevelMap()
+{
+	int map[MAP_HEIGHT][MAP_WIDTH] = { { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+					  { 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1 },
+					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+					  { 0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0 },
+					  { 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1 },
+					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+					  { 0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0 },
+					  { 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1 },
+					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+					  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 } };
+
+	//clear any old maps
+	if (m_level_map != nullptr)
+	{
+		delete m_level_map;
+	}
+
+	//Set the new one
+	m_level_map = new LevelMap(map);
 }
