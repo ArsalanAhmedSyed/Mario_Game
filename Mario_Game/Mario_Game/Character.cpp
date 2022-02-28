@@ -1,7 +1,7 @@
 #include "Character.h"
+#include "LevelMap.h"
 
-
-Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_position)
+Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_position, LevelMap* map)
 {
 	m_Renderer = renderer;
 	m_Position = start_position;
@@ -10,6 +10,8 @@ Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_po
 	m_moving_right = false;
 
 	m_collision_radius = 15.0f;
+
+	m_current_mevel_map = map;
 }
 
 Character::~Character()

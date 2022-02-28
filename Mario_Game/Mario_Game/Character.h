@@ -5,14 +5,16 @@
 #include "Texture2D.h"
 #include <SDL.h>
 #include <iostream>
+
 using namespace std;
 
 class Texture2D;
+class LevelMap;
 
 class Character
 {
 public:
-	Character(SDL_Renderer* renderer, string imagePath, Vector2D start_position);
+	Character(SDL_Renderer* renderer, string imagePath, Vector2D start_position, LevelMap* map);
 	~Character();
 
 	virtual void Render();
@@ -24,6 +26,7 @@ public:
 	float GetCollisionRaidus();
 
 	Rect2D getCollisionBox() { return Rect2D(m_Position.x, m_Position.y, m_Texture->GetWidth(), m_Texture->GetHeight()); }
+
 
 protected:
 	SDL_Renderer* m_Renderer;
@@ -47,6 +50,7 @@ protected:
 
 private:
 	FACING m_facing_direction;
+	LevelMap* m_current_mevel_map;
 };
 
 #endif // !_CHARACTER_H
