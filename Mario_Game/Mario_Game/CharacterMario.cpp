@@ -13,6 +13,7 @@ CharacterMario::CharacterMario(SDL_Renderer* renderer, string imagePath, Vector2
 	m_facing_direction = FACING_RIGHT;
 
 	m_collision_radius = 15.0f;
+
 }
 
 CharacterMario::~CharacterMario()
@@ -58,8 +59,9 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 
 	SDL_PollEvent(&e);
 
-	if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
+	switch (e.type)
 	{
+	case SDL_KEYDOWN:
 		switch (e.key.keysym.sym)
 		{
 		case SDLK_LEFT:
@@ -72,9 +74,9 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 			Jump();
 			break;
 		}
-	}
-	else if (e.type == SDL_KEYUP && e.key.repeat == 0)
-	{
+		break;
+
+	case SDL_KEYUP:
 		switch (e.key.keysym.sym)
 		{
 		case SDLK_LEFT:
@@ -83,6 +85,7 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 		case SDLK_RIGHT:
 			m_moving_right = false;
 		}
+		break;
 	}
 }
 

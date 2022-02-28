@@ -1,5 +1,5 @@
 #include "Character.h"
-#include "Texture2D.h"
+
 
 Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_position)
 {
@@ -8,6 +8,8 @@ Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_po
 
 	m_moving_left = false;
 	m_moving_right = false;
+
+	m_collision_radius = 15.0f;
 }
 
 Character::~Character()
@@ -26,7 +28,7 @@ Vector2D Character::getPosition()
 	return m_Position;
 }
 
-float Character::GetCollisionRaidus() {}
+float Character::GetCollisionRaidus() { return m_collision_radius; }
 
 void Character::Render() {}
 

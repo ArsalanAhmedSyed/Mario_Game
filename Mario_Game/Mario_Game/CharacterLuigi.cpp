@@ -58,8 +58,9 @@ void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 
 	SDL_PollEvent(&e);
 
-	if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
+	switch (e.type)
 	{
+	case SDL_KEYDOWN:
 		switch (e.key.keysym.sym)
 		{
 		case SDLK_a:
@@ -72,9 +73,9 @@ void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 			Jump();
 			break;
 		}
-	}
-	else if (e.type == SDL_KEYUP && e.key.repeat == 0)
-	{
+		break;
+
+	case SDL_KEYUP:
 		switch (e.key.keysym.sym)
 		{
 		case SDLK_a:
@@ -83,6 +84,7 @@ void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 		case SDLK_d:
 			m_moving_right = false;
 		}
+		break;
 	}
 }
 
@@ -91,7 +93,6 @@ void CharacterLuigi::MoveRight(float deltaTime)
 	m_Position.x += deltaTime * MOVEMENT_SPEED;
 	m_facing_direction = FACING_RIGHT;
 }
-
 
 void CharacterLuigi::MoveLeft(float deltaTime)
 {

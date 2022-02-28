@@ -2,8 +2,9 @@
 #define _CHARACTERLUIGI_H
 
 #include "Character.h"
+#include "Commons.h"
 
-class CharacterLuigi : Character
+class CharacterLuigi : public Character
 {
 public:
 	CharacterLuigi(SDL_Renderer* renderer, string imagePath, Vector2D start_position);

@@ -1,8 +1,9 @@
 #ifndef _CHARACTER_H
 #define _CHARACTER_H
 
-#include <SDL.h>
 #include "Commons.h"
+#include "Texture2D.h"
+#include <SDL.h>
 #include <iostream>
 using namespace std;
 
@@ -21,6 +22,8 @@ public:
 	Vector2D getPosition();
 
 	float GetCollisionRaidus();
+
+	Rect2D getCollisionBox() { return Rect2D(m_Position.x, m_Position.y, m_Texture->GetWidth(), m_Texture->GetHeight()); }
 
 protected:
 	SDL_Renderer* m_Renderer;

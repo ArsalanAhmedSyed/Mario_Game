@@ -33,10 +33,15 @@ void GameScreenLevel1::Render()
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 {
-	/*if (Collisions::Instance()->Circle(mario_Character, Luigi_Character))
+	if (Collisions::Instance()->Circle(mario_Character, Luigi_Character))
 	{
 		cout << "Circle Hit!" << endl;
-	}*/
+	}
+
+	if (Collisions::Instance()->Box(mario_Character->getCollisionBox(), Luigi_Character->getCollisionBox()))
+	{
+		cout << "Box Hit!" << endl;
+	}
 
 	mario_Character->Update(deltaTime, e);
 	Luigi_Character->Update(deltaTime, e);
@@ -54,7 +59,7 @@ bool GameScreenLevel1::SetUpLevel()
 	}
 
 	mario_Character = new CharacterMario(m_Renderer, "Images/Mario.png", Vector2D(64, 330));
-	Luigi_Character = new CharacterLuigi(m_Renderer, "Images/Luigi.png", Vector2D(75, 330));
+	Luigi_Character = new CharacterLuigi(m_Renderer, "Images/Luigi.png", Vector2D(64, 330));
 
 	return success;
 }

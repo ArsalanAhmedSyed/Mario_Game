@@ -4,7 +4,7 @@
 #include "Character.h"
 #include "Commons.h"
 
-class CharacterMario : Character
+class CharacterMario : public Character
 {
 public:
 	CharacterMario(SDL_Renderer* renderer, string imagePath, Vector2D start_position);
@@ -24,5 +24,5 @@ private:
 
 };
 
-#endif _CHARACTERMARIO_H
+#endif //_CHARACTERMARIO_H
 

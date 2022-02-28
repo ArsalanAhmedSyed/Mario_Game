@@ -6,8 +6,6 @@
 
 
 class Texture2D;
-//class Character;
-
 class CharacterMario;
 class CharacterLuigi;
 
