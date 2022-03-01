@@ -19,7 +19,7 @@ bool InitSDL();
 void CloseSDL();
 bool Update();
 void Render();
-bool LoadMedia();
+//bool LoadMedia();
 
 SDL_Window* g_Window = nullptr;
 SDL_Renderer* g_Renderer = nullptr;
@@ -66,15 +66,6 @@ bool InitSDL()
 			}
 		}
 	}
-	return success;
-}
-
-bool LoadMedia()
-{
-	bool success = true;
-	//construct Texture2D
-
-
 	return success;
 }
 
@@ -134,19 +125,16 @@ int main(int argc, char* args[])
 {
 	if (InitSDL())
 	{
-		if (LoadMedia())
+		game_screen_manager = new GameScreenManager(g_Renderer, SCREEN_LEVEL1);
+		g_old_time = SDL_GetTicks();
+
+		bool quit = false;
+
+		while (!quit)
 		{
-			game_screen_manager = new GameScreenManager(g_Renderer, SCREEN_LEVEL1);
-			g_old_time = SDL_GetTicks();
-
-			bool quit = false;
-
-			while (!quit)
-			{
-				Render();
-				quit = Update();
-			}
-		}
+			Render();
+			quit = Update();
+		}	
 	}
 	
 	CloseSDL();

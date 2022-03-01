@@ -56,8 +56,6 @@ void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 		MoveRight(deltaTime);
 	}
 
-	SDL_PollEvent(&e);
-
 	switch (e.type)
 	{
 	case SDL_KEYDOWN:
@@ -86,6 +84,8 @@ void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 		}
 		break;
 	}
+
+	Character::Update(deltaTime, e);
 }
 
 void CharacterLuigi::MoveRight(float deltaTime)

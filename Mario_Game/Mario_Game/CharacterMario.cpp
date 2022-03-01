@@ -36,7 +36,6 @@ void CharacterMario::Render()
 
 void CharacterMario::Update(float deltaTime, SDL_Event e)
 {
-	AddGravity(deltaTime);
 	if (m_jumping)
 	{
 		m_Position.y -= m_jump_force * deltaTime;
@@ -56,8 +55,6 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 	{
 		MoveRight(deltaTime);
 	}
-
-	SDL_PollEvent(&e);
 
 	switch (e.type)
 	{
@@ -87,6 +84,8 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 		}
 		break;
 	}
+
+	Character::Update(deltaTime, e);
 }
 
 void CharacterMario::MoveRight(float deltaTime)
@@ -110,7 +109,6 @@ void CharacterMario::AddGravity(float deltaTime)
 	}
 	else
 	{
-		m_Position.y = SCREEN_HEIGHT - m_Texture->GetHeight();
 		m_can_jump = true;
 	}
 }

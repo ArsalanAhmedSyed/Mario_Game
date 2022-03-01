@@ -11,7 +11,7 @@ Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_po
 
 	m_collision_radius = 15.0f;
 
-	m_current_mevel_map = map;
+	m_current_level_map = map;
 }
 
 Character::~Character()
@@ -34,7 +34,23 @@ float Character::GetCollisionRaidus() { return m_collision_radius; }
 
 void Character::Render() {}
 
-void Character::Update(float deltaTime, SDL_Event e) {}
+void Character::Update(float deltaTime, SDL_Event e)
+{
+	//collision position variables
+	int centralX_position = (int)(m_Position.x + (m_Texture->GetWidth() * 0.5)) / TILE_WIDTH;
+	int foot_position = (int)(m_Position.y + m_Texture->GetHeight()) / TILE_HEIGHT;
+
+	if (m_current_level_map->GetTileAt(foot_position, centralX_position) == 0)
+	{
+		// deal with gravity
+		AddGravity(deltaTime);
+	}
+	else
+	{
+		//collided with ground so can jump again
+		m_can_jump = true;
+	}
+}
 
 void Character::MoveLeft(float deltaTime) {}
 

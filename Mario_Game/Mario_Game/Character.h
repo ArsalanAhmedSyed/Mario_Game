@@ -50,7 +50,7 @@ protected:
 
 private:
 	FACING m_facing_direction;
-	LevelMap* m_current_mevel_map;
+	LevelMap* m_current_level_map;
 };
 
 #endif // !_CHARACTER_H
