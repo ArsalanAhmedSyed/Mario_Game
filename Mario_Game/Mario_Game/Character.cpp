@@ -19,18 +19,9 @@ Character::~Character()
 	m_Renderer = nullptr;
 }
 
+void Character::SetPosition(Vector2D new_position) { m_Position = new_position; }
 
-void Character::SetPosition(Vector2D new_position)
-{
-	m_Position = new_position;
-}
-
-Vector2D Character::getPosition()
-{
-	return m_Position;
-}
-
-float Character::GetCollisionRaidus() { return m_collision_radius; }
+Vector2D Character::getPosition() { return m_Position; }
 
 void Character::Render() {}
 

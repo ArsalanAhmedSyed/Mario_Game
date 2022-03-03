@@ -38,7 +38,7 @@ void GameScreenLevel1::Render()
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 {
-	if (Collisions::Instance()->Circle(mario_Character, Luigi_Character))
+	if (Collisions::Instance()->Circle(mario_Character->GetCollisionCircle(), Luigi_Character->GetCollisionCircle()))
 	{
 		cout << "Circle Hit!" << endl;
 	}

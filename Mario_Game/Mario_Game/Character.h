@@ -23,7 +23,7 @@ public:
 	void SetPosition(Vector2D new_position);
 	Vector2D getPosition();
 
-	float GetCollisionRaidus();
+	Circle2D GetCollisionCircle() { return Circle2D(m_Position.x, m_Position.y, m_collision_radius); }
 
 	Rect2D getCollisionBox() { return Rect2D(m_Position.x, m_Position.y, m_Texture->GetWidth(), m_Texture->GetHeight()); }
 

@@ -1,26 +1,4 @@
-﻿  Character.cpp
+﻿  GameScreenLevel1.cpp
 C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(28,114): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(28,90): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  CharacterLuigi.cpp
-C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(28,114): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(28,90): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterLuigi.cpp(110,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  CharacterMario.cpp
-C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(28,114): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(28,90): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Collisions.cpp
-C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(28,114): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(28,90): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  GameScreen.cpp
-  GameScreenLevel1.cpp
-C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(28,114): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(28,90): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  GameScreenManager.cpp
-C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenManager.cpp(50,9): warning C4102: 'defualt': unreferenced label
-  LevelMap.cpp
-  Source.cpp
-  Texture2D.cpp
-C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Texture2D.cpp(68,34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Texture2D.cpp(69,34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  Generating Code...
   Mario_Game.vcxproj -> C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Debug\Mario_Game.exe
