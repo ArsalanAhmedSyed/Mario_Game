@@ -35,7 +35,6 @@ void CharacterLuigi::Render()
 
 void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 {
-	AddGravity(deltaTime);
 	if (m_jumping)
 	{
 		m_Position.y -= m_jump_force * deltaTime;

@@ -49,7 +49,6 @@ protected:
 	float m_collision_radius;
 
 private:
-	FACING m_facing_direction;
 	LevelMap* m_current_level_map;
 };
 
