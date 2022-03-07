@@ -1,4 +1,71 @@
-﻿  GameScreenLevel1.cpp
-C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(28,114): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(28,90): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Mario_Game.vcxproj -> C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Debug\Mario_Game.exe
+﻿  Character.cpp
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterKoopa.h(8,1): error C2504: 'Character': base class undefined
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterKoopa.h(13,7): error C3668: 'CharacterKoopa::Render': method with override specifier 'override' did not override any base class methods
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterKoopa.h(14,7): error C3668: 'CharacterKoopa::Update': method with override specifier 'override' did not override any base class methods
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(30,114): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(30,90): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  CharacterLuigi.cpp
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterKoopa.h(8,1): error C2504: 'Character': base class undefined
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterKoopa.h(13,7): error C3668: 'CharacterKoopa::Render': method with override specifier 'override' did not override any base class methods
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterKoopa.h(14,7): error C3668: 'CharacterKoopa::Update': method with override specifier 'override' did not override any base class methods
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(30,114): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(30,90): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  CharacterMario.cpp
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterKoopa.h(8,1): error C2504: 'Character': base class undefined
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterKoopa.h(13,7): error C3668: 'CharacterKoopa::Render': method with override specifier 'override' did not override any base class methods
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterKoopa.h(14,7): error C3668: 'CharacterKoopa::Update': method with override specifier 'override' did not override any base class methods
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(30,114): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(30,90): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Collisions.cpp
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterKoopa.h(8,1): error C2504: 'Character': base class undefined
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterKoopa.h(13,7): error C3668: 'CharacterKoopa::Render': method with override specifier 'override' did not override any base class methods
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterKoopa.h(14,7): error C3668: 'CharacterKoopa::Update': method with override specifier 'override' did not override any base class methods
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(30,114): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(30,90): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  GameScreenLevel1.cpp
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.h(47,8): error C2143: syntax error: missing ';' before '<'
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.h(47,8): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.h(47,35): error C2238: unexpected token(s) preceding ';'
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterKoopa.h(8,1): error C2504: 'Character': base class undefined
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterKoopa.h(13,7): error C3668: 'CharacterKoopa::Render': method with override specifier 'override' did not override any base class methods
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\CharacterKoopa.h(14,7): error C3668: 'CharacterKoopa::Update': method with override specifier 'override' did not override any base class methods
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(30,114): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(30,90): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(36,2): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(41,22): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(43,3): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(161,31): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(163,3): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(170,2): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(175,7): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(179,32): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(182,8): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(185,9): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(185,50): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(186,9): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(186,64): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(188,6): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(192,5): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(195,10): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(195,52): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(195,95): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(196,9): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(202,41): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(204,11): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(206,8): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(216,10): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(225,5): error C2065: 'm_enemies': undeclared identifier
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(225,21): error C2065: 'm_enemies': undeclared identifier
+  GameScreenManager.cpp
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.h(47,8): error C2143: syntax error: missing ';' before '<'
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.h(47,8): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.h(47,35): error C2238: unexpected token(s) preceding ';'
+  LevelMap.cpp
+  PowBlock.cpp
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\PowBlock.cpp(20,44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\PowBlock.cpp(21,42): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\PowBlock.cpp(23,46): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Texture2D.cpp
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Texture2D.cpp(68,34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\sarsa\Desktop\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Texture2D.cpp(69,34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Generating Code...

@@ -77,3 +77,8 @@ void Texture2D::Render(Vector2D new_position, SDL_RendererFlip flip, double angl
 
 int Texture2D::GetWidth() { return m_Width; }
 int Texture2D::GetHeight() { return m_Height; }
+
+void Texture2D::Render(SDL_Rect src_rect, SDL_Rect src_dest, SDL_RendererFlip flip, double angle)
+{
+	SDL_RenderCopyEx(m_Renderer, m_Texture, &src_rect, &src_dest, angle, nullptr, flip);
+}

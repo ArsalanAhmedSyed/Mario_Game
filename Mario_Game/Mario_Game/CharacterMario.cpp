@@ -103,14 +103,7 @@ void CharacterMario::MoveLeft(float deltaTime)
 
 void CharacterMario::AddGravity(float deltaTime)
 {
-	if (m_Position.y + m_Texture->GetHeight() <= SCREEN_HEIGHT)
-	{
-		m_Position.y += GRAVITY * deltaTime;
-	}
-	else
-	{
-		m_can_jump = true;
-	}
+	m_Position.y += GRAVITY * deltaTime;
 }
 
 void CharacterMario::Jump()

@@ -3,6 +3,7 @@
 
 #include "Commons.h"
 #include "Texture2D.h"
+#include "CharacterKoopa.h"
 #include <SDL.h>
 #include <iostream>
 
@@ -21,12 +22,15 @@ public:
 	virtual void Update(float deltaTime, SDL_Event e);
 
 	void SetPosition(Vector2D new_position);
+	bool IsJumping() { return m_jumping; }
+	void CancelJump() { m_can_jump = false; }
+
 	Vector2D getPosition();
-
 	Circle2D GetCollisionCircle() { return Circle2D(m_Position.x, m_Position.y, m_collision_radius); }
-
 	Rect2D getCollisionBox() { return Rect2D(m_Position.x, m_Position.y, m_Texture->GetWidth(), m_Texture->GetHeight()); }
 
+	void SetAlive(bool isAlive) { m_alive = isAlive; }
+	bool GetAlive() { return m_alive; }
 
 protected:
 	SDL_Renderer* m_Renderer;
@@ -45,11 +49,24 @@ protected:
 	bool m_can_jump;
 	bool m_jumping;
 	float m_jump_force;
-
+	float m_movement_speed;
 	float m_collision_radius;
+
+	FACING m_facing_direction;
+
+	bool m_alive;
+
+	//enmies
+	void FlipRightwayUp();
+	float m_single_sprite_w;
+	float m_single_sprite_h;
+	float m_injured_time;
+	bool m_injured;
 
 private:
 	LevelMap* m_current_level_map;
+
+	
 };
 
 #endif // !_CHARACTER_H

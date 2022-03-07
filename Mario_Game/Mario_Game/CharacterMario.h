@@ -20,7 +20,6 @@ public:
 	void Jump() override;
 
 private:
-	FACING m_facing_direction;
 
 };
 

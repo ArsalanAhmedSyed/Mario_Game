@@ -101,15 +101,7 @@ void CharacterLuigi::MoveLeft(float deltaTime)
 
 void CharacterLuigi::AddGravity(float deltaTime)
 {
-	if (m_Position.y + m_Texture->GetHeight() <= SCREEN_HEIGHT)
-	{
-		m_Position.y += GRAVITY * deltaTime;
-	}
-	else
-	{
-		m_Position.y = SCREEN_HEIGHT - m_Texture->GetHeight();
-		m_can_jump = true;
-	}
+	m_Position.y += GRAVITY * deltaTime;
 }
 
 void CharacterLuigi::Jump()

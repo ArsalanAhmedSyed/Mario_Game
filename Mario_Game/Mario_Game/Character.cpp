@@ -12,6 +12,8 @@ Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_po
 	m_collision_radius = 15.0f;
 
 	m_current_level_map = map;
+
+	m_alive = true;
 }
 
 Character::~Character()
@@ -50,6 +52,3 @@ void Character::MoveRight(float deltaTime) {}
 void Character::AddGravity(float deltaTime) {}
 
 void Character::Jump() {}
-
-
-
