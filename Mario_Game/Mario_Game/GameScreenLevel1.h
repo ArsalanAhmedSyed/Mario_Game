@@ -23,6 +23,8 @@ public:
 
 	void UpdatePOWBlock();
 
+	std::vector<CharacterKoopa*> m_enemies;
+
 private:
 	bool SetUpLevel();
 	void SetLevelMap();
@@ -44,7 +46,6 @@ private:
 
 	void DoScreenShake();
 	
-	vector<CharacterKoopa*> m_enemies;
 
 	void UpdateEnemies(float deltaTime, SDL_Event e);
 	void CreateKoopa(Vector2D position, FACING direction, float speed);

@@ -47,6 +47,7 @@ void GameScreenLevel1::Render()
 	mario_Character->Render();
 	Luigi_Character->Render();
 	m_pow_block->Render();
+	Koopa_Character->Render();
 }
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
@@ -63,6 +64,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 		if (m_shake_time <= 0.0f)
 		{
 			m_shake_time = false;
+			m_screenShake = false;
 			m_background_yPos = 0.0f;
 		}
 	}
@@ -103,6 +105,7 @@ bool GameScreenLevel1::SetUpLevel()
 
 	mario_Character = new CharacterMario(m_Renderer, "Images/Mario.png", Vector2D(64, 330),m_level_map);
 	Luigi_Character = new CharacterLuigi(m_Renderer, "Images/Luigi.png", Vector2D(100, 330), m_level_map);
+	
 
 	CreateKoopa(Vector2D(150, 32), FACING_RIGHT, KOOPA_SPEED);
 	CreateKoopa(Vector2D(325, 32), FACING_LEFT, KOOPA_SPEED);
@@ -140,7 +143,7 @@ void GameScreenLevel1::UpdatePOWBlock()
 {
 	if (Collisions::Instance()->Box(mario_Character->getCollisionBox(), m_pow_block->GetCollisionBox()))
 	{
-		if (m_pow_block->IsAvailable())
+		if (m_pow_block->IsAvailable() && m_screenShake == false)
 		{
 			if (mario_Character->IsJumping())
 			{
@@ -149,6 +152,7 @@ void GameScreenLevel1::UpdatePOWBlock()
 				mario_Character->CancelJump();
 			}
 		}
+		
 	}
 }
 

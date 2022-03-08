@@ -4,6 +4,12 @@
 
 CharacterKoopa::CharacterKoopa(SDL_Renderer* renderer, string imagePath, LevelMap* map, Vector2D start_position, FACING start_facing, float movement_speed) : Character(renderer, imagePath, start_position, map)
 {
+	m_Texture = new Texture2D(m_Renderer);
+	if (!m_Texture->LoadFromFile(imagePath))
+	{
+		cout << "Failed to load texture!" << endl;
+	}
+
 	m_facing_direction = start_facing;
 	m_movement_speed = movement_speed;
 	m_Position = start_position;
@@ -42,6 +48,8 @@ void CharacterKoopa::Render()
 
 void CharacterKoopa::Update(float deltaTime, SDL_Event e)
 {
+	Character::Update(deltaTime, e);
+
 	if (!m_injured)
 	{
 		if (m_facing_direction == FACING_LEFT)
@@ -89,7 +97,7 @@ void CharacterKoopa::Jump()
 }
 
 void CharacterKoopa::FlipRightwayUp()
-{
+{/*
 	if (m_facing_direction == FACING_RIGHT)
 	{
 		m_facing_direction = FACING_LEFT;
@@ -97,7 +105,7 @@ void CharacterKoopa::FlipRightwayUp()
 	else
 	{
 		m_facing_direction = FACING_RIGHT;
-	}
+	}*/
 
 	m_injured = false;
 

@@ -3,7 +3,6 @@
 
 #include "Commons.h"
 #include "Texture2D.h"
-#include "CharacterKoopa.h"
 #include <SDL.h>
 #include <iostream>
 
@@ -23,7 +22,7 @@ public:
 
 	void SetPosition(Vector2D new_position);
 	bool IsJumping() { return m_jumping; }
-	void CancelJump() { m_can_jump = false; }
+	void CancelJump() { m_jumping = false; }
 
 	Vector2D getPosition();
 	Circle2D GetCollisionCircle() { return Circle2D(m_Position.x, m_Position.y, m_collision_radius); }
@@ -55,13 +54,6 @@ protected:
 	FACING m_facing_direction;
 
 	bool m_alive;
-
-	//enmies
-	void FlipRightwayUp();
-	float m_single_sprite_w;
-	float m_single_sprite_h;
-	float m_injured_time;
-	bool m_injured;
 
 private:
 	LevelMap* m_current_level_map;
