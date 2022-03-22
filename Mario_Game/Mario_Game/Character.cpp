@@ -60,18 +60,20 @@ void Character::Update(float deltaTime, SDL_Event e)
 	}
 
 	//collision position variables
-	int centralX_position = (int)(m_Position.x + (m_Texture->GetWidth() * 0.5)) / TILE_WIDTH;
+	int centralX_position = (int)(m_Position.x + (m_Texture->GetWidth() / m_animation_frames * 0.5)) / TILE_WIDTH;
 	int foot_position = (int)(m_Position.y + m_Texture->GetHeight()) / TILE_HEIGHT;
 
 	if (m_current_level_map->GetTileAt(foot_position, centralX_position) == 0)
 	{
 		// deal with gravity
 		AddGravity(deltaTime);
+		m_jump_Anim = true;
 	}
 	else
 	{
 		//collided with ground so can jump again
 		m_can_jump = true;
+		m_jump_Anim = false;
 	}
 }
 
@@ -88,12 +90,13 @@ void Character::Jump()
 		m_jump_force = INITIAL_JUMP_FORCE;
 		m_jumping = true;
 		m_can_jump = false;
+		
 	}
 }
 
 void Character::KeepOnScreen(float deltaTime)
 {
-	if (m_Position.x + m_Texture->GetWidth() > SCREEN_WIDTH)
+	if (m_Position.x + m_Texture->GetWidth() / m_animation_frames > SCREEN_WIDTH)
 	{
 		m_facing_direction = FACING_LEFT;
 		m_Position.x -= deltaTime * MOVEMENT_SPEED;

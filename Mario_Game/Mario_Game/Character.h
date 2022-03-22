@@ -7,7 +7,6 @@
 #include "constants.h"
 #include "Texture2D.h"
 
-
 using namespace std;
 
 class Texture2D;
@@ -57,7 +56,9 @@ protected:
 
 	FACING m_facing_direction;
 	int m_animation_frames;
+
 	bool m_alive;
+	bool m_jump_Anim;
 
 private:
 	LevelMap* m_current_level_map;

@@ -46,6 +46,11 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 		m_current_frame = 0;
 	}
 
+	if (m_jump_Anim)
+	{
+		m_current_frame = 4;
+	}
+
 	switch (e.type)
 	{
 	case SDL_KEYDOWN:
@@ -59,7 +64,6 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 			break;
 		case SDLK_UP:
 			Jump();
-			m_current_frame = 4;
 			break;
 		}
 		break;
