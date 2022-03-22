@@ -1,0 +1,19 @@
+﻿  GameScreenLevel1.cpp
+C:\Users\s017136l\Desktop\Mario_Game\Mario_Game\Mario_Game\Character.h(31,134): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\s017136l\Desktop\Mario_Game\Mario_Game\Mario_Game\Character.h(31,92): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\s017136l\Desktop\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(60,20): warning C4018: '<': signed/unsigned mismatch
+  PowBlock.cpp
+C:\Users\s017136l\Desktop\Mario_Game\Mario_Game\Mario_Game\PowBlock.cpp(19,44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\s017136l\Desktop\Mario_Game\Mario_Game\Mario_Game\PowBlock.cpp(20,42): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\s017136l\Desktop\Mario_Game\Mario_Game\Mario_Game\PowBlock.cpp(22,46): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\s017136l\Desktop\Mario_Game\Mario_Game\Mario_Game\PowBlock.cpp(38,12): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\s017136l\Desktop\Mario_Game\Mario_Game\Mario_Game\PowBlock.cpp(39,42): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\s017136l\Desktop\Mario_Game\Mario_Game\Mario_Game\PowBlock.cpp(39,42): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\s017136l\Desktop\Mario_Game\Mario_Game\Mario_Game\PowBlock.cpp(39,61): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\s017136l\Desktop\Mario_Game\Mario_Game\Mario_Game\PowBlock.cpp(39,61): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\s017136l\Desktop\Mario_Game\Mario_Game\Mario_Game\PowBlock.cpp(40,90): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\s017136l\Desktop\Mario_Game\Mario_Game\Mario_Game\PowBlock.cpp(40,90): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\s017136l\Desktop\Mario_Game\Mario_Game\Mario_Game\PowBlock.cpp(40,109): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\s017136l\Desktop\Mario_Game\Mario_Game\Mario_Game\PowBlock.cpp(40,109): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+  Mario_Game.vcxproj -> C:\Users\s017136l\Desktop\Mario_Game\Mario_Game\Debug\Mario_Game.exe
