@@ -156,7 +156,7 @@ void GameScreenLevel1::SetLevelMap()
 					  { 0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0 },
 					  { 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1 },
 					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-					  { 0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0 },
+					  { 0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0 },
 					  { 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1 },
 					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
@@ -229,8 +229,8 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 			//now update
 			m_enemies[i]->Update(deltaTime, e);
 
-			//check to see if enemy collides with player 
-			if ((m_enemies[i]->getPosition().y > 300.0f || m_enemies[i]->getPosition().y <= 64.0f && (m_enemies[i]->getPosition().x < 64.0f
+			//check to see if enemy collides with screen edge
+			if ((m_enemies[i]->getPosition().y > 500.0f || m_enemies[i]->getPosition().y <= 64.0f && (m_enemies[i]->getPosition().x < 64.0f
 				|| m_enemies[i]->getPosition().x > SCREEN_WIDTH - 96.0f)))
 			{
 				//ignore collisions if behind pipe
