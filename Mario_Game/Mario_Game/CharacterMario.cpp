@@ -4,10 +4,6 @@ CharacterMario::CharacterMario(SDL_Renderer* renderer, string imagePath, Vector2
 {
 	m_facing_direction = FACING_RIGHT;
 
-	m_current_frame = 0;
-	m_frame_delay = 0;
-	m_animation_frames = frames;
-
 	m_single_sprite_w = m_Texture->GetWidth() / 6;
 	m_single_sprite_h = m_Texture->GetHeight();
 }
@@ -34,21 +30,24 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 	if (m_moving_left)
 	{
 		MoveLeft(deltaTime);
-		RunAnimation(deltaTime);
+
+		if(!m_jump_Anim)
+			RunAnimation(deltaTime);
 	}
 	else if (m_moving_right)
 	{
 		MoveRight(deltaTime);
-		RunAnimation(deltaTime);
+
+		if(!m_jump_Anim)
+			RunAnimation(deltaTime);
+	}
+	else if (m_jump_Anim)
+	{
+		m_current_frame = 4;
 	}
 	else
 	{
 		m_current_frame = 0;
-	}
-
-	if (m_jump_Anim)
-	{
-		m_current_frame = 4;
 	}
 
 	switch (e.type)
@@ -80,7 +79,7 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 		break;
 	}
 
-	Character::KeepOnScreen(deltaTime);
+	KeepOnScreen(deltaTime);
 	Character::Update(deltaTime, e);
 }
 
@@ -90,23 +89,22 @@ void CharacterMario::MoveRight(float deltaTime)
 	m_facing_direction = FACING_RIGHT;
 }
 
-
 void CharacterMario::MoveLeft(float deltaTime)
 {
 	m_Position.x -= deltaTime * MOVEMENT_SPEED;
 	m_facing_direction = FACING_LEFT;
 }
 
-void CharacterMario::RunAnimation(float deltaTime)
+void CharacterMario::KeepOnScreen(float deltaTime)
 {
-	m_frame_delay -= deltaTime;
-	if (m_frame_delay <= 0.0f)
+	if (m_Position.x + m_Texture->GetWidth() / m_animation_frames > SCREEN_WIDTH)
 	{
-		m_frame_delay = ANIMATION_DELAY;
-
-		m_current_frame++;
-
-		if (m_current_frame > 3)
-			m_current_frame = 1;
+		m_facing_direction = FACING_RIGHT;
+		m_Position.x -= deltaTime * MOVEMENT_SPEED;
+	}
+	else if (m_Position.x < 0)
+	{
+		m_facing_direction = FACING_LEFT;
+		m_Position.x += deltaTime * MOVEMENT_SPEED;
 	}
 }

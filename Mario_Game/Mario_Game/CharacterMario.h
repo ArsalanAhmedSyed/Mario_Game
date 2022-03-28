@@ -16,14 +16,8 @@ public:
 protected:
 	void Update(float deltaTime, SDL_Event e) override;
 	void Render() override;
-
+	void KeepOnScreen(float deltaTime) override;
 private:
-	void RunAnimation(float deltaTime);
-
-	float m_single_sprite_w;
-	float m_single_sprite_h;
-	int m_current_frame;
-	float m_frame_delay;
 };
 
 #endif //_CHARACTERMARIO_H

@@ -15,8 +15,10 @@ public:
 
 protected:
 	void Update(float deltaTime, SDL_Event e) override;
+	void Render() override;
 
 private:
+
 };
 
 #endif // !_CHARACTERLUIGI_H

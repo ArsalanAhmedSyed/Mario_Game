@@ -3,20 +3,51 @@
 CharacterLuigi::CharacterLuigi(SDL_Renderer* renderer, string imagePath, Vector2D start_position, LevelMap* map, int frames) : Character(renderer, imagePath, start_position, map, frames)
 {
 	m_facing_direction = FACING_RIGHT;
-	m_animation_frames = frames;
+
+	m_single_sprite_w = m_Texture->GetWidth() / 6;
+	m_single_sprite_h = m_Texture->GetHeight();
 }
 
 CharacterLuigi::~CharacterLuigi() {}
+
+void CharacterLuigi::Render()
+{
+	SDL_Rect portion_of_sprite = { m_single_sprite_w * m_current_frame, 0, m_single_sprite_w, m_single_sprite_h };
+	SDL_Rect desRect = { (int)(m_Position.x), (int)(m_Position.y), m_single_sprite_w, m_single_sprite_h };
+
+	if (m_facing_direction == FACING_RIGHT)
+	{
+		m_Texture->Render(portion_of_sprite, desRect, SDL_FLIP_NONE);
+	}
+	else if (m_facing_direction == FACING_LEFT)
+	{
+		m_Texture->Render(portion_of_sprite, desRect, SDL_FLIP_HORIZONTAL);
+	}
+}
 
 void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 {
 	if (m_moving_left)
 	{
 		MoveLeft(deltaTime);
+
+		if (!m_jump_Anim)
+			RunAnimation(deltaTime);
 	}
 	else if (m_moving_right)
 	{
 		MoveRight(deltaTime);
+
+		if(!m_jump_Anim)
+			RunAnimation(deltaTime);
+	}
+	else if (m_jump_Anim)
+	{
+		m_current_frame = 4;
+	}
+	else
+	{
+		m_current_frame = 0;
 	}
 
 	switch (e.type)

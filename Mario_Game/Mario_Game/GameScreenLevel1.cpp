@@ -133,7 +133,7 @@ bool GameScreenLevel1::SetUpLevel()
 
 	#pragma region Character Render
 	mario = new CharacterMario(m_Renderer, "Images/MarioSprite.png", Vector2D(64, 330), m_level_map, 6);
-	luigi = new CharacterLuigi(m_Renderer, "Images/Luigi.png", Vector2D(100, 330), m_level_map, 1);
+	luigi = new CharacterLuigi(m_Renderer, "Images/LuigiSprite.png", Vector2D(100, 330), m_level_map, 6);
 
 	//objects
 	coin = new CoinCharacter(m_Renderer, "Images/Coin.png", Vector2D(150, 350), m_level_map,3);
@@ -186,6 +186,19 @@ void GameScreenLevel1::UpdatePOWBlock()
 			}
 		}
 	}
+
+	if (Collisions::Instance()->Box(luigi->getCollisionBox(), m_pow_block->GetCollisionBox()))
+	{
+		if (m_pow_block->IsAvailable())
+		{
+			if (luigi->IsJumping())
+			{
+				DoScreenShake();
+				m_pow_block->TakeHit();
+				luigi->CancelJump();
+			}
+		}
+	}
 }
 
 void GameScreenLevel1::DoScreenShake()
@@ -202,7 +215,7 @@ void GameScreenLevel1::DoScreenShake()
 
 void GameScreenLevel1::CreateKoopa(Vector2D position, FACING direction, float speed)
 {
-	Koopa_Character = new CharacterKoopa(m_Renderer, "Images/Koopa.png", m_level_map, position, direction, speed, 1);
+	Koopa_Character = new CharacterKoopa(m_Renderer, "Images/KoopaSprite.png", m_level_map, position, direction, speed, 15);
 	m_enemies.push_back(Koopa_Character);
 }
 
@@ -237,6 +250,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 			}
 			else
 			{
+				#pragma region Mario and Luigi collision
 				//Check Collision between koopa and mario
 				if (Collisions::Instance()->Circle(m_enemies[i]->GetCollisionCircle(), mario->GetCollisionCircle()))
 				{
@@ -258,6 +272,27 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 						}
 					}
 				}
+
+				if (Collisions::Instance()->Circle(m_enemies[i]->GetCollisionCircle(), luigi->GetCollisionCircle()))
+				{
+					if (m_enemies[i]->GetInjured())
+					{
+						if (m_enemies[i]->GetAlive())
+						{
+							m_enemies[i]->SetAlive(false);
+							cout << "Add score!" << endl;
+						}
+					}
+					else
+					{
+						if (luigi->GetAlive())
+						{
+							luigi->SetAlive(false);
+							cout << "luigi died!" << endl;
+						}
+					}
+				}
+				#pragma endregion
 			}
 
 			//if the enemy is no longer alive then schedule it for deletion
@@ -276,7 +311,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 
 void GameScreenLevel1::CoinCollision()
 {
-	if (Collisions::Instance()->Circle(mario->GetCollisionCircle(), coin->GetCollisionCircle()))
+	if (Collisions::Instance()->Circle(mario->GetCollisionCircle(), coin->GetCollisionCircle()) || Collisions::Instance()->Circle(luigi->GetCollisionCircle(), coin->GetCollisionCircle()))
 	{
 		if (coin->GetAlive())
 		{

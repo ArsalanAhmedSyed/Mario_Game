@@ -32,7 +32,7 @@ public:
 	void SetAlive(bool isAlive) { m_alive = isAlive; }
 	bool GetAlive() { return m_alive; }
 
-	void KeepOnScreen(float deltaTime);
+
 
 protected:
 	SDL_Renderer* m_Renderer;
@@ -48,6 +48,9 @@ protected:
 	virtual void AddGravity(float deltaTime);
 	virtual void Jump();
 
+	//keep everything in screen
+	virtual void KeepOnScreen(float deltaTime);
+
 	bool m_can_jump;
 	bool m_jumping;
 	float m_jump_force;
@@ -59,6 +62,14 @@ protected:
 
 	bool m_alive;
 	bool m_jump_Anim;
+
+	//Spirte animation
+	float m_single_sprite_w;
+	float m_single_sprite_h;
+	int m_current_frame;
+	float m_frame_delay;
+
+	virtual void RunAnimation(float deltaTime);
 
 private:
 	LevelMap* m_current_level_map;

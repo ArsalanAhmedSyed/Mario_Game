@@ -51,8 +51,9 @@ private:
 	float m_background_yPos;
 	void DoScreenShake();
 
-	//Objects
+	//collison checks
 	void CoinCollision();
+	void EnemyCollision();
 };
 
 #endif // !_GAMESCREENLEVEL1_
