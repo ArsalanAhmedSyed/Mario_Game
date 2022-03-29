@@ -79,6 +79,8 @@ void Character::Update(float deltaTime, SDL_Event e)
 		m_can_jump = true;
 		m_jump_Anim = false;
 	}
+
+	KeepOnScreen(deltaTime);
 }
 
 void Character::AddGravity(float deltaTime) 

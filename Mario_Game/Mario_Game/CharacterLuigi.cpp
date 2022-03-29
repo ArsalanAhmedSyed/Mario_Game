@@ -79,7 +79,6 @@ void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 		break;
 	}
 
-	Character::KeepOnScreen(deltaTime);
 	Character::Update(deltaTime, e);
 }
 

@@ -4,7 +4,7 @@ CharacterMario::CharacterMario(SDL_Renderer* renderer, string imagePath, Vector2
 {
 	m_facing_direction = FACING_RIGHT;
 
-	m_single_sprite_w = m_Texture->GetWidth() / 6;
+	m_single_sprite_w = m_Texture->GetWidth() / frames;
 	m_single_sprite_h = m_Texture->GetHeight();
 }
 
@@ -79,7 +79,7 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 		break;
 	}
 
-	KeepOnScreen(deltaTime);
+	//KeepOnScreen(deltaTime);
 	Character::Update(deltaTime, e);
 }
 

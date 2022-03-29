@@ -32,38 +32,40 @@ public:
 	void SetAlive(bool isAlive) { m_alive = isAlive; }
 	bool GetAlive() { return m_alive; }
 
-
-
 protected:
 	SDL_Renderer* m_Renderer;
 	Vector2D m_Position;
 	Texture2D* m_Texture;
 
+	//keep everything in screen
+	virtual void KeepOnScreen(float deltaTime);
+
+	//Movement
+	float m_movement_speed;
 	bool m_moving_left;
 	bool m_moving_right;
 
 	virtual void MoveLeft(float deltaTime);
 	virtual void MoveRight(float deltaTime);
 
-	virtual void AddGravity(float deltaTime);
-	virtual void Jump();
-
-	//keep everything in screen
-	virtual void KeepOnScreen(float deltaTime);
-
+	//Jump
 	bool m_can_jump;
 	bool m_jumping;
 	float m_jump_force;
-	float m_movement_speed;
+
+	virtual void AddGravity(float deltaTime);
+	virtual void Jump();
+
+	//Collision
 	float m_collision_radius;
 
-	FACING m_facing_direction;
-	int m_animation_frames;
-
-	bool m_alive;
-	bool m_jump_Anim;
+	bool m_alive;	
 
 	//Spirte animation
+	FACING m_facing_direction;
+	int m_animation_frames;
+	bool m_jump_Anim;
+
 	float m_single_sprite_w;
 	float m_single_sprite_h;
 	int m_current_frame;

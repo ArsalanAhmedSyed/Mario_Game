@@ -15,7 +15,7 @@ CharacterKoopa::CharacterKoopa(SDL_Renderer* renderer, string imagePath, LevelMa
 	m_Position = start_position;
 	m_injured = false;
 
-	m_single_sprite_w = m_Texture->GetWidth() / 2;
+	m_single_sprite_w = m_Texture->GetWidth() / frames;
 	m_single_sprite_h = m_Texture->GetHeight();
 }
 
@@ -29,13 +29,13 @@ void CharacterKoopa::Render()
 {
 	if (m_alive)
 	{
-		int left = 0.0f;
+	/*	int left = 0.0f;
 		if (m_injured)
 		{
 			left = m_single_sprite_w;
-		}
+		}*/
 
-		SDL_Rect portion_of_sprite = { left,0,m_single_sprite_w,m_single_sprite_h };
+		SDL_Rect portion_of_sprite = { m_single_sprite_w * m_current_frame,0,m_single_sprite_w,m_single_sprite_h };
 		SDL_Rect destRect = { (int)(m_Position.x), (int)(m_Position.y), m_single_sprite_w, m_single_sprite_h };
 
 		if (m_facing_direction == FACING_RIGHT)
@@ -47,7 +47,6 @@ void CharacterKoopa::Render()
 			m_Texture->Render(portion_of_sprite, destRect, SDL_FLIP_HORIZONTAL);
 		}
 	}
-	
 }
 
 void CharacterKoopa::Update(float deltaTime, SDL_Event e)
@@ -57,10 +56,23 @@ void CharacterKoopa::Update(float deltaTime, SDL_Event e)
 		if (m_facing_direction == FACING_LEFT)
 		{
 			MoveLeft(deltaTime);
+
+			if(!turn)
+				RunAnimation(deltaTime);
 		}
 		else if (m_facing_direction == FACING_RIGHT)
 		{
 			MoveRight(deltaTime);
+
+			if(!turn)
+				RunAnimation(deltaTime);
+		}
+
+		if (turn)
+		{
+			turn = false;
+
+			TurnAnimation(deltaTime);
 		}
 	}
 	else
@@ -76,7 +88,6 @@ void CharacterKoopa::Update(float deltaTime, SDL_Event e)
 		}
 	}
 
-	Character::KeepOnScreen(deltaTime);
 	Character::Update(deltaTime, e);
 }
 
@@ -105,4 +116,49 @@ void CharacterKoopa::MoveLeft(float deltaTime)
 {
 	m_Position.x -= deltaTime * MOVEMENT_SPEED;
 	m_facing_direction = FACING_LEFT;
+}
+
+void CharacterKoopa::KeepOnScreen(float deltaTime)
+{
+	if (m_Position.x + m_Texture->GetWidth() / m_animation_frames > SCREEN_WIDTH)
+	{
+		turn = true;
+	}
+	else if (m_Position.x < 0)
+	{
+		turn = true;
+	}
+
+	Character::KeepOnScreen(deltaTime);
+}
+
+void CharacterKoopa::RunAnimation(float deltaTime)
+{
+	m_frame_delay -= deltaTime;
+	if (m_frame_delay <= 0.0f)
+	{
+		m_frame_delay = ANIMATION_DELAY;
+
+		m_current_frame++;
+
+		if (m_current_frame > 5)
+			m_current_frame = 0;
+	}
+}
+
+void CharacterKoopa::TurnAnimation(float deltaTime)
+{
+	m_frame_delay -= deltaTime;
+	if (m_frame_delay <= 0.0f)
+	{
+		m_frame_delay = ANIMATION_DELAY;
+
+		m_current_frame = 6;
+		m_current_frame++;
+
+		if (m_current_frame > 8)
+		{
+			m_current_frame = 0;
+		}
+	}	
 }
