@@ -14,7 +14,7 @@ Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_po
 
 	//sprite Animation set
 	m_current_frame = 0;
-	m_frame_delay = 0;
+	m_frame_delay = 0.0f;
 	m_animation_frames = frames;
 
 	m_collision_radius = 15.0f;
@@ -52,6 +52,8 @@ void Character::Render()
 
 void Character::Update(float deltaTime, SDL_Event e)
 {
+	KeepOnScreen(deltaTime);
+
 	if (m_jumping)
 	{
 		m_Position.y -= m_jump_force * deltaTime;
@@ -79,8 +81,6 @@ void Character::Update(float deltaTime, SDL_Event e)
 		m_can_jump = true;
 		m_jump_Anim = false;
 	}
-
-	KeepOnScreen(deltaTime);
 }
 
 void Character::AddGravity(float deltaTime) 

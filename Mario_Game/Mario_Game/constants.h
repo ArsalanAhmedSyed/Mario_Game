@@ -9,7 +9,6 @@
 #define JUMP_FORCE_DECREMENT 400.0f
 #define INITIAL_JUMP_FORCE 600.0f
 
-
 //Level Map
 #define MAP_WIDTH 16
 #define MAP_HEIGHT 13
@@ -20,9 +19,10 @@
 #define SHAKE_DURATION 0.25f
 
 //Enemy
-#define INJURED_TIME 2.5f;
-#define INIITAL_JUMP_FORCE_SMALL 300.0f;
+#define INJURED_TIME 2.5f
+#define INIITAL_JUMP_FORCE_SMALL 300.0f
 #define KOOPA_SPEED 30.0f
 
-//Coin
-#define ANIMATION_DELAY 0.10f;
+//Character Animation
+#define ANIMATION_DELAY 0.10f
+#define KOOPATURN_DELAY 0.06f

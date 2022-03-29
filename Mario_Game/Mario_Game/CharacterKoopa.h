@@ -24,6 +24,7 @@ public:
 private:
 	void FlipRightwayUp();
 	void TurnAnimation(float deltaTime);
+	void RollOverAnimation(float deltaTime);
 
 	void RunAnimation(float deltaTime) override;
 	void KeepOnScreen(float deltaTime) override;
@@ -31,7 +32,8 @@ private:
 	float m_injured_time;
 	bool m_injured;
 
-	bool turn;
+	bool m_turn_anim;
+	bool m_roll_anim;
 };
 
 #endif // _CHARACTERKOOPA_H
