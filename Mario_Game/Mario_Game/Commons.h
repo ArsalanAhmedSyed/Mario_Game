@@ -81,3 +81,9 @@ enum FACING
 	FACING_RIGHT
 };
 
+enum AUDIO
+{
+	POWBLOCK,
+	JUMP,
+	GAMEOVER
+};

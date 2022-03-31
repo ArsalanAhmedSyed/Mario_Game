@@ -155,7 +155,7 @@ int main(int argc, char* args[])
 {
 	if (InitSDL())
 	{
-		LoadMusic();
+		//LoadMusic();
 		
 		game_screen_manager = new GameScreenManager(g_Renderer, SCREEN_LEVEL1);
 		g_old_time = SDL_GetTicks();

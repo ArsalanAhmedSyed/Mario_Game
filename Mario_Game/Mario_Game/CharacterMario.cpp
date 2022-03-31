@@ -1,8 +1,11 @@
 #include "CharacterMario.h"
+#include "SoundEffect.h"
 
 CharacterMario::CharacterMario(SDL_Renderer* renderer, string imagePath, Vector2D start_position, LevelMap* map,int frames) : Character(renderer, imagePath, start_position, map, frames)
 {
 	m_facing_direction = FACING_RIGHT;
+
+	m_sound = new SoundEffect();
 
 	m_single_sprite_w = m_Texture->GetWidth() / frames;
 	m_single_sprite_h = m_Texture->GetHeight();
@@ -64,6 +67,7 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 			break;
 		case SDLK_UP:
 			Jump();
+			m_sound->Play(JUMP);
 			break;
 		}
 		break;
