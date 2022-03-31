@@ -12,6 +12,11 @@ CharacterMario::~CharacterMario() {}
 
 void CharacterMario::Render()
 {
+	if (m_jump_Anim)
+	{
+		m_current_frame = 4;
+	}
+
 	SDL_Rect portion_of_sprite = { m_single_sprite_w * m_current_frame, 0, m_single_sprite_w, m_single_sprite_h };
 	SDL_Rect desRect = { (int)(m_Position.x), (int)(m_Position.y), m_single_sprite_w, m_single_sprite_h };
 
@@ -40,10 +45,6 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 
 		if(!m_jump_Anim)
 			RunAnimation(deltaTime);
-	}
-	else if (m_jump_Anim)
-	{
-		m_current_frame = 4;
 	}
 	else
 	{

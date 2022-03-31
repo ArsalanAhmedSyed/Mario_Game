@@ -18,11 +18,7 @@ CharacterKoopa::CharacterKoopa(SDL_Renderer* renderer, string imagePath, LevelMa
 	m_turn_anim = false;
 	m_roll_anim = false;
 
-	if (m_turn_anim)
-	{
-		m_current_frame = 6;
-	}
-	
+
 	m_single_sprite_w = m_Texture->GetWidth() / frames;
 	m_single_sprite_h = m_Texture->GetHeight();
 }
@@ -55,18 +51,14 @@ void CharacterKoopa::Update(float deltaTime, SDL_Event e)
 {
 	if (!m_injured)
 	{
-
-		if (m_facing_direction == FACING_LEFT)
+		if (!m_turn_anim && !m_roll_anim)
 		{
-			if (!m_turn_anim)
+			if (m_facing_direction == FACING_LEFT)
 			{
-				RunAnimation(deltaTime);
 				MoveLeft(deltaTime);
+				RunAnimation(deltaTime);
 			}
-		}
-		else if (m_facing_direction == FACING_RIGHT)
-		{
-			if (!m_turn_anim)
+			else if (m_facing_direction == FACING_RIGHT)
 			{
 				MoveRight(deltaTime);
 				RunAnimation(deltaTime);
@@ -77,17 +69,23 @@ void CharacterKoopa::Update(float deltaTime, SDL_Event e)
 		{
 			TurnAnimation(deltaTime);
 		}
+
+		if (m_roll_anim)
+		{
+			RollOverAnimation(deltaTime);
+		}
 	}
 	else
 	{
+
 		m_moving_right = false;
 		m_moving_left = false;
 
 		m_injured_time -= deltaTime;
-
 		if (m_injured_time <= 0.0f)
 		{
-			FlipRightwayUp();
+			m_injured = false;
+			m_roll_anim = true;
 		}
 	}
 
@@ -96,14 +94,11 @@ void CharacterKoopa::Update(float deltaTime, SDL_Event e)
 
 void CharacterKoopa::TakeDamage()
 {
+	m_current_frame = 9;
+
 	m_injured = true;
 	m_injured_time = INJURED_TIME;
-	
-	Jump();
-}
 
-void CharacterKoopa::FlipRightwayUp()
-{
 	Jump();
 }
 
@@ -112,11 +107,13 @@ void CharacterKoopa::KeepOnScreen(float deltaTime)
 	if (m_Position.x + m_Texture->GetWidth() / m_animation_frames > SCREEN_WIDTH)
 	{
 		m_turn_anim = true;
+		m_current_frame = 6;
 		m_Position.x -= deltaTime * MOVEMENT_SPEED;
 	}
 	else if (m_Position.x < 0)
 	{
 		m_turn_anim = true;
+		m_current_frame = 6;
 		m_Position.x += deltaTime * MOVEMENT_SPEED;
 	}
 }
@@ -130,7 +127,7 @@ void CharacterKoopa::RunAnimation(float deltaTime)
 
 		m_current_frame++;
 
-		if (m_current_frame > 5)
+		if (m_current_frame > 4)
 			m_current_frame = 0;
 	}
 }
@@ -140,7 +137,7 @@ void CharacterKoopa::TurnAnimation(float deltaTime)
 	m_frame_delay -= deltaTime;
 	if (m_frame_delay <= 0.0f)
 	{
-		m_frame_delay = KOOPATURN_DELAY;
+		m_frame_delay = ANIMATION_DELAY;
 
 		m_current_frame++;
 
@@ -171,7 +168,10 @@ void CharacterKoopa::RollOverAnimation(float deltaTime)
 		m_current_frame++;
 
 		if (m_current_frame > 14)
+		{
 			m_current_frame = 0;
+			m_roll_anim = false;
+		}
 	}
 }
 

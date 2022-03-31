@@ -25,4 +25,3 @@
 
 //Character Animation
 #define ANIMATION_DELAY 0.10f
-#define KOOPATURN_DELAY 0.06f

@@ -22,7 +22,7 @@ public:
 
 
 private:
-	void FlipRightwayUp();
+	//void FlipRightwayUp(float deltaTime);
 	void TurnAnimation(float deltaTime);
 	void RollOverAnimation(float deltaTime);
 
