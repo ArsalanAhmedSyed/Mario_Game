@@ -80,7 +80,7 @@ bool InitSDL()
 
 void LoadMusic()
 {
-	g_music = Mix_LoadMUS("Audio/Mario.mp3");
+	g_music = Mix_LoadMUS("Audio/MarioMusic.wav");
 	if (g_music == nullptr)
 	{
 		cout << "Failed to load music. Error: %s " << Mix_GetError() << endl;
@@ -155,7 +155,7 @@ int main(int argc, char* args[])
 {
 	if (InitSDL())
 	{
-		//LoadMusic();
+		LoadMusic();
 		
 		game_screen_manager = new GameScreenManager(g_Renderer, SCREEN_LEVEL1);
 		g_old_time = SDL_GetTicks();

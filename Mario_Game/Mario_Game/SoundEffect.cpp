@@ -1,6 +1,10 @@
 #include "SoundEffect.h"
 
-SoundEffect::SoundEffect() {}
+SoundEffect::SoundEffect() 
+{
+	m_sound_effect = nullptr;
+	m_music = nullptr;
+}
 
 SoundEffect::~SoundEffect()
 {
@@ -9,19 +13,26 @@ SoundEffect::~SoundEffect()
 		Mix_FreeMusic(m_music);
 	}
 
-	if (m_jump_audio != nullptr)
+	if (m_sound_effect != nullptr)
 	{
-		Mix_FreeChunk(m_jump_audio);
+		Mix_FreeChunk(m_sound_effect);
 	}
 }
 
 bool SoundEffect::LoadFromFile(string path)
 {
 	bool success = true;
-	m_jump_audio = Mix_LoadWAV("Audio/Jump.wav");
-	if (m_music == nullptr)
+
+	if (m_sound_effect != nullptr)
 	{
-		cout << "Failed to load music. Error: %s " << Mix_GetError() << endl;
+		Mix_FreeChunk(m_sound_effect);
+		m_sound_effect = nullptr;
+	}
+
+	m_sound_effect = Mix_LoadWAV(path.c_str());
+	if (m_sound_effect == nullptr)
+	{
+		cout << "Failed to load sound effect. Error: %s " << Mix_GetError() << endl;
 		success = false;
 	}
 
@@ -32,6 +43,34 @@ void SoundEffect::Play(AUDIO sound)
 {
 	if (sound == JUMP)
 	{
-		Mix_PlayChannel(-1, m_jump_audio, 0);
+		LoadFromFile("Audio/Jump.wav");
+		Mix_PlayChannel(-1, m_sound_effect, 0);
 	}
+
+	if (sound == DEATH)
+	{
+		LoadFromFile("Audio/Death.wav");
+		Mix_PlayChannel(-1, m_sound_effect, 0);
+	}
+
+	if (sound == POWBLOCK)
+	{
+		LoadFromFile("Audio/PowBlock.wav");
+		Mix_PlayChannel(-1, m_sound_effect, 0);
+	}
+
+	if (sound == COIN)
+	{
+		LoadFromFile("Audio/Coin.wav");
+		Mix_PlayChannel(-1, m_sound_effect, 0);
+	}
+
+	/*if (sound == MUSIC)
+	{
+		LoadFromFile("Audio/Mario");
+		if (Mix_PlayingMusic == 0)
+		{
+			Mix_PlayMusic(m_music,-1);
+		}
+	}*/
 }

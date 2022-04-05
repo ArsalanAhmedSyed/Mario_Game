@@ -11,6 +11,7 @@ Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_po
 	m_moving_left = false;
 	m_moving_right = false;
 	m_alive = true;
+	m_kill_mario = false;
 
 	//sprite Animation set
 	m_current_frame = 0;
@@ -25,6 +26,8 @@ Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_po
 	{
 		cout << "Failed to load texture!" << endl;
 	}
+
+	m_play_jump_audio = false;
 }
 
 Character::~Character()
@@ -73,6 +76,7 @@ void Character::Update(float deltaTime, SDL_Event e)
 		// deal with gravity
 		AddGravity(deltaTime);
 		m_jump_Anim = true;
+		m_play_jump_audio = false;
 	}
 	else
 	{
@@ -96,7 +100,7 @@ void Character::Jump()
 		m_jump_force = INITIAL_JUMP_FORCE;
 		m_jumping = true;
 		m_can_jump = false;
-		
+		m_play_jump_audio = true;
 	}
 }
 

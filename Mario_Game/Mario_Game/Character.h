@@ -32,6 +32,8 @@ public:
 	void SetAlive(bool isAlive) { m_alive = isAlive; }
 	bool GetAlive() { return m_alive; }
 
+	void setKill(bool isKilled) { m_kill_mario = isKilled; }
+
 protected:
 	SDL_Renderer* m_Renderer;
 	Vector2D m_Position;
@@ -60,6 +62,7 @@ protected:
 	float m_collision_radius;
 
 	bool m_alive;	
+	bool m_kill_mario;
 
 	//Spirte animation
 	FACING m_facing_direction;
@@ -72,6 +75,8 @@ protected:
 	float m_frame_delay;
 
 	virtual void RunAnimation(float deltaTime);
+
+	bool m_play_jump_audio;
 
 private:
 	LevelMap* m_current_level_map;

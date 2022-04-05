@@ -16,14 +16,13 @@ public:
 	SoundEffect();
 	~SoundEffect();
 
-	bool LoadFromFile(string path);
-
-	void Play(AUDIO jump);
+	void Play(AUDIO sound);
 
 private:
-	Mix_Music* m_music;
-	Mix_Chunk* m_jump_audio;
+	bool LoadFromFile(string path);
 
+	Mix_Music* m_music;
+	Mix_Chunk* m_sound_effect;
 };
 
 #endif // _SOUNDEFFECT

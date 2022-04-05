@@ -8,6 +8,7 @@
 #include "Collisions.h"
 #include "LevelMap.h"
 #include "PowBlock.h"
+#include "SoundEffect.h"
 #include <iostream>
 
 using namespace std;
@@ -16,7 +17,8 @@ GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer) : GameScreen(renderer
 {
 	m_level_map = nullptr;
 	SetUpLevel();
-	create_koopa_timer = 15.0f;
+	create_koopa_timer = 10.0f;
+	kill_timer = 1.5f;
 }
 
 GameScreenLevel1::~GameScreenLevel1()
@@ -38,6 +40,9 @@ GameScreenLevel1::~GameScreenLevel1()
 
 	delete m_pow_block;
 	m_pow_block = nullptr;
+
+	delete m_audio;
+	m_audio = nullptr;
 
 	m_enemies.clear();
 }
@@ -128,6 +133,8 @@ bool GameScreenLevel1::SetUpLevel()
 
 	SetLevelMap();
 
+	m_audio = new SoundEffect();
+
 	//powblock render
 	m_pow_block = new PowBlock(m_Renderer, m_level_map);
 
@@ -150,14 +157,14 @@ void GameScreenLevel1::SetLevelMap()
 {
 	int map[MAP_HEIGHT][MAP_WIDTH] = { { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-					  { 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1 },
+					  { 1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1 },
 					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 					  { 0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0 },
 					  { 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1 },
 					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 					  { 0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0 },
-					  { 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1 },
+					  { 1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1 },
 					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 					  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 } };
@@ -180,6 +187,7 @@ void GameScreenLevel1::UpdatePOWBlock()
 		{
 			if (mario->IsJumping())
 			{
+				m_audio->Play(POWBLOCK);
 				DoScreenShake();
 				m_pow_block->TakeHit();
 				mario->CancelJump();
@@ -267,8 +275,18 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 						if (mario->GetAlive())
 						{
 							//Kill mario
-							mario->SetAlive(false);
+							m_audio->Play(DEATH);
+
 							cout << "You died!" << endl;
+							mario->setKill(true);
+
+							kill_timer -= deltaTime;
+							if (kill_timer <= 0)
+							{
+								mario->SetAlive(false);
+								//kill_timer = 1.0f;
+							}
+								
 						}
 					}
 				}
@@ -318,6 +336,7 @@ void GameScreenLevel1::CoinCollision()
 			cout << "Coin Collected!" << endl;
 			cout << "Score increased!" << endl;
 			coin->SetAlive(false);
+			m_audio->Play(COIN);
 		}
 	}
 }

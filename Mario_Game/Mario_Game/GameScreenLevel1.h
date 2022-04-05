@@ -11,6 +11,7 @@ class Character;
 class CoinCharacter;
 class CharacterKoopa;
 class PowBlock;
+class SoundEffect;
 
 class GameScreenLevel1 : GameScreen
 {
@@ -34,11 +35,15 @@ private:
 	CoinCharacter* coin;
 	CharacterKoopa* Koopa_Character;
 
+	SoundEffect* m_audio;
+
 	//Create Koopa
 	std::vector<CharacterKoopa*> m_enemies;
 	void UpdateEnemies(float deltaTime, SDL_Event e);
 	void CreateKoopa(Vector2D position, FACING direction, float speed);
 	float create_koopa_timer;
+
+	float kill_timer;
 
 	//Setup level
 	bool SetUpLevel();
@@ -53,7 +58,6 @@ private:
 
 	//collison checks
 	void CoinCollision();
-	void EnemyCollision();
 };
 
 #endif // !_GAMESCREENLEVEL1_
