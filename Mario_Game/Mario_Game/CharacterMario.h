@@ -20,7 +20,6 @@ protected:
 	void Render() override;
 	void KeepOnScreen(float deltaTime) override;
 private:
-	SoundEffect* m_sound;
 };
 
 #endif //_CHARACTERMARIO_H

@@ -1,11 +1,9 @@
 #include "CharacterMario.h"
-#include "SoundEffect.h"
+
 
 CharacterMario::CharacterMario(SDL_Renderer* renderer, string imagePath, Vector2D start_position, LevelMap* map,int frames) : Character(renderer, imagePath, start_position, map, frames)
 {
 	m_facing_direction = FACING_RIGHT;
-
-	m_sound = new SoundEffect();
 
 	m_single_sprite_w = m_Texture->GetWidth() / frames;
 	m_single_sprite_h = m_Texture->GetHeight();
@@ -15,11 +13,6 @@ CharacterMario::~CharacterMario() {}
 
 void CharacterMario::Render()
 {
-	if (m_jump_Anim)
-	{
-		m_current_frame = 4;
-	}
-
 	SDL_Rect portion_of_sprite = { m_single_sprite_w * m_current_frame, 0, m_single_sprite_w, m_single_sprite_h };
 	SDL_Rect desRect = { (int)(m_Position.x), (int)(m_Position.y), m_single_sprite_w, m_single_sprite_h };
 
@@ -35,14 +28,14 @@ void CharacterMario::Render()
 
 void CharacterMario::Update(float deltaTime, SDL_Event e)
 {
-	if (m_moving_left)
+	if (m_moving_left && !m_kill_player)
 	{
 		MoveLeft(deltaTime);
 
 		if(!m_jump_Anim)
 			RunAnimation(deltaTime);
 	}
-	else if (m_moving_right)
+	else if (m_moving_right && !m_kill_player)
 	{
 		MoveRight(deltaTime);
 
@@ -54,9 +47,21 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 		m_current_frame = 0;
 	}
 
-	if (m_kill_mario)
+	if (m_kill_player)
 	{
 		m_current_frame = 5;
+		m_sound->Play(DEATH);
+
+		m_kill_timer -= deltaTime;
+		if (m_kill_timer <= 0)
+		{
+			m_alive = false;
+		}
+	}
+
+	if (m_jump_Anim && !m_kill_player)
+	{
+		m_current_frame = 4;
 	}
 
 	switch (e.type)
@@ -71,10 +76,13 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 			m_moving_right = true;
 			break;
 		case SDLK_UP:
-			Jump();
-			if (m_play_jump_audio)
+			if (!m_kill_player)
 			{
-				m_sound->Play(JUMP);
+				Jump();
+				if (m_play_jump_audio)
+				{
+					m_sound->Play(JUMP);
+				}
 			}
 			break;
 		}

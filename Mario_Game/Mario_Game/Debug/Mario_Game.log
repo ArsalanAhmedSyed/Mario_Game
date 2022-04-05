@@ -1,2 +1,4 @@
-﻿  Source.cpp
-  Mario_Game.vcxproj -> C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Debug\Mario_Game.exe
+﻿  Character.cpp
+C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(30,134): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(30,92): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Mario_Game.vcxproj -> C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Debug\Mario_Game.exe

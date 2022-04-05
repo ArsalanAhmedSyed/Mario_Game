@@ -19,7 +19,7 @@
 #define SHAKE_DURATION 0.25f
 
 //Enemy
-#define INJURED_TIME 2.5f
+#define INJURED_TIME 5.0f
 #define INIITAL_JUMP_FORCE_SMALL 300.0f
 #define KOOPA_SPEED 30.0f
 

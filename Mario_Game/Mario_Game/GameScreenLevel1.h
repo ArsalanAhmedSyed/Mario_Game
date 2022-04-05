@@ -43,8 +43,6 @@ private:
 	void CreateKoopa(Vector2D position, FACING direction, float speed);
 	float create_koopa_timer;
 
-	float kill_timer;
-
 	//Setup level
 	bool SetUpLevel();
 	void SetLevelMap();

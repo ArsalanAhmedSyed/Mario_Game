@@ -3,15 +3,20 @@
 
 Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_position, LevelMap* map, int frames)
 {
+	//Parameter
 	m_Renderer = renderer;
 	m_Position = start_position;
 	m_current_level_map = map;
 	m_animation_frames = frames;
 
+	//Movement
 	m_moving_left = false;
 	m_moving_right = false;
+
+	//Check Alive condition
 	m_alive = true;
-	m_kill_mario = false;
+	m_kill_player = false;
+	m_kill_timer = 1.0f;
 
 	//sprite Animation set
 	m_current_frame = 0;
@@ -27,6 +32,7 @@ Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_po
 		cout << "Failed to load texture!" << endl;
 	}
 
+	m_sound = new SoundEffect();
 	m_play_jump_audio = false;
 }
 

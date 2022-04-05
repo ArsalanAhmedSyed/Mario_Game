@@ -12,11 +12,7 @@ CharacterLuigi::~CharacterLuigi() {}
 
 void CharacterLuigi::Render()
 {
-	if (m_jump_Anim)
-	{
-		m_current_frame = 4;
-	}
-
+	
 	SDL_Rect portion_of_sprite = { m_single_sprite_w * m_current_frame, 0, m_single_sprite_w, m_single_sprite_h };
 	SDL_Rect desRect = { (int)(m_Position.x), (int)(m_Position.y), m_single_sprite_w, m_single_sprite_h };
 
@@ -32,23 +28,41 @@ void CharacterLuigi::Render()
 
 void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 {
-	if (m_moving_left)
+
+	if (m_moving_left && !m_kill_player)
 	{
 		MoveLeft(deltaTime);
 
 		if (!m_jump_Anim)
 			RunAnimation(deltaTime);
 	}
-	else if (m_moving_right)
+	else if (m_moving_right && !m_kill_player)
 	{
 		MoveRight(deltaTime);
 
-		if(!m_jump_Anim)
+		if (!m_jump_Anim)
 			RunAnimation(deltaTime);
 	}
 	else
 	{
 		m_current_frame = 0;
+	}
+
+	if (m_kill_player)
+	{
+		m_current_frame = 5;
+		m_sound->Play(DEATH);
+
+		m_kill_timer -= deltaTime;
+		if (m_kill_timer <= 0)
+		{
+			m_alive = false;
+		}
+	}
+
+	if (m_jump_Anim && !m_kill_player)
+	{
+		m_current_frame = 4;
 	}
 
 	switch (e.type)
@@ -63,7 +77,14 @@ void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 			m_moving_right = true;
 			break;
 		case SDLK_w:
-			Jump();
+			if (!m_kill_player)
+			{
+				Jump();
+				if (m_play_jump_audio)
+				{
+					m_sound->Play(JUMP);
+				}
+			}
 			break;
 		}
 		break;

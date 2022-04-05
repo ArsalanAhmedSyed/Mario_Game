@@ -6,10 +6,10 @@
 #include "Commons.h"
 #include "constants.h"
 #include "Texture2D.h"
+#include "SoundEffect.h"
 
 using namespace std;
 
-class Texture2D;
 class LevelMap;
 
 class Character
@@ -32,7 +32,8 @@ public:
 	void SetAlive(bool isAlive) { m_alive = isAlive; }
 	bool GetAlive() { return m_alive; }
 
-	void setKill(bool isKilled) { m_kill_mario = isKilled; }
+	void setKill(bool isKilled) { m_kill_player = isKilled; }
+	bool GetKill() { return m_kill_player; }
 
 protected:
 	SDL_Renderer* m_Renderer;
@@ -62,7 +63,7 @@ protected:
 	float m_collision_radius;
 
 	bool m_alive;	
-	bool m_kill_mario;
+	bool m_kill_player;
 
 	//Spirte animation
 	FACING m_facing_direction;
@@ -76,7 +77,10 @@ protected:
 
 	virtual void RunAnimation(float deltaTime);
 
+	SoundEffect* m_sound;
 	bool m_play_jump_audio;
+
+	float m_kill_timer;
 
 private:
 	LevelMap* m_current_level_map;

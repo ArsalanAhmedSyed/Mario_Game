@@ -18,7 +18,6 @@ GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer) : GameScreen(renderer
 	m_level_map = nullptr;
 	SetUpLevel();
 	create_koopa_timer = 10.0f;
-	kill_timer = 1.5f;
 }
 
 GameScreenLevel1::~GameScreenLevel1()
@@ -275,18 +274,8 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 						if (mario->GetAlive())
 						{
 							//Kill mario
-							m_audio->Play(DEATH);
-
-							cout << "You died!" << endl;
+							//Take away lives
 							mario->setKill(true);
-
-							kill_timer -= deltaTime;
-							if (kill_timer <= 0)
-							{
-								mario->SetAlive(false);
-								//kill_timer = 1.0f;
-							}
-								
 						}
 					}
 				}
@@ -305,8 +294,9 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 					{
 						if (luigi->GetAlive())
 						{
-							luigi->SetAlive(false);
-							cout << "luigi died!" << endl;
+							//Kill mario
+							//Take away lives
+							luigi->setKill(true);
 						}
 					}
 				}
