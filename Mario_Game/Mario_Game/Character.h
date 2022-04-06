@@ -62,6 +62,8 @@ protected:
 	//Collision
 	float m_collision_radius;
 
+	//kill Character
+	float m_kill_timer;
 	bool m_alive;	
 	bool m_kill_player;
 
@@ -79,8 +81,6 @@ protected:
 
 	SoundEffect* m_sound;
 	bool m_play_jump_audio;
-
-	float m_kill_timer;
 
 private:
 	LevelMap* m_current_level_map;

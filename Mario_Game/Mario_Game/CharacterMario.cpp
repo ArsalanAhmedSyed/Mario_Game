@@ -50,14 +50,15 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 	if (m_kill_player)
 	{
 		m_current_frame = 5;
-		m_sound->Play(DEATH);
-
+		Jump();
 		m_kill_timer -= deltaTime;
 		if (m_kill_timer <= 0)
 		{
 			m_alive = false;
 		}
+	
 	}
+	
 
 	if (m_jump_Anim && !m_kill_player)
 	{

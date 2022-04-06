@@ -16,7 +16,7 @@ Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_po
 	//Check Alive condition
 	m_alive = true;
 	m_kill_player = false;
-	m_kill_timer = 1.0f;
+	m_kill_timer = 1.6f;
 
 	//sprite Animation set
 	m_current_frame = 0;

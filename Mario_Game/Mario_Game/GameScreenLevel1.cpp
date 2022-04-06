@@ -18,6 +18,10 @@ GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer) : GameScreen(renderer
 	m_level_map = nullptr;
 	SetUpLevel();
 	create_koopa_timer = 10.0f;
+
+	m_shake_time = 0.0f;
+	m_wobble = 0.0f;
+	m_background_yPos = 0.0f;
 }
 
 GameScreenLevel1::~GameScreenLevel1()
@@ -34,16 +38,15 @@ GameScreenLevel1::~GameScreenLevel1()
 	delete luigi;
 	luigi = nullptr;
 
-	delete coin;
-	coin = nullptr;
-
 	delete m_pow_block;
 	m_pow_block = nullptr;
 
-	delete m_audio;
-	m_audio = nullptr;
+	delete m_sound;
+	m_sound = nullptr;
 
 	m_enemies.clear();
+
+	m_coins.clear();
 }
 
 void GameScreenLevel1::Render()
@@ -57,9 +60,11 @@ void GameScreenLevel1::Render()
 
 	if(luigi->GetAlive())
 		luigi->Render();
-
-	if(coin->GetAlive())
-		coin->Render();
+	
+	for (int i = 0; i < m_coins.size(); i++)
+	{
+		m_coins[i]->Render();
+	}
 
 	for (int i = 0; i < m_enemies.size(); i++)
 	{
@@ -90,12 +95,12 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 
 	if (Collisions::Instance()->Circle(mario->GetCollisionCircle(), luigi->GetCollisionCircle()))
 	{
-		cout << "Circle Hit!" << endl;
+		//cout << "Circle Hit!" << endl;
 	}
 
 	if (Collisions::Instance()->Box(mario->getCollisionBox(), luigi->getCollisionBox()))
 	{
-		cout << "Box Hit!" << endl;
+		//cout << "Box Hit!" << endl;
 	}
 
 	//Characters
@@ -103,8 +108,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	luigi->Update(deltaTime, e);
 
 	//Objects
-	coin->Update(deltaTime, e);
-	CoinCollision();
+	UpdateCoins();
 	UpdatePOWBlock();
 
 	//Enemies
@@ -132,7 +136,7 @@ bool GameScreenLevel1::SetUpLevel()
 
 	SetLevelMap();
 
-	m_audio = new SoundEffect();
+	m_sound = new SoundEffect();
 
 	//powblock render
 	m_pow_block = new PowBlock(m_Renderer, m_level_map);
@@ -142,7 +146,11 @@ bool GameScreenLevel1::SetUpLevel()
 	luigi = new CharacterLuigi(m_Renderer, "Images/LuigiSprite.png", Vector2D(100, 330), m_level_map, 6);
 
 	//objects
-	coin = new CoinCharacter(m_Renderer, "Images/Coin.png", Vector2D(150, 350), m_level_map,3);
+	CreateCoins(Vector2D(150, 350));
+	CreateCoins(Vector2D(100, 250));
+	CreateCoins(Vector2D(400, 250));
+	CreateCoins(Vector2D(170, 10));
+	CreateCoins(Vector2D(400, 10));
 
 	//Enemies
 	CreateKoopa(Vector2D(150, 32), FACING_RIGHT, KOOPA_SPEED);
@@ -186,7 +194,7 @@ void GameScreenLevel1::UpdatePOWBlock()
 		{
 			if (mario->IsJumping())
 			{
-				m_audio->Play(POWBLOCK);
+				m_sound->Play(POWBLOCK);
 				DoScreenShake();
 				m_pow_block->TakeHit();
 				mario->CancelJump();
@@ -224,6 +232,12 @@ void GameScreenLevel1::CreateKoopa(Vector2D position, FACING direction, float sp
 {
 	Koopa_Character = new CharacterKoopa(m_Renderer, "Images/KoopaSprite.png", m_level_map, position, direction, speed, 15);
 	m_enemies.push_back(Koopa_Character);
+}
+
+void GameScreenLevel1::CreateCoins(Vector2D position)
+{
+	coin = new CoinCharacter(m_Renderer, "Images/Coin.png", position, m_level_map, 3);
+	m_coins.push_back(coin);
 }
 
 void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
@@ -271,11 +285,14 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 					}
 					else
 					{
-						if (mario->GetAlive())
+						if (mario->GetAlive() && !mario->GetKill())
 						{
 							//Kill mario
+							m_sound->Play(DEATH);
+							mario->CancelJump();
 							//Take away lives
 							mario->setKill(true);
+							
 						}
 					}
 				}
@@ -292,9 +309,11 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 					}
 					else
 					{
-						if (luigi->GetAlive())
+						if (luigi->GetAlive() && !luigi->GetKill())
 						{
 							//Kill mario
+							m_sound->Play(DEATH);
+							luigi->CancelJump();
 							//Take away lives
 							luigi->setKill(true);
 						}
@@ -317,16 +336,45 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 	}
 }
 
-void GameScreenLevel1::CoinCollision()
+void GameScreenLevel1::UpdateCoins()
 {
-	if (Collisions::Instance()->Circle(mario->GetCollisionCircle(), coin->GetCollisionCircle()) || Collisions::Instance()->Circle(luigi->GetCollisionCircle(), coin->GetCollisionCircle()))
+	if (!m_coins.empty())
 	{
-		if (coin->GetAlive())
+		int coinIndexToDelete = -1;
+
+		for (unsigned int i = 0; i < m_coins.size(); i++)
 		{
-			cout << "Coin Collected!" << endl;
-			cout << "Score increased!" << endl;
-			coin->SetAlive(false);
-			m_audio->Play(COIN);
+			if (Collisions::Instance()->Circle(mario->GetCollisionCircle(), m_coins[i]->GetCollisionCircle()))
+			{
+				if (m_coins[i]->GetAlive() && !mario->GetKill())
+				{
+					m_sound->Play(COIN);
+					cout << "Coin Collected!" << endl;
+					cout << "Score increased!" << endl;
+					m_coins[i]->SetAlive(false);
+				}
+			}
+
+			if (Collisions::Instance()->Circle(luigi->GetCollisionCircle(), m_coins[i]->GetCollisionCircle()))
+			{
+				if (m_coins[i]->GetAlive() && !luigi->GetKill())
+				{
+					m_sound->Play(COIN);
+					cout << "Coin Collected!" << endl;
+					cout << "Score increased!" << endl;
+					m_coins[i]->SetAlive(false);
+				}
+			}
+
+			if (!m_coins[i]->GetAlive())
+			{
+				coinIndexToDelete = i;
+			}
+		}
+
+		if (coinIndexToDelete != -1)
+		{
+			m_coins.erase(m_coins.begin() + coinIndexToDelete);
 		}
 	}
 }

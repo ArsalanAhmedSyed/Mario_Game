@@ -29,13 +29,13 @@ private:
 	Texture2D* m_background_Texture;
 	LevelMap* m_level_map;
 	PowBlock* m_pow_block;
+	CoinCharacter* coin;
 
 	Character* mario;
 	Character* luigi;
-	CoinCharacter* coin;
 	CharacterKoopa* Koopa_Character;
 
-	SoundEffect* m_audio;
+	SoundEffect* m_sound;
 
 	//Create Koopa
 	std::vector<CharacterKoopa*> m_enemies;
@@ -55,7 +55,9 @@ private:
 	void DoScreenShake();
 
 	//collison checks
-	void CoinCollision();
+	void UpdateCoins();
+	std::vector<CoinCharacter*> m_coins;
+	void CreateCoins(Vector2D postiion);
 };
 
 #endif // !_GAMESCREENLEVEL1_
