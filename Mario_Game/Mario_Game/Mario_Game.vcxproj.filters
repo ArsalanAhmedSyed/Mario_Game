@@ -57,7 +57,7 @@
     <ClCompile Include="SoundEffect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MainMenueScreen.cpp">
+    <ClCompile Include="MainMenuScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -124,7 +124,7 @@
     <ClInclude Include="SoundEffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MainMenueScreen.h">
+    <ClInclude Include="MainMenuScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

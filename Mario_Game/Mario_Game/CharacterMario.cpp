@@ -47,6 +47,13 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 		m_current_frame = 0;
 	}
 
+
+
+	if (m_jump_Anim && !m_kill_player)
+	{
+		m_current_frame = 4;
+	}
+
 	if (m_kill_player)
 	{
 		m_current_frame = 5;
@@ -56,13 +63,6 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 		{
 			m_alive = false;
 		}
-	
-	}
-	
-
-	if (m_jump_Anim && !m_kill_player)
-	{
-		m_current_frame = 4;
 	}
 
 	switch (e.type)

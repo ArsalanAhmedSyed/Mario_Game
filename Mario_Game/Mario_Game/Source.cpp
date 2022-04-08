@@ -19,16 +19,22 @@ bool InitSDL();
 void CloseSDL();
 bool Update();
 void Render();
-
 //Audio
 void LoadMusic();
+
 Mix_Music* g_music = nullptr;	
+Mix_Music* g_menuMusic = nullptr;
 
 SDL_Window* g_Window = nullptr;
 SDL_Renderer* g_Renderer = nullptr;
-GameScreenManager* game_screen_manager;
+GameScreenManager* game_screen_manager = nullptr;
 Uint32 g_old_time;
 
+//veraible
+bool menuMusic = true;
+bool changeMusic = false;
+bool MenuScreen = true;
+bool GameScreen = true;
 
 //Initialise SDL
 bool InitSDL()
@@ -86,9 +92,40 @@ void LoadMusic()
 		cout << "Failed to load music. Error: %s " << Mix_GetError() << endl;
 	}
 
-	if (Mix_PlayingMusic() == 0)
+	g_menuMusic = Mix_LoadMUS("Audio/MainMenuTheme.wav");
+	if (g_menuMusic == nullptr)
 	{
-		Mix_PlayMusic(g_music, -1);
+		cout << "Failed to load Menu music. Error: %s " << Mix_GetError() << endl;
+	}
+
+	if (!menuMusic)
+	{
+		if (Mix_PlayingMusic() == 0)
+		{
+			Mix_PlayMusic(g_music, -1);
+		}
+	}
+	else
+	{
+		if (Mix_PlayingMusic() == 0)
+		{
+			Mix_PlayMusic(g_menuMusic, -1);
+		}
+	}
+
+	if (changeMusic)
+	{
+		changeMusic = false;
+
+		if (Mix_PlayingMusic() == 1)
+		{
+			Mix_HaltMusic();
+		}
+
+		if (menuMusic)
+			menuMusic = false;
+		else
+			menuMusic = true;
 	}
 }
 
@@ -117,7 +154,35 @@ bool Update()
 	case SDL_QUIT:
 		return true;
 		break;
+	case SDL_KEYDOWN:
+		switch (e.key.keysym.sym)
+		{
+		case SDLK_ESCAPE:
+			GameScreen = true;
+			if (MenuScreen)
+			{
+				game_screen_manager->ChangeScreen(SCREEN_MENU);
+				MenuScreen = false;
+				changeMusic = true;
+			}
+			break;
+		case SDLK_0:
+				game_screen_manager->ChangeScreen(SCREEN_INTRO);
+			break;
+		case SDLK_1:
+			if (GameScreen)
+			{
+				game_screen_manager->ChangeScreen(SCREEN_LEVEL1);
+				changeMusic = true;
+				MenuScreen = true;
+				GameScreen = false;
+			}
+			break;
+		}
+		break;
 	}
+
+	LoadMusic();
 
 	game_screen_manager->Update((float)(new_time - g_old_time) / 1000.0f, e);
 	g_old_time = new_time;
@@ -142,6 +207,9 @@ void CloseSDL()
 	Mix_FreeMusic(g_music);
 	g_music = nullptr;
 
+	Mix_FreeMusic(g_menuMusic);
+	g_menuMusic = nullptr;
+
 	//Quit SDL_Image
 	IMG_Quit();
 	//Quit SDL
@@ -155,9 +223,8 @@ int main(int argc, char* args[])
 {
 	if (InitSDL())
 	{
-		LoadMusic();
-		
-		game_screen_manager = new GameScreenManager(g_Renderer, SCREEN_LEVEL1);
+		game_screen_manager = new GameScreenManager(g_Renderer, SCREEN_MENU);
+
 		g_old_time = SDL_GetTicks();
 
 		bool quit = false;

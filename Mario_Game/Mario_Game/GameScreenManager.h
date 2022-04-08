@@ -16,10 +16,13 @@ public:
 	void Update(float deltatime, SDL_Event e);
 
 	void ChangeScreen(SCREENS new_screen);
+	bool GetMusic() { return m_play_Menu_Music; }
 
 private:
 	SDL_Renderer* m_Renderer;
 	GameScreen* m_Current_Screen;
+
+	bool m_play_Menu_Music;
 };
 
 #endif // !_GAMESCREENMANAGER_H

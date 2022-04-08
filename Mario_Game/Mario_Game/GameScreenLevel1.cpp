@@ -9,7 +9,6 @@
 #include "LevelMap.h"
 #include "PowBlock.h"
 #include "SoundEffect.h"
-#include <iostream>
 
 using namespace std;
 
@@ -108,7 +107,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	luigi->Update(deltaTime, e);
 
 	//Objects
-	UpdateCoins();
+	UpdateCoins(deltaTime,e);
 	UpdatePOWBlock();
 
 	//Enemies
@@ -208,6 +207,7 @@ void GameScreenLevel1::UpdatePOWBlock()
 		{
 			if (luigi->IsJumping())
 			{
+				m_sound->Play(POWBLOCK);
 				DoScreenShake();
 				m_pow_block->TakeHit();
 				luigi->CancelJump();
@@ -336,7 +336,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 	}
 }
 
-void GameScreenLevel1::UpdateCoins()
+void GameScreenLevel1::UpdateCoins(float deltaTime, SDL_Event e)
 {
 	if (!m_coins.empty())
 	{
@@ -344,6 +344,8 @@ void GameScreenLevel1::UpdateCoins()
 
 		for (unsigned int i = 0; i < m_coins.size(); i++)
 		{
+			m_coins[i]->Update(deltaTime, e);
+
 			if (Collisions::Instance()->Circle(mario->GetCollisionCircle(), m_coins[i]->GetCollisionCircle()))
 			{
 				if (m_coins[i]->GetAlive() && !mario->GetKill())

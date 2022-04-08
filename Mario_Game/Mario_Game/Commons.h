@@ -86,7 +86,12 @@ enum AUDIO
 	POWBLOCK,
 	JUMP,
 	DEATH,
-	MUSIC,
 	COIN,
 	GAMEOVER
+};
+
+enum MUSIC
+{
+	MENU,
+	GAMEPLAY
 };

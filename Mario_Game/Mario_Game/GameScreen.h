@@ -2,7 +2,8 @@
 #define _GAMESCREEN_H
 
 #include <SDL.h>
-
+#include "Commons.h"
+#include <iostream>
 class GameScreen
 {
 public:

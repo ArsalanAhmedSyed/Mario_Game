@@ -1,7 +1,6 @@
 #ifndef _GAMESCREENLEVEL1_H
 #define _GAMESCREENLEVEL1_H
 
-#include "Commons.h"
 #include "GameScreen.h"
 #include <vector>
 
@@ -55,8 +54,8 @@ private:
 	void DoScreenShake();
 
 	//collison checks
-	void UpdateCoins();
 	std::vector<CoinCharacter*> m_coins;
+	void UpdateCoins(float deltaTime, SDL_Event e);
 	void CreateCoins(Vector2D postiion);
 };
 

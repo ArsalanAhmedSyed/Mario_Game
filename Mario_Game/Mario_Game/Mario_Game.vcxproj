@@ -151,7 +151,7 @@
     <ClCompile Include="GameScreenLevel1.cpp" />
     <ClCompile Include="GameScreenManager.cpp" />
     <ClCompile Include="LevelMap.cpp" />
-    <ClCompile Include="MainMenueScreen.cpp" />
+    <ClCompile Include="MainMenuScreen.cpp" />
     <ClCompile Include="PowBlock.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -177,7 +177,7 @@
     <ClInclude Include="GameScreenLevel1.h" />
     <ClInclude Include="GameScreenManager.h" />
     <ClInclude Include="LevelMap.h" />
-    <ClInclude Include="MainMenueScreen.h" />
+    <ClInclude Include="MainMenuScreen.h" />
     <ClInclude Include="PowBlock.h" />
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="Texture2D.h" />
