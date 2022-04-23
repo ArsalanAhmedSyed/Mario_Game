@@ -126,7 +126,7 @@ bool GameScreenLevel1::SetUpLevel()
 {
 	bool success = true;
 
-	m_background_Texture = new Texture2D(m_Renderer);
+	m_background_Texture = new Texture2D(m_renderer);
 	if (!m_background_Texture->LoadFromFile("Images/Background.png"))
 	{
 		cout << "Failed to load background texture!" << endl;
@@ -136,13 +136,25 @@ bool GameScreenLevel1::SetUpLevel()
 	SetLevelMap();
 
 	m_sound = new SoundEffect();
+	if(m_sound == nullptr)
+	{
+		cout << "Failed to initalize the sound" << endl;
+		success = false;
+	}
 
 	//powblock render
-	m_pow_block = new PowBlock(m_Renderer, m_level_map);
+	m_pow_block = new PowBlock(m_renderer, m_level_map);
 
 	#pragma region Character Render
-	mario = new CharacterMario(m_Renderer, "Images/MarioSprite.png", Vector2D(64, 330), m_level_map, 6);
-	luigi = new CharacterLuigi(m_Renderer, "Images/LuigiSprite.png", Vector2D(100, 330), m_level_map, 6);
+	mario = new CharacterMario(m_renderer, "Images/MarioSprite.png", Vector2D(64, 330), m_level_map, 6);
+	luigi = new CharacterLuigi(m_renderer, "Images/LuigiSprite.png", Vector2D(100, 330), m_level_map, 6);
+
+	//SHOULD I DO THIS ????????????????
+	if (mario == nullptr || luigi == nullptr)
+	{
+		cout << "Failed to Create characters" << endl;
+		success = false;
+	}
 
 	//objects
 	CreateCoins(Vector2D(150, 350));
@@ -230,13 +242,13 @@ void GameScreenLevel1::DoScreenShake()
 
 void GameScreenLevel1::CreateKoopa(Vector2D position, FACING direction, float speed)
 {
-	Koopa_Character = new CharacterKoopa(m_Renderer, "Images/KoopaSprite.png", m_level_map, position, direction, speed, 15);
+	Koopa_Character = new CharacterKoopa(m_renderer, "Images/KoopaSprite.png", m_level_map, position, direction, speed, 15);
 	m_enemies.push_back(Koopa_Character);
 }
 
 void GameScreenLevel1::CreateCoins(Vector2D position)
 {
-	coin = new CoinCharacter(m_Renderer, "Images/Coin.png", position, m_level_map, 3);
+	coin = new CoinCharacter(m_renderer, "Images/Coin.png", position, m_level_map, 3);
 	m_coins.push_back(coin);
 }
 

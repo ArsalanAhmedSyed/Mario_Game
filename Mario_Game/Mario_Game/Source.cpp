@@ -157,15 +157,19 @@ bool Update()
 	case SDL_KEYDOWN:
 		switch (e.key.keysym.sym)
 		{
-		case SDLK_ESCAPE:
-			GameScreen = true;
-			if (MenuScreen)
+			if (!MenuScreen)
 			{
-				game_screen_manager->ChangeScreen(SCREEN_MENU);
-				MenuScreen = false;
-				changeMusic = true;
+			case SDLK_ESCAPE:
+				if (MenuScreen)
+				{
+					game_screen_manager->ChangeScreen(SCREEN_MENU);
+
+					MenuScreen = false;
+					GameScreen = true;
+					changeMusic = true;
+				}
+				break;
 			}
-			break;
 		case SDLK_0:
 				game_screen_manager->ChangeScreen(SCREEN_INTRO);
 			break;
@@ -173,6 +177,15 @@ bool Update()
 			if (GameScreen)
 			{
 				game_screen_manager->ChangeScreen(SCREEN_LEVEL1);
+				changeMusic = true;
+				GameScreen = false;
+				MenuScreen = true;
+			}
+			break;
+		case SDLK_2:
+			if (GameScreen)
+			{
+				game_screen_manager->ChangeScreen(SCREEN_LEVEL2);
 				changeMusic = true;
 				MenuScreen = true;
 				GameScreen = false;

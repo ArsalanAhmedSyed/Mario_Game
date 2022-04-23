@@ -14,7 +14,7 @@ public:
 	virtual void Update(float deltaTime, SDL_Event e);
 
 protected:
-	SDL_Renderer* m_Renderer;
+	SDL_Renderer* m_renderer;
 };
 
 #endif // !_GAMESCREEN_H
