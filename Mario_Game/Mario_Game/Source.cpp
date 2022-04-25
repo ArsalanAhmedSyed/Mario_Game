@@ -33,7 +33,7 @@ Uint32 g_old_time;
 //veraible
 bool menuMusic = true;
 bool changeMusic = false;
-bool MenuScreen = true;
+bool MenuScreen = false;
 bool GameScreen = true;
 
 //Initialise SDL
@@ -121,11 +121,8 @@ void LoadMusic()
 		{
 			Mix_HaltMusic();
 		}
-
-		if (menuMusic)
-			menuMusic = false;
-		else
-			menuMusic = true;
+		
+		menuMusic = !menuMusic;
 	}
 }
 
@@ -164,8 +161,8 @@ bool Update()
 				{
 					game_screen_manager->ChangeScreen(SCREEN_MENU);
 
-					MenuScreen = false;
 					GameScreen = true;
+					MenuScreen = false;
 					changeMusic = true;
 				}
 				break;
