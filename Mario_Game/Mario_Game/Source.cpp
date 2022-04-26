@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 
 //C++ liberaies
 #include <iostream>
@@ -68,11 +69,18 @@ bool InitSDL()
 		}
 		else
 		{
-			//Initalise SDL image
+			//Initalize SDL image
 			int imageFlag = IMG_INIT_PNG;
 			if (!(IMG_Init(imageFlag) & imageFlag))
 			{
 				cout << "SDL_Image could not be initialise. IMG_ERROR: %s" << IMG_GetError();
+				success = false;
+			}
+
+			//Initialize SDL_ttf
+			if (TTF_Init() == -1)
+			{
+				cout << "Failed to initialize SDL_ttf! TTF_Error: %s" << TTF_GetError();
 				success = false;
 			}
 		}
@@ -235,7 +243,8 @@ void CloseSDL()
 	SDL_Quit();
 	//Quit Mixer
 	Mix_Quit();
-	
+	//Quit TTF
+	TTF_Quit();
 }
 
 int main(int argc, char* args[])

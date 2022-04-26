@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(PROJECTDIR)\SDL2\SDL\include;$(PROJECTDIR)\SDL2\SDL\image_include;$(PROJECTDIR)\SDL2\SDL\mixer_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(PROJECTDIR)\SDL2\SDL\include;$(PROJECTDIR)\SDL2\SDL\image_include;$(PROJECTDIR)\SDL2\SDL\mixer_include;$(PROJECTDIR)\SDL2\SDL\TTF_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -156,6 +156,7 @@
     <ClCompile Include="PowBlock.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +165,7 @@
     <Library Include="SDL2\SDL\SDL2test.lib" />
     <Library Include="SDL2\SDL\SDL2_image.lib" />
     <Library Include="SDL2\SDL\SDL2_mixer.lib" />
+    <Library Include="SDL2\SDL\SDL2_ttf.lib" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
@@ -182,6 +184,7 @@
     <ClInclude Include="MainMenuScreen.h" />
     <ClInclude Include="PowBlock.h" />
     <ClInclude Include="SoundEffect.h" />
+    <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Texture2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

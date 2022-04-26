@@ -1,5 +1,6 @@
 #include "GameScreenLevel1.h"
 #include "Texture2D.h"
+#include "TextRenderer.h"
 #include "Character.h"
 #include "CoinCharacter.h"
 #include "CharacterMario.h"
@@ -21,6 +22,8 @@ GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer) : GameScreen(renderer
 	m_shake_time = 0.0f;
 	m_wobble = 0.0f;
 	m_background_yPos = 0.0f;
+	score = 0;
+	old_score = 0;
 }
 
 GameScreenLevel1::~GameScreenLevel1()
@@ -43,6 +46,9 @@ GameScreenLevel1::~GameScreenLevel1()
 	delete m_sound;
 	m_sound = nullptr;
 
+	delete m_text;
+	m_text == nullptr;
+
 	m_enemies.clear();
 
 	m_coins.clear();
@@ -52,6 +58,8 @@ void GameScreenLevel1::Render()
 {
 	m_background_Texture->Render(Vector2D(0,m_background_yPos), SDL_FLIP_NONE);
 	m_pow_block->Render();
+
+	m_text->Render(20, 20);
 
 	//Characters render
 	if(mario->GetAlive())
@@ -110,7 +118,15 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	UpdateCoins(deltaTime,e);
 	UpdatePOWBlock();
 
+	if (m_text != nullptr && score != old_score)
+	{
+		old_score = score;
+		m_text->LoadFont("Fonts/Lazy.ttf", 25, score_message + to_string(score), { 0,0,0 });
+	}
+
 	//Enemies
+	#pragma region KoopaUpdate
+
 	UpdateEnemies(deltaTime, e);
 	create_koopa_timer -= deltaTime;
 	if (create_koopa_timer <= 0)
@@ -120,6 +136,9 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 		CreateKoopa(Vector2D(325, 32), FACING_LEFT, KOOPA_SPEED);
 		create_koopa_timer = 5.f;
 	}
+
+	#pragma endregion
+
 }
 
 bool GameScreenLevel1::SetUpLevel()
@@ -133,14 +152,21 @@ bool GameScreenLevel1::SetUpLevel()
 		success = false;
 	}
 
-	SetLevelMap();
-
 	m_sound = new SoundEffect();
 	if(m_sound == nullptr)
 	{
 		cout << "Failed to initalize the sound" << endl;
 		success = false;
 	}
+
+	m_text = new TextRenderer(m_renderer);
+	if (!m_text->LoadFont("Fonts/Lazy.ttf", 25, score_message + to_string(score), { 0,0,0 }))
+	{
+		cout << "Failed to load text file!" << endl;
+		success = false;
+	}
+
+	SetLevelMap();
 
 	//powblock render
 	m_pow_block = new PowBlock(m_renderer, m_level_map);
@@ -150,11 +176,11 @@ bool GameScreenLevel1::SetUpLevel()
 	luigi = new CharacterLuigi(m_renderer, "Images/LuigiSprite.png", Vector2D(100, 330), m_level_map, 6);
 
 	//SHOULD I DO THIS ????????????????
-	if (mario == nullptr || luigi == nullptr)
+	/*if (mario == nullptr || luigi == nullptr)
 	{
 		cout << "Failed to Create characters" << endl;
 		success = false;
-	}
+	}*/
 
 	//objects
 	CreateCoins(Vector2D(150, 350));
@@ -292,7 +318,8 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 						if (m_enemies[i]->GetAlive())
 						{
 							m_enemies[i]->SetAlive(false);
-							cout << "Add score!" << endl;
+							//Increase score
+							score += 50;
 						}
 					}
 					else
@@ -316,7 +343,8 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 						if (m_enemies[i]->GetAlive())
 						{
 							m_enemies[i]->SetAlive(false);
-							cout << "Add score!" << endl;
+							//Increase score
+							score += 50;
 						}
 					}
 					else
@@ -363,8 +391,8 @@ void GameScreenLevel1::UpdateCoins(float deltaTime, SDL_Event e)
 				if (m_coins[i]->GetAlive() && !mario->GetKill())
 				{
 					m_sound->Play(COIN);
-					cout << "Coin Collected!" << endl;
-					cout << "Score increased!" << endl;
+					//Increase score
+					score += 10;
 					m_coins[i]->SetAlive(false);
 				}
 			}
@@ -374,8 +402,8 @@ void GameScreenLevel1::UpdateCoins(float deltaTime, SDL_Event e)
 				if (m_coins[i]->GetAlive() && !luigi->GetKill())
 				{
 					m_sound->Play(COIN);
-					cout << "Coin Collected!" << endl;
-					cout << "Score increased!" << endl;
+					//Increase score
+					score += 10;
 					m_coins[i]->SetAlive(false);
 				}
 			}

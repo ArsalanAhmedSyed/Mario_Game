@@ -3,8 +3,12 @@
 
 #include "GameScreen.h"
 #include <vector>
+#include <string>
+
+using namespace std;
 
 class Texture2D;
+class TextRenderer;
 class LevelMap;
 class Character;
 class CoinCharacter;
@@ -30,11 +34,18 @@ private:
 	PowBlock* m_pow_block;
 	CoinCharacter* coin;
 
+	//Characters
 	Character* mario;
 	Character* luigi;
 	CharacterKoopa* Koopa_Character;
 
+	//Audio
 	SoundEffect* m_sound;
+
+	//Text
+	TextRenderer* m_text;
+	string score_message = "score: ";
+	int score, old_score;
 
 	//Create Koopa
 	std::vector<CharacterKoopa*> m_enemies;

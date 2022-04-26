@@ -1,2 +1,7 @@
-﻿  LevelMap.cpp
-  Mario_Game.vcxproj -> C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Debug\Mario_Game.exe
+﻿  GameScreenLevel1.cpp
+C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(30,134): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(30,92): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(50,9): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(71,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(76,20): warning C4018: '<': signed/unsigned mismatch
+  Mario_Game.vcxproj -> C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Debug\Mario_Game.exe
