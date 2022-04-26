@@ -21,7 +21,6 @@ public:
 
 	int GetWidth();
 	int GetHeight();
-
 private:
 
 	SDL_Renderer* m_Renderer;

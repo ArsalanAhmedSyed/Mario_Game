@@ -92,6 +92,6 @@ enum AUDIO
 
 enum MUSIC
 {
-	MENU,
-	GAMEPLAY
+	MENU_MUSIC,
+	GAMEPLAY_MUSIC
 };

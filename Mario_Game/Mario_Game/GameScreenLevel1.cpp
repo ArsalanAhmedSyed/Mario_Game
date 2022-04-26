@@ -179,7 +179,7 @@ void GameScreenLevel1::SetLevelMap()
 					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 					  { 0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0 },
-					  { 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1 },
+					  { 1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,0 },
 					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 					  { 0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0 },
 					  { 1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1 },
@@ -194,7 +194,7 @@ void GameScreenLevel1::SetLevelMap()
 	}
 
 	//Set the new one
-	m_level_map = new LevelMap(map);
+	m_level_map = new LevelMap(map, m_renderer);
 }
 
 void GameScreenLevel1::UpdatePOWBlock()

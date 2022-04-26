@@ -3,16 +3,10 @@
 SoundEffect::SoundEffect() 
 {
 	m_sound_effect = nullptr;
-	m_music = nullptr;
 }
 
 SoundEffect::~SoundEffect()
 {
-	if (m_music != nullptr)
-	{
-		Mix_FreeMusic(m_music);
-	}
-
 	if (m_sound_effect != nullptr)
 	{
 		Mix_FreeChunk(m_sound_effect);
@@ -64,13 +58,4 @@ void SoundEffect::Play(AUDIO sound)
 		LoadFromFile("Audio/Coin.wav");
 		Mix_PlayChannel(-1, m_sound_effect, 0);
 	}
-
-	/*if (sound == MUSIC)
-	{
-		LoadFromFile("Audio/Mario");
-		if (Mix_PlayingMusic == 0)
-		{
-			Mix_PlayMusic(m_music,-1);
-		}
-	}*/
 }

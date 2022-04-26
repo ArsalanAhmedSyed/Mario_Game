@@ -19,8 +19,10 @@ bool InitSDL();
 void CloseSDL();
 bool Update();
 void Render();
+
 //Audio
 void LoadMusic();
+void UpdateMusic();
 
 Mix_Music* g_music = nullptr;	
 Mix_Music* g_menuMusic = nullptr;
@@ -31,7 +33,7 @@ GameScreenManager* game_screen_manager = nullptr;
 Uint32 g_old_time;
 
 //veraible
-bool menuMusic = true;
+MUSIC m_music;
 bool changeMusic = false;
 bool MenuScreen = false;
 bool GameScreen = true;
@@ -97,15 +99,18 @@ void LoadMusic()
 	{
 		cout << "Failed to load Menu music. Error: %s " << Mix_GetError() << endl;
 	}
+}
 
-	if (!menuMusic)
+void UpdateMusic()
+{
+	if (m_music == GAMEPLAY_MUSIC)
 	{
 		if (Mix_PlayingMusic() == 0)
 		{
 			Mix_PlayMusic(g_music, -1);
 		}
 	}
-	else
+	else if (m_music == MENU_MUSIC)
 	{
 		if (Mix_PlayingMusic() == 0)
 		{
@@ -121,8 +126,6 @@ void LoadMusic()
 		{
 			Mix_HaltMusic();
 		}
-		
-		menuMusic = !menuMusic;
 	}
 }
 
@@ -164,6 +167,8 @@ bool Update()
 					GameScreen = true;
 					MenuScreen = false;
 					changeMusic = true;
+
+					m_music = MENU_MUSIC;
 				}
 				break;
 			}
@@ -177,6 +182,8 @@ bool Update()
 				changeMusic = true;
 				GameScreen = false;
 				MenuScreen = true;
+
+				m_music = GAMEPLAY_MUSIC;
 			}
 			break;
 		case SDLK_2:
@@ -186,13 +193,15 @@ bool Update()
 				changeMusic = true;
 				MenuScreen = true;
 				GameScreen = false;
+
+				m_music = GAMEPLAY_MUSIC;
 			}
 			break;
 		}
 		break;
 	}
 
-	LoadMusic();
+	UpdateMusic();
 
 	game_screen_manager->Update((float)(new_time - g_old_time) / 1000.0f, e);
 	g_old_time = new_time;
@@ -233,6 +242,8 @@ int main(int argc, char* args[])
 {
 	if (InitSDL())
 	{
+		LoadMusic();
+
 		game_screen_manager = new GameScreenManager(g_Renderer, SCREEN_MENU);
 
 		g_old_time = SDL_GetTicks();

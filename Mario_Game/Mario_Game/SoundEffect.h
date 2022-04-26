@@ -21,7 +21,6 @@ public:
 private:
 	bool LoadFromFile(string path);
 
-	Mix_Music* m_music;
 	Mix_Chunk* m_sound_effect;
 };
 
