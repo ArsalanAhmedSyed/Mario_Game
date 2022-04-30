@@ -4,8 +4,6 @@
 #include "GameScreen.h"
 
 class Texture2D;
-class SoundEffect;
-class GameScreenManager;
 
 class MainMenuScreen :	GameScreen
 {
@@ -14,12 +12,9 @@ public:
 	~MainMenuScreen();
 
 	void Render() override;
-	void Update(float deltaTime, SDL_Event e) override;
 	
 private:
 	Texture2D* m_menuBackground_texture;
-	SoundEffect* m_music;
-	GameScreenManager* m_gameManger_screen;
 
 	bool SetupMenu();
 };

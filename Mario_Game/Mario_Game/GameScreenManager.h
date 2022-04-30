@@ -5,6 +5,7 @@
 #include "Commons.h"
 
 class GameScreen;
+class SoundEffect;
 
 class GameScreenManager
 {
@@ -18,11 +19,9 @@ public:
 	void ChangeScreen(SCREENS new_screen);
 
 private:
-	SDL_Renderer* m_Renderer;
+	SDL_Renderer* m_renderer;
 	GameScreen* m_Current_Screen;
+	SoundEffect* m_play_music;
 };
 
 #endif // !_GAMESCREENMANAGER_H
-
-
-

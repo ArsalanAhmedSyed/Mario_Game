@@ -18,10 +18,14 @@ public:
 
 	void Play(AUDIO sound);
 
+	void PlayMusic(MUSIC music);
+
 private:
 	bool LoadFromFile(string path);
-
 	Mix_Chunk* m_sound_effect;
+
+	bool LoadMusicFile(string music_path);
+	Mix_Music* m_music;
 };
 
 #endif // _SOUNDEFFECT

@@ -21,12 +21,6 @@ void CloseSDL();
 bool Update();
 void Render();
 
-//Audio
-void LoadMusic();
-void UpdateMusic();
-
-Mix_Music* g_music = nullptr;	
-Mix_Music* g_menuMusic = nullptr;
 
 SDL_Window* g_Window = nullptr;
 SDL_Renderer* g_Renderer = nullptr;
@@ -34,10 +28,7 @@ GameScreenManager* game_screen_manager = nullptr;
 Uint32 g_old_time;
 
 //veraible
-MUSIC m_music;
-bool changeMusic = false;
-bool MenuScreen = false;
-bool GameScreen = true;
+bool GamePlay = true;
 
 //Initialise SDL
 bool InitSDL()
@@ -94,48 +85,6 @@ bool InitSDL()
 	return success;
 }
 
-void LoadMusic()
-{
-	g_music = Mix_LoadMUS("Audio/MarioMusic.wav");
-	if (g_music == nullptr)
-	{
-		cout << "Failed to load music. Error: %s " << Mix_GetError() << endl;
-	}
-
-	g_menuMusic = Mix_LoadMUS("Audio/MainMenuTheme.wav");
-	if (g_menuMusic == nullptr)
-	{
-		cout << "Failed to load Menu music. Error: %s " << Mix_GetError() << endl;
-	}
-}
-
-void UpdateMusic()
-{
-	if (m_music == GAMEPLAY_MUSIC)
-	{
-		if (Mix_PlayingMusic() == 0)
-		{
-			Mix_PlayMusic(g_music, -1);
-		}
-	}
-	else if (m_music == MENU_MUSIC)
-	{
-		if (Mix_PlayingMusic() == 0)
-		{
-			Mix_PlayMusic(g_menuMusic, -1);
-		}
-	}
-
-	if (changeMusic)
-	{
-		changeMusic = false;
-
-		if (Mix_PlayingMusic() == 1)
-		{
-			Mix_HaltMusic();
-		}
-	}
-}
 
 void Render()
 {
@@ -165,51 +114,37 @@ bool Update()
 	case SDL_KEYDOWN:
 		switch (e.key.keysym.sym)
 		{
-			if (!MenuScreen)
-			{
 			case SDLK_ESCAPE:
-				if (MenuScreen)
+				if (!GamePlay)
 				{
 					game_screen_manager->ChangeScreen(SCREEN_MENU);
-
-					GameScreen = true;
-					MenuScreen = false;
-					changeMusic = true;
-
-					m_music = MENU_MUSIC;
+					GamePlay = true;
 				}
 				break;
-			}
-		case SDLK_0:
-				game_screen_manager->ChangeScreen(SCREEN_INTRO);
-			break;
-		case SDLK_1:
-			if (GameScreen)
-			{
-				game_screen_manager->ChangeScreen(SCREEN_LEVEL1);
-				changeMusic = true;
-				GameScreen = false;
-				MenuScreen = true;
-
-				m_music = GAMEPLAY_MUSIC;
-			}
-			break;
-		case SDLK_2:
-			if (GameScreen)
-			{
-				game_screen_manager->ChangeScreen(SCREEN_LEVEL2);
-				changeMusic = true;
-				MenuScreen = true;
-				GameScreen = false;
-
-				m_music = GAMEPLAY_MUSIC;
-			}
-			break;
+			case SDLK_0:
+				if (GamePlay)
+				{
+					game_screen_manager->ChangeScreen(SCREEN_CONTROLS);
+					GamePlay = false;
+				}
+				break;
+			case SDLK_1:
+				if (GamePlay)
+				{
+					game_screen_manager->ChangeScreen(SCREEN_LEVEL1);
+					GamePlay = false;
+					break;
+				}
+			case SDLK_2:
+				if (GamePlay)
+				{
+					game_screen_manager->ChangeScreen(SCREEN_LEVEL2);
+					GamePlay = false;
+				}
+				break;
 		}
 		break;
 	}
-
-	UpdateMusic();
 
 	game_screen_manager->Update((float)(new_time - g_old_time) / 1000.0f, e);
 	g_old_time = new_time;
@@ -230,13 +165,6 @@ void CloseSDL()
 	SDL_DestroyWindow(g_Window);
 	g_Window = nullptr;
 
-	//release the audio
-	Mix_FreeMusic(g_music);
-	g_music = nullptr;
-
-	Mix_FreeMusic(g_menuMusic);
-	g_menuMusic = nullptr;
-
 	//Quit SDL_Image
 	IMG_Quit();
 	//Quit SDL
@@ -251,8 +179,6 @@ int main(int argc, char* args[])
 {
 	if (InitSDL())
 	{
-		LoadMusic();
-
 		game_screen_manager = new GameScreenManager(g_Renderer, SCREEN_MENU);
 
 		g_old_time = SDL_GetTicks();

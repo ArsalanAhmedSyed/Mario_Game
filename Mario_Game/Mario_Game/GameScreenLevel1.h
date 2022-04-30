@@ -8,7 +8,7 @@
 using namespace std;
 
 class Texture2D;
-class TextRenderer;
+class TextBase;
 class LevelMap;
 class Character;
 class CoinCharacter;
@@ -43,9 +43,17 @@ private:
 	SoundEffect* m_sound;
 
 	//Text
-	TextRenderer* m_text;
-	string score_message = "score: ";
-	int score, old_score;
+	TextBase* m_text;
+	TextBase* m_cointxt;
+	TextBase* m_gameOver_txt;
+
+	bool m_render_gameOver_text;
+	float m_gameover_text_timer;
+
+	//Text functions
+	void UpdateText(float deltaTime, SDL_Event e);
+	void TextSetup();
+	void RenderText();
 
 	//Create Koopa
 	std::vector<CharacterKoopa*> m_enemies;
@@ -54,7 +62,7 @@ private:
 	float create_koopa_timer;
 
 	//Setup level
-	bool SetUpLevel();
+	void SetUpLevel();
 	void SetLevelMap();
 	
 	//ScreenShake
@@ -64,10 +72,14 @@ private:
 	float m_background_yPos;
 	void DoScreenShake();
 
-	//collison checks
+	//Coins
 	std::vector<CoinCharacter*> m_coins;
 	void UpdateCoins(float deltaTime, SDL_Event e);
 	void CreateCoins(Vector2D postiion);
+
+	void GameOver(float deltaTime, SDL_Event e);
+	bool m_play_gameover_music;
+	bool m_gameOver;
 };
 
 #endif // !_GAMESCREENLEVEL1_

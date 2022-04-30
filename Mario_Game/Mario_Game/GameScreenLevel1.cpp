@@ -1,6 +1,6 @@
 #include "GameScreenLevel1.h"
 #include "Texture2D.h"
-#include "TextRenderer.h"
+#include "TextBase.h"
 #include "Character.h"
 #include "CoinCharacter.h"
 #include "CharacterMario.h"
@@ -10,6 +10,8 @@
 #include "LevelMap.h"
 #include "PowBlock.h"
 #include "SoundEffect.h"
+#include "Cointxt.h"
+#include "GameOvertxt.h"
 
 using namespace std;
 
@@ -17,13 +19,15 @@ GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer) : GameScreen(renderer
 {
 	m_level_map = nullptr;
 	SetUpLevel();
+
 	create_koopa_timer = 10.0f;
 
 	m_shake_time = 0.0f;
 	m_wobble = 0.0f;
 	m_background_yPos = 0.0f;
-	score = 0;
-	old_score = 0;
+
+	m_play_gameover_music = true;
+	m_gameover_text_timer = 1.5f;
 }
 
 GameScreenLevel1::~GameScreenLevel1()
@@ -47,7 +51,13 @@ GameScreenLevel1::~GameScreenLevel1()
 	m_sound = nullptr;
 
 	delete m_text;
-	m_text == nullptr;
+	m_text = nullptr;
+
+	delete m_cointxt;
+	m_cointxt = nullptr;
+
+	delete m_gameOver_txt;
+	m_gameOver_txt = nullptr;
 
 	m_enemies.clear();
 
@@ -59,7 +69,8 @@ void GameScreenLevel1::Render()
 	m_background_Texture->Render(Vector2D(0,m_background_yPos), SDL_FLIP_NONE);
 	m_pow_block->Render();
 
-	m_text->Render(20, 20);
+	//Render The text
+	RenderText();
 
 	//Characters render
 	if(mario->GetAlive())
@@ -114,57 +125,50 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	mario->Update(deltaTime, e);
 	luigi->Update(deltaTime, e);
 
+	//GameOver Check
+	if (!mario->GetAlive() && !luigi->GetAlive())
+		GameOver(deltaTime, e);
+
 	//Objects
 	UpdateCoins(deltaTime,e);
 	UpdatePOWBlock();
 
-	if (m_text != nullptr && score != old_score)
-	{
-		old_score = score;
-		m_text->LoadFont("Fonts/Lazy.ttf", 25, score_message + to_string(score), { 0,0,0 });
-	}
+	//Update the text
+	UpdateText(deltaTime,e);
 
 	//Enemies
 	#pragma region KoopaUpdate
 
 	UpdateEnemies(deltaTime, e);
-	create_koopa_timer -= deltaTime;
-	if (create_koopa_timer <= 0)
+	if (!m_gameOver)
 	{
-		cout << "koopa created!" << endl;
-		CreateKoopa(Vector2D(150, 32), FACING_RIGHT, KOOPA_SPEED);
-		CreateKoopa(Vector2D(325, 32), FACING_LEFT, KOOPA_SPEED);
-		create_koopa_timer = 5.f;
+		create_koopa_timer -= deltaTime;
+		if (create_koopa_timer <= 0)
+		{
+			cout << "koopa created!" << endl;
+			CreateKoopa(Vector2D(150, 32), FACING_RIGHT, KOOPA_SPEED);
+			CreateKoopa(Vector2D(325, 32), FACING_LEFT, KOOPA_SPEED);
+			create_koopa_timer = 10.0f;
+		}
 	}
-
 	#pragma endregion
-
 }
 
-bool GameScreenLevel1::SetUpLevel()
+void GameScreenLevel1::SetUpLevel()
 {
-	bool success = true;
-
 	m_background_Texture = new Texture2D(m_renderer);
 	if (!m_background_Texture->LoadFromFile("Images/Background.png"))
 	{
 		cout << "Failed to load background texture!" << endl;
-		success = false;
 	}
 
 	m_sound = new SoundEffect();
 	if(m_sound == nullptr)
 	{
 		cout << "Failed to initalize the sound" << endl;
-		success = false;
 	}
 
-	m_text = new TextRenderer(m_renderer);
-	if (!m_text->LoadFont("Fonts/Lazy.ttf", 25, score_message + to_string(score), { 0,0,0 }))
-	{
-		cout << "Failed to load text file!" << endl;
-		success = false;
-	}
+	TextSetup();
 
 	SetLevelMap();
 
@@ -175,26 +179,17 @@ bool GameScreenLevel1::SetUpLevel()
 	mario = new CharacterMario(m_renderer, "Images/MarioSprite.png", Vector2D(64, 330), m_level_map, 6);
 	luigi = new CharacterLuigi(m_renderer, "Images/LuigiSprite.png", Vector2D(100, 330), m_level_map, 6);
 
-	//SHOULD I DO THIS ????????????????
-	/*if (mario == nullptr || luigi == nullptr)
-	{
-		cout << "Failed to Create characters" << endl;
-		success = false;
-	}*/
-
 	//objects
 	CreateCoins(Vector2D(150, 350));
 	CreateCoins(Vector2D(100, 250));
 	CreateCoins(Vector2D(400, 250));
-	CreateCoins(Vector2D(170, 10));
-	CreateCoins(Vector2D(400, 10));
+	CreateCoins(Vector2D(170, 40));
+	CreateCoins(Vector2D(400, 40));
 
 	//Enemies
 	CreateKoopa(Vector2D(150, 32), FACING_RIGHT, KOOPA_SPEED);
 	CreateKoopa(Vector2D(325, 32), FACING_LEFT, KOOPA_SPEED);
 	#pragma endregion
-
-	return success;
 }
 
 void GameScreenLevel1::SetLevelMap()
@@ -221,6 +216,34 @@ void GameScreenLevel1::SetLevelMap()
 
 	//Set the new one
 	m_level_map = new LevelMap(map, m_renderer);
+}
+
+void GameScreenLevel1::TextSetup()
+{
+	m_text = new TextBase(m_renderer);
+	m_text->Loadtxt();
+
+	m_cointxt = new Cointxt(m_renderer);
+	m_cointxt->Loadtxt();
+
+	m_gameOver_txt = new GameOvertxt(m_renderer);
+	m_gameOver_txt->Loadtxt();
+}
+
+void GameScreenLevel1::UpdateText(float deltaTime,SDL_Event e)
+{
+	m_text->Update(deltaTime, e);
+	m_cointxt->Update(deltaTime, e);
+	m_gameOver_txt->Update(deltaTime, e);
+}
+
+void GameScreenLevel1::RenderText()
+{
+	if (m_render_gameOver_text)
+		m_gameOver_txt->Render(66, 108);
+
+	m_text->Render(70, 10);
+	m_cointxt->Render(300, 10);
 }
 
 void GameScreenLevel1::UpdatePOWBlock()
@@ -319,7 +342,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 						{
 							m_enemies[i]->SetAlive(false);
 							//Increase score
-							score += 50;
+							m_text->IncremrentScore(200);
 						}
 					}
 					else
@@ -327,11 +350,18 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 						if (mario->GetAlive() && !mario->GetKill())
 						{
 							//Kill mario
-							m_sound->Play(DEATH);
+							if (luigi->GetAlive())
+							{
+								m_sound->Play(DEATH);
+							}
+							else
+							{
+								m_sound->Play(GAMEOVER);
+							}
+
 							mario->CancelJump();
 							//Take away lives
 							mario->setKill(true);
-							
 						}
 					}
 				}
@@ -344,15 +374,23 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 						{
 							m_enemies[i]->SetAlive(false);
 							//Increase score
-							score += 50;
+							m_text->IncremrentScore(200);
 						}
 					}
 					else
 					{
 						if (luigi->GetAlive() && !luigi->GetKill())
 						{
-							//Kill mario
-							m_sound->Play(DEATH);
+							//Kill luigi
+							if (mario->GetAlive())
+							{
+								m_sound->Play(DEATH);
+							}
+							else
+							{
+								m_sound->Play(GAMEOVER);
+							}
+
 							luigi->CancelJump();
 							//Take away lives
 							luigi->setKill(true);
@@ -392,7 +430,8 @@ void GameScreenLevel1::UpdateCoins(float deltaTime, SDL_Event e)
 				{
 					m_sound->Play(COIN);
 					//Increase score
-					score += 10;
+					m_text->IncremrentScore(50);
+					m_cointxt->IncremrentScore(1);
 					m_coins[i]->SetAlive(false);
 				}
 			}
@@ -403,7 +442,8 @@ void GameScreenLevel1::UpdateCoins(float deltaTime, SDL_Event e)
 				{
 					m_sound->Play(COIN);
 					//Increase score
-					score += 10;
+					m_text->IncremrentScore(50);
+					m_cointxt->IncremrentScore(1);
 					m_coins[i]->SetAlive(false);
 				}
 			}
@@ -418,5 +458,22 @@ void GameScreenLevel1::UpdateCoins(float deltaTime, SDL_Event e)
 		{
 			m_coins.erase(m_coins.begin() + coinIndexToDelete);
 		}
+	}
+}
+
+void GameScreenLevel1::GameOver(float deltaTime, SDL_Event e)
+{
+	m_gameOver = true;
+
+	if (m_play_gameover_music)
+	{
+		m_sound->PlayMusic(STOP_MUSIC);
+		m_play_gameover_music = false;
+	}
+
+	m_gameover_text_timer -= deltaTime;
+	if (m_gameover_text_timer <= 0)
+	{
+		m_render_gameOver_text = true;
 	}
 }
