@@ -16,6 +16,8 @@ class CharacterKoopa;
 class PowBlock;
 class SoundEffect;
 
+class CharacterGoomba;
+
 class GameScreenLevel1 : GameScreen
 {
 public:
@@ -33,6 +35,7 @@ private:
 	LevelMap* m_level_map;
 	PowBlock* m_pow_block;
 	CoinCharacter* coin;
+	CharacterGoomba* m_goomba;
 
 	//Characters
 	Character* mario;

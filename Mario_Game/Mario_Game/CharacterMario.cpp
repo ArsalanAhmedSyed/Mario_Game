@@ -5,24 +5,24 @@ CharacterMario::CharacterMario(SDL_Renderer* renderer, string imagePath, Vector2
 {
 	m_facing_direction = FACING_RIGHT;
 
-	m_single_sprite_w = m_Texture->GetWidth() / frames;
-	m_single_sprite_h = m_Texture->GetHeight();
+	m_single_sprite_w = m_texture->GetWidth() / frames;
+	m_single_sprite_h = m_texture->GetHeight();
 }
 
 CharacterMario::~CharacterMario() {}
 
-void CharacterMario::Render()
+void CharacterMario::Render(SDL_Rect rect)
 {
 	SDL_Rect portion_of_sprite = { m_single_sprite_w * m_current_frame, 0, m_single_sprite_w, m_single_sprite_h };
-	SDL_Rect desRect = { (int)(m_Position.x), (int)(m_Position.y), m_single_sprite_w, m_single_sprite_h };
+	SDL_Rect desRect = { (int)(m_position.x - rect.x), (int)(m_position.y - rect.y), m_single_sprite_w, m_single_sprite_h };
 
 	if (m_facing_direction == FACING_RIGHT)
 	{
-		m_Texture->Render(portion_of_sprite, desRect, SDL_FLIP_HORIZONTAL);
+		m_texture->Render(portion_of_sprite, desRect, SDL_FLIP_HORIZONTAL);
 	}
 	else if (m_facing_direction == FACING_LEFT)
 	{
-		m_Texture->Render(portion_of_sprite, desRect, SDL_FLIP_NONE);
+		m_texture->Render(Vector2D(desRect.x,desRect.y), portion_of_sprite, SDL_FLIP_NONE);
 	}
 }
 
@@ -107,26 +107,26 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 
 void CharacterMario::MoveRight(float deltaTime)
 {
-	m_Position.x += deltaTime * MOVEMENT_SPEED;
+	m_position.x += deltaTime * MOVEMENT_SPEED;
 	m_facing_direction = FACING_RIGHT;
 }
 
 void CharacterMario::MoveLeft(float deltaTime)
 {
-	m_Position.x -= deltaTime * MOVEMENT_SPEED;
+	m_position.x -= deltaTime * MOVEMENT_SPEED;
 	m_facing_direction = FACING_LEFT;
 }
 
 void CharacterMario::KeepOnScreen(float deltaTime)
 {
-	if (m_Position.x + m_Texture->GetWidth() / m_animation_frames > SCREEN_WIDTH)
+	if (m_position.x + m_texture->GetWidth() / m_animation_frames > LEVEL_WIDTH)
 	{
 		m_facing_direction = FACING_RIGHT;
-		m_Position.x -= deltaTime * MOVEMENT_SPEED;
+		m_position.x -= deltaTime * MOVEMENT_SPEED;
 	}
-	else if (m_Position.x < 0)
+	else if (m_position.x < 0)
 	{
 		m_facing_direction = FACING_LEFT;
-		m_Position.x += deltaTime * MOVEMENT_SPEED;
+		m_position.x += deltaTime * MOVEMENT_SPEED;
 	}
 }

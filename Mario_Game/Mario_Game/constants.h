@@ -3,15 +3,19 @@
 #define SCREEN_WIDTH 512
 #define SCREEN_HEIGHT 416
 
+//Camera Dimensions
+#define LEVEL_WIDTH 1024
+#define LEVEL_HEIGHT 416
+
 //Player
-#define MOVEMENT_SPEED 60.0f
+#define MOVEMENT_SPEED 90.0f
 #define GRAVITY 260.0f
 #define JUMP_FORCE_DECREMENT 400.0f
 #define INITIAL_JUMP_FORCE 600.0f
 
 //Level Map
-#define MAP_WIDTH 16
-#define MAP_HEIGHT 13
+#define MAP_WIDTH 32
+#define MAP_HEIGHT 26
 #define TILE_WIDTH 35
 #define TILE_HEIGHT 32
 

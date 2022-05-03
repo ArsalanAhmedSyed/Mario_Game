@@ -17,7 +17,7 @@ public:
 
 protected:
 	void Update(float deltaTime, SDL_Event e) override;
-	void Render() override;
+	void Render(SDL_Rect rect) override;
 	void KeepOnScreen(float deltaTime) override;
 private:
 };

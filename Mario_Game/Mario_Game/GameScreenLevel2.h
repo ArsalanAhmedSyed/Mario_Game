@@ -2,6 +2,7 @@
 #define _GAMESCREENLEVEL2_H
 
 #include "GameScreen.h"
+#include "constants.h"
 
 class Texture2D;
 class LevelMap;
@@ -23,6 +24,10 @@ private:
 
 	void SetLevelMap();
 	bool SetUpLevel();
+
+	SDL_Rect m_camera{ 0,0,0,0 };
+
+	void UpdateCamera();
 
 };
 

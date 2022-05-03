@@ -1,48 +1,43 @@
 #include "CharacterKoopa.h"
 #include "constants.h"
-#include <iostream>
 
 CharacterKoopa::CharacterKoopa(SDL_Renderer* renderer, string imagePath, LevelMap* map, Vector2D start_position, FACING start_facing, float movement_speed, int frames) : Character(renderer, imagePath, start_position, map, frames)
 {
-	m_Texture = new Texture2D(m_Renderer);
-	if (!m_Texture->LoadFromFile(imagePath))
+	m_texture = new Texture2D(m_renderer);
+	if (!m_texture->LoadFromFile(imagePath))
 	{
 		cout << "Failed to load texture!" << endl;
 	}
 
 	m_facing_direction = start_facing;
 	m_movement_speed = movement_speed;
-	m_Position = start_position;
+	m_position = start_position;
 
 	m_injured = false;
 	m_turn_anim = false;
 	m_roll_anim = false;
 
 
-	m_single_sprite_w = m_Texture->GetWidth() / frames;
-	m_single_sprite_h = m_Texture->GetHeight();
+	m_single_sprite_w = m_texture->GetWidth() / frames;
+	m_single_sprite_h = m_texture->GetHeight();
 }
 
-CharacterKoopa::~CharacterKoopa()
-{
-	delete m_Texture;
-	m_Texture = nullptr;
-}
+CharacterKoopa::~CharacterKoopa() {}
 
-void CharacterKoopa::Render()
+void CharacterKoopa::Render(SDL_Rect rect)
 {
 	if (m_alive)
 	{
 		SDL_Rect portion_of_sprite = { m_single_sprite_w * m_current_frame,0,m_single_sprite_w,m_single_sprite_h };
-		SDL_Rect destRect = { (int)(m_Position.x), (int)(m_Position.y), m_single_sprite_w, m_single_sprite_h };
+		SDL_Rect destRect = { (int)(m_position.x), (int)(m_position.y), m_single_sprite_w, m_single_sprite_h };
 
 		if (m_facing_direction == FACING_RIGHT)
 		{
-			m_Texture->Render(portion_of_sprite, destRect, SDL_FLIP_NONE);
+			m_texture->Render(portion_of_sprite, destRect, SDL_FLIP_NONE);
 		}
 		else
 		{
-			m_Texture->Render(portion_of_sprite, destRect, SDL_FLIP_HORIZONTAL);
+			m_texture->Render(Vector2D(0,0), portion_of_sprite, SDL_FLIP_HORIZONTAL);
 		}
 	}
 }
@@ -104,17 +99,17 @@ void CharacterKoopa::TakeDamage()
 
 void CharacterKoopa::KeepOnScreen(float deltaTime)
 {
-	if (m_Position.x + m_Texture->GetWidth() / m_animation_frames > SCREEN_WIDTH)
+	if (m_position.x + m_texture->GetWidth() / m_animation_frames > SCREEN_WIDTH)
 	{
 		m_turn_anim = true;
 		m_current_frame = 6;
-		m_Position.x -= deltaTime * MOVEMENT_SPEED;
+		m_position.x -= deltaTime * MOVEMENT_SPEED;
 	}
-	else if (m_Position.x < 0)
+	else if (m_position.x < 0)
 	{
 		m_turn_anim = true;
 		m_current_frame = 6;
-		m_Position.x += deltaTime * MOVEMENT_SPEED;
+		m_position.x += deltaTime * MOVEMENT_SPEED;
 	}
 }
 
@@ -177,12 +172,12 @@ void CharacterKoopa::RollOverAnimation(float deltaTime)
 
 void CharacterKoopa::MoveRight(float deltaTime)
 {
-	m_Position.x += deltaTime * MOVEMENT_SPEED;
+	m_position.x += deltaTime * MOVEMENT_SPEED;
 	m_facing_direction = FACING_RIGHT;
 }
 
 void CharacterKoopa::MoveLeft(float deltaTime)
 {
-	m_Position.x -= deltaTime * MOVEMENT_SPEED;
+	m_position.x -= deltaTime * MOVEMENT_SPEED;
 	m_facing_direction = FACING_LEFT;
 }

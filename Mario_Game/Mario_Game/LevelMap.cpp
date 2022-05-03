@@ -38,7 +38,7 @@ LevelMap::~LevelMap()
 
 void LevelMap::DrawMap()
 {
-	SDL_Rect srcRect = { srcRect.x = 0, srcRect.y = 0, srcRect.w = 35, srcRect.h = 32 };
+	SDL_Rect srcRect = { srcRect.x = 0, srcRect.y = 0, srcRect.w = 20, srcRect.h = 20 };
 	SDL_Rect desRect = { desRect.x = 0, desRect.y = 0, desRect.w = 35, desRect.h = 32 };
 	
 	int type = 0;

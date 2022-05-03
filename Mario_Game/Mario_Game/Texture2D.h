@@ -18,6 +18,7 @@ public:
 	void Free();
 	void Render(Vector2D new_position, SDL_RendererFlip flip, double angle = 0.0);
 	void Render(SDL_Rect src_rect, SDL_Rect src_dest, SDL_RendererFlip flip, double angle = 0.0);
+	void Render(Vector2D new_position, SDL_Rect clip, SDL_RendererFlip flip, double angle = 0.0);
 
 	int GetWidth();
 	int GetHeight();
@@ -26,8 +27,10 @@ private:
 	SDL_Renderer* m_Renderer;
 	SDL_Texture* m_Texture;
 
-	int m_Width;
-	int m_Height;
+	int m_width;
+	int m_height;
+
+	
 };
 
 #endif // _TEXTURE2D_H

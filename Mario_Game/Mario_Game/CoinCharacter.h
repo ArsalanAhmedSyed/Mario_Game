@@ -9,7 +9,7 @@ public:
 	CoinCharacter(SDL_Renderer* renderer, string imagePath,Vector2D start_position, LevelMap* map, int frames);
 	~CoinCharacter();
 
-	void Render() override;
+	void Render(SDL_Rect rect) override;
 	void Update(float deltaTime, SDL_Event e) override;
 
 private:

@@ -4,8 +4,8 @@
 Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_position, LevelMap* map, int frames)
 {
 	//Parameter
-	m_Renderer = renderer;
-	m_Position = start_position;
+	m_renderer = renderer;
+	m_position = start_position;
 	m_current_level_map = map;
 	m_animation_frames = frames;
 
@@ -26,37 +26,43 @@ Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_po
 
 	m_collision_radius = 15.0f;
 
-	m_Texture = new Texture2D(m_Renderer);
-	if (!m_Texture->LoadFromFile(imagePath))
+	m_texture = new Texture2D(m_renderer);
+	if (!m_texture->LoadFromFile(imagePath))
 	{
 		cout << "Failed to load texture!" << endl;
 	}
 
 	m_sound = new SoundEffect();
 	m_play_jump_audio = false;
+
+	
 }
 
 Character::~Character()
 {
-	m_Renderer = nullptr;
+	m_renderer = nullptr;
 
-	delete m_Texture;
-	m_Texture = nullptr;
+	delete m_texture;
+	m_texture = nullptr;
 }
 
-void Character::SetPosition(Vector2D new_position) { m_Position = new_position; }
+void Character::SetPosition(Vector2D new_position) { m_position = new_position; }
 
-Vector2D Character::getPosition() { return m_Position; }
+Vector2D Character::getPosition() { return m_position; }
 
-void Character::Render() 
+void Character::Render(SDL_Rect rect) 
 {
+
+	m_source = { 0,0,m_texture->GetWidth(),m_texture->GetHeight() };
+	m_draw_rect = { (int)m_position.x - rect.x, (int)m_position.y - rect.y, m_texture->GetWidth(),m_texture->GetHeight() };
+
 	if (m_facing_direction == FACING_RIGHT)
 	{
-		m_Texture->Render(m_Position, SDL_FLIP_NONE);
+		m_texture->Render(Vector2D(m_draw_rect.x,m_draw_rect.y), m_source, SDL_FLIP_NONE);
 	}
 	else
 	{
-		m_Texture->Render(m_Position, SDL_FLIP_HORIZONTAL);
+		m_texture->Render(Vector2D(m_draw_rect.x, m_draw_rect.y), m_source, SDL_FLIP_HORIZONTAL);
 	}
 }
 
@@ -64,7 +70,7 @@ void Character::Update(float deltaTime, SDL_Event e)
 {
 	if (m_jumping)
 	{
-		m_Position.y -= m_jump_force * deltaTime;
+		m_position.y -= m_jump_force * deltaTime;
 		m_jump_force -= JUMP_FORCE_DECREMENT * deltaTime;
 
 		if (m_jump_force <= 0.0f)
@@ -74,8 +80,8 @@ void Character::Update(float deltaTime, SDL_Event e)
 	}
 
 	//collision position variables
-	int centralX_position = (int)(m_Position.x + (m_Texture->GetWidth() / m_animation_frames * 0.5)) / TILE_WIDTH;
-	int foot_position = (int)(m_Position.y + m_Texture->GetHeight()) / TILE_HEIGHT;
+	int centralX_position = (int)(m_position.x + (m_texture->GetWidth() / m_animation_frames * 0.5)) / TILE_WIDTH;
+	int foot_position = (int)(m_position.y + m_texture->GetHeight()) / TILE_HEIGHT;
 
 	if (m_current_level_map->GetTileAt(foot_position, centralX_position) == 0)
 	{
@@ -96,7 +102,7 @@ void Character::Update(float deltaTime, SDL_Event e)
 
 void Character::AddGravity(float deltaTime) 
 {
-	m_Position.y += GRAVITY * deltaTime;
+	m_position.y += GRAVITY * deltaTime;
 }
 
 void Character::Jump() 
@@ -112,15 +118,15 @@ void Character::Jump()
 
 void Character::KeepOnScreen(float deltaTime)
 {
-	if (m_Position.x + m_Texture->GetWidth() / m_animation_frames > SCREEN_WIDTH)
+	if (m_position.x + m_texture->GetWidth() / m_animation_frames > SCREEN_WIDTH)
 	{
 		m_facing_direction = FACING_LEFT;
-		m_Position.x -= deltaTime * MOVEMENT_SPEED;
+		m_position.x -= deltaTime * MOVEMENT_SPEED;
 	}
-	else if (m_Position.x < 0)
+	else if (m_position.x < 0)
 	{
 		m_facing_direction = FACING_RIGHT;
-		m_Position.x += deltaTime * MOVEMENT_SPEED;
+		m_position.x += deltaTime * MOVEMENT_SPEED;
 	}
 }
 

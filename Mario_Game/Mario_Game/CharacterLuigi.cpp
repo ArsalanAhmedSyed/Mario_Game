@@ -4,25 +4,25 @@ CharacterLuigi::CharacterLuigi(SDL_Renderer* renderer, string imagePath, Vector2
 {
 	m_facing_direction = FACING_RIGHT;
 
-	m_single_sprite_w = m_Texture->GetWidth() / 6;
-	m_single_sprite_h = m_Texture->GetHeight();
+	m_single_sprite_w = m_texture->GetWidth() / 6;
+	m_single_sprite_h = m_texture->GetHeight();
 }
 
 CharacterLuigi::~CharacterLuigi() {}
 
-void CharacterLuigi::Render()
+void CharacterLuigi::Render(SDL_Rect rect)
 {
 	
 	SDL_Rect portion_of_sprite = { m_single_sprite_w * m_current_frame, 0, m_single_sprite_w, m_single_sprite_h };
-	SDL_Rect desRect = { (int)(m_Position.x), (int)(m_Position.y), m_single_sprite_w, m_single_sprite_h };
+	SDL_Rect desRect = { (int)(m_position.x), (int)(m_position.y), m_single_sprite_w, m_single_sprite_h };
 
 	if (m_facing_direction == FACING_RIGHT)
 	{
-		m_Texture->Render(portion_of_sprite, desRect, SDL_FLIP_NONE);
+		m_texture->Render(portion_of_sprite, desRect, SDL_FLIP_NONE);
 	}
 	else if (m_facing_direction == FACING_LEFT)
 	{
-		m_Texture->Render(portion_of_sprite, desRect, SDL_FLIP_HORIZONTAL);
+		m_texture->Render(portion_of_sprite, desRect, SDL_FLIP_HORIZONTAL);
 	}
 }
 
@@ -105,12 +105,12 @@ void CharacterLuigi::Update(float deltaTime, SDL_Event e)
 
 void CharacterLuigi::MoveLeft(float deltaTime)
 {
-	m_Position.x -= deltaTime * MOVEMENT_SPEED;
+	m_position.x -= deltaTime * MOVEMENT_SPEED;
 	m_facing_direction = FACING_RIGHT;
 }
 
 void CharacterLuigi::MoveRight(float deltaTime)
 {
-	m_Position.x += deltaTime * MOVEMENT_SPEED;
+	m_position.x += deltaTime * MOVEMENT_SPEED;
 	m_facing_direction = FACING_LEFT;
 }

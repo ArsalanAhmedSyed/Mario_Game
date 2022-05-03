@@ -7,6 +7,7 @@
 #include "constants.h"
 #include "Texture2D.h"
 #include "SoundEffect.h"
+#include "LevelMap.h"
 
 using namespace std;
 
@@ -18,7 +19,7 @@ public:
 	Character(SDL_Renderer* renderer, string imagePath, Vector2D start_position, LevelMap* map, int frames);
 	~Character();
 
-	virtual void Render();
+	virtual void Render(SDL_Rect rect);
 	virtual void Update(float deltaTime, SDL_Event e);
 
 	void SetPosition(Vector2D new_position);
@@ -26,8 +27,8 @@ public:
 	void CancelJump() { m_jumping = false; }
 
 	Vector2D getPosition();
-	Circle2D GetCollisionCircle() { return Circle2D(m_Position.x, m_Position.y, m_collision_radius); }
-	Rect2D getCollisionBox() { return Rect2D(m_Position.x, m_Position.y, m_Texture->GetWidth()/ m_animation_frames, m_Texture->GetHeight()); }
+	Circle2D GetCollisionCircle() { return Circle2D(m_position.x, m_position.y, m_collision_radius); }
+	Rect2D getCollisionBox() { return Rect2D(m_position.x, m_position.y, m_texture->GetWidth()/ m_animation_frames, m_texture->GetHeight()); }
 
 	void SetAlive(bool isAlive) { m_alive = isAlive; }
 	bool GetAlive() { return m_alive; }
@@ -35,10 +36,12 @@ public:
 	void setKill(bool isKilled) { m_kill_player = isKilled; }
 	bool GetKill() { return m_kill_player; }
 
+	//bool GetcentralPos() { return (m_texture->GetWidth() /m_animation_frames * 0.5)}
+
 protected:
-	SDL_Renderer* m_Renderer;
-	Vector2D m_Position;
-	Texture2D* m_Texture;
+	SDL_Renderer* m_renderer;
+	Vector2D m_position;
+	Texture2D* m_texture;
 
 	//keep everything in screen
 	virtual void KeepOnScreen(float deltaTime);
@@ -81,9 +84,12 @@ protected:
 
 	SoundEffect* m_sound;
 	bool m_play_jump_audio;
+	LevelMap* m_current_level_map;
+
+	SDL_Rect m_source{ 0,0,0,0};
+	SDL_Rect m_draw_rect{ 0,0,0,0 };
 
 private:
-	LevelMap* m_current_level_map;
 };
 
 #endif // !_CHARACTER_H

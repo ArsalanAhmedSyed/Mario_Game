@@ -13,6 +13,8 @@
 #include "Cointxt.h"
 #include "GameOvertxt.h"
 
+#include "CharacterGoomba.h"
+
 using namespace std;
 
 GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer) : GameScreen(renderer)
@@ -72,22 +74,25 @@ void GameScreenLevel1::Render()
 	//Render The text
 	RenderText();
 
-	//Characters render
-	if(mario->GetAlive())
-		mario->Render();
+	////Characters render
+	//if(mario->GetAlive())
+	//	mario->Render();
 
-	if(luigi->GetAlive())
-		luigi->Render();
-	
-	for (int i = 0; i < m_coins.size(); i++)
-	{
-		m_coins[i]->Render();
-	}
+	//if(luigi->GetAlive())
+	//	luigi->Render();
 
-	for (int i = 0; i < m_enemies.size(); i++)
-	{
-		m_enemies[i]->Render();
-	}
+	//if (m_goomba->GetAlive())
+	//	m_goomba->Render();
+	//
+	//for (int i = 0; i < m_coins.size(); i++)
+	//{
+	//	m_coins[i]->Render();
+	//}
+
+	//for (int i = 0; i < m_enemies.size(); i++)
+	//{
+	//	m_enemies[i]->Render();
+	//}
 }
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
@@ -136,6 +141,8 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	//Update the text
 	UpdateText(deltaTime,e);
 
+	m_goomba->Update(deltaTime, e);
+
 	//Enemies
 	#pragma region KoopaUpdate
 
@@ -178,6 +185,8 @@ void GameScreenLevel1::SetUpLevel()
 	#pragma region Character Render
 	mario = new CharacterMario(m_renderer, "Images/MarioSprite.png", Vector2D(64, 330), m_level_map, 6);
 	luigi = new CharacterLuigi(m_renderer, "Images/LuigiSprite.png", Vector2D(100, 330), m_level_map, 6);
+
+	m_goomba = new CharacterGoomba(m_renderer, "Images/GoombaSprite.png", m_level_map, Vector2D(200, 30), FACING_RIGHT, KOOPA_SPEED, 11.5);
 
 	//objects
 	CreateCoins(Vector2D(150, 350));

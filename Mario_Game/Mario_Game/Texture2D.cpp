@@ -7,6 +7,7 @@ using namespace std;
 Texture2D::Texture2D(SDL_Renderer* renderer)
 {
 	m_Renderer = renderer;
+
 }
 
 Texture2D::~Texture2D()
@@ -25,8 +26,8 @@ void Texture2D::Free()
 		SDL_DestroyTexture(m_Texture);
 		m_Texture = nullptr;
 
-		m_Width = 0;
-		m_Height = 0;
+		m_width = 0;
+		m_height = 0;
 	}
 }
 
@@ -50,8 +51,8 @@ bool Texture2D::LoadFromFile(string path)
 		}
 		else
 		{
-			m_Width = p_Surface->w;
-			m_Height = p_Surface->h;
+			m_width = p_Surface->w;
+			m_height = p_Surface->h;
 		}
 
 		SDL_FreeSurface(p_Surface);
@@ -67,18 +68,35 @@ void Texture2D::Render(Vector2D new_position, SDL_RendererFlip flip, double angl
 	{
 		renderLocation.x = new_position.x,
 		renderLocation.y = new_position.y,
-		renderLocation.w = m_Width,
-		renderLocation.h = m_Height
+		renderLocation.w = m_width,
+		renderLocation.h = m_height
 	};
 
 	//Render to screen
 	SDL_RenderCopyEx(m_Renderer, m_Texture, nullptr, &renderLocation, angle, nullptr, flip);
 }
 
-int Texture2D::GetWidth() { return m_Width; }
-int Texture2D::GetHeight() { return m_Height; }
+int Texture2D::GetWidth() { return m_width; }
+int Texture2D::GetHeight() { return m_height; }
 
 void Texture2D::Render(SDL_Rect src_rect, SDL_Rect src_dest, SDL_RendererFlip flip, double angle)
 {
 	SDL_RenderCopyEx(m_Renderer, m_Texture, &src_rect, &src_dest, angle, nullptr, flip);
+}
+
+void Texture2D::Render(Vector2D new_position, SDL_Rect clip, SDL_RendererFlip flip, double angle)
+{
+	SDL_Rect m_render_location  { new_position.x, new_position.y, m_width, m_height };
+
+	if (clip.x != NULL)
+	{
+		m_render_location.w = clip.x;
+	}
+	
+	if (clip.y != NULL)
+	{
+		m_render_location.y = clip.y;
+	}
+
+	SDL_RenderCopyEx(m_Renderer, m_Texture, &clip, &m_render_location, angle, nullptr, flip);
 }

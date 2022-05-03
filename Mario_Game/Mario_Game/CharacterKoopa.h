@@ -2,7 +2,6 @@
 #define _CHARACTERKOOPA_H
 
 #include "Character.h"
-#include "LevelMap.h"
 
 class CharacterKoopa : public Character
 {
@@ -10,7 +9,7 @@ public:
 	CharacterKoopa(SDL_Renderer* renderer, string imagePath, LevelMap* map, Vector2D start_position, FACING start_facing, float movement_speed, int frames);
 	~CharacterKoopa();
 
-	void Render() override;
+	void Render(SDL_Rect rect) override;
 	void Update(float deltaTime, SDL_Event e) override;
 
 	void TakeDamage();
@@ -18,8 +17,6 @@ public:
 
 	void MoveRight(float deltaTime) override;
 	void MoveLeft(float deltaTime) override;
-
-
 
 private:
 	//void FlipRightwayUp(float deltaTime);
