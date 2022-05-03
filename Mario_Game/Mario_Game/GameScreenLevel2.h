@@ -7,6 +7,7 @@
 class Texture2D;
 class LevelMap;
 class Character;
+class CharacterKoopa;
 
 class GameScreenLevel2 : GameScreen
 {
@@ -18,6 +19,8 @@ public:
 	void Render();
 
 private:
+	CharacterKoopa* koopa;
+
 	Texture2D* m_background_Texture;
 	LevelMap* m_level_map;
 	Character* mario;

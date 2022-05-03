@@ -58,11 +58,11 @@ void Character::Render(SDL_Rect rect)
 
 	if (m_facing_direction == FACING_RIGHT)
 	{
-		m_texture->Render(Vector2D(m_draw_rect.x,m_draw_rect.y), m_source, SDL_FLIP_NONE);
+		m_texture->Render(m_source, m_draw_rect, SDL_FLIP_NONE);
 	}
 	else
 	{
-		m_texture->Render(Vector2D(m_draw_rect.x, m_draw_rect.y), m_source, SDL_FLIP_HORIZONTAL);
+		m_texture->Render(m_source, m_draw_rect, SDL_FLIP_HORIZONTAL);
 	}
 }
 

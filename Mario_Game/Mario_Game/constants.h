@@ -15,9 +15,11 @@
 
 //Level Map
 #define MAP_WIDTH 32
-#define MAP_HEIGHT 26
+#define MAP_HEIGHT 13
 #define TILE_WIDTH 35
 #define TILE_HEIGHT 32
+#define PLATFORM_WIDTH 20
+#define PLATFORM_HEIGHT 20
 
 //Shake screen
 #define SHAKE_DURATION 0.25f

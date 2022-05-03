@@ -29,8 +29,6 @@ private:
 
 	int m_width;
 	int m_height;
-
-	
 };
 
 #endif // _TEXTURE2D_H

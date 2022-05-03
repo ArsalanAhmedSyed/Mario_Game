@@ -4,6 +4,7 @@
 #include <iostream>
 #include "constants.h"
 #include "SDL.h"
+#include "Commons.h"
 
 using namespace std;
 
@@ -19,7 +20,7 @@ public:
 
 	void ChangeTileAt(unsigned int row, unsigned int column, unsigned int new_value);
 
-	void DrawMap();
+	void DrawMap(SDL_Rect camera_rect);
 
 private:
 	int** m_map;
@@ -27,6 +28,7 @@ private:
 	SDL_Rect srcRect, desRect;
 
 	Texture2D* m_platform;
+	Vector2D m_position;
 };
 
 #endif // !_LEVELMAP_H

@@ -25,6 +25,8 @@ LevelMap::LevelMap(int map[MAP_HEIGHT][MAP_WIDTH], SDL_Renderer* renderer)
 	{
 		cout << "platform texture could not be loaded!" << endl;
 	}	
+
+	m_position = Vector2D(0, 0);
 }
 
 LevelMap::~LevelMap()
@@ -36,11 +38,11 @@ LevelMap::~LevelMap()
 	delete[] m_map;
 }
 
-void LevelMap::DrawMap()
+void LevelMap::DrawMap(SDL_Rect rect)
 {
-	SDL_Rect srcRect = { srcRect.x = 0, srcRect.y = 0, srcRect.w = 20, srcRect.h = 20 };
-	SDL_Rect desRect = { desRect.x = 0, desRect.y = 0, desRect.w = 35, desRect.h = 32 };
-	
+	SDL_Rect srcRect = { srcRect.x = 0, srcRect.y = 0, srcRect.w = PLATFORM_WIDTH, srcRect.h = PLATFORM_HEIGHT };
+	SDL_Rect desRect = { 0, 0, desRect.w = TILE_WIDTH, desRect.h = TILE_HEIGHT };
+
 	int type = 0;
 
 	//Populate the array
@@ -50,8 +52,8 @@ void LevelMap::DrawMap()
 		{
 			type = m_map[i][j];
 
-			desRect.x = j * 35;
-			desRect.y = i * 32;
+			desRect.x = j * 35 - rect.x;
+			desRect.y = i * 32 - rect.y;
 
 			if (type == 1)
 			{

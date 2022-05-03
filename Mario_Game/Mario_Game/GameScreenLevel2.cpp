@@ -3,6 +3,7 @@
 #include "LevelMap.h"
 #include "Character.h"
 #include "CharacterMario.h"
+#include "CharacterKoopa.h"
 
 GameScreenLevel2::GameScreenLevel2(SDL_Renderer* renderer) : GameScreen(renderer)
 {
@@ -24,12 +25,14 @@ GameScreenLevel2::~GameScreenLevel2()
 
 void GameScreenLevel2::Render()
 {
-	m_background_Texture->Render(Vector2D(0, 0), SDL_FLIP_NONE);
+	m_background_Texture->Render(Vector2D(0,0), m_camera, SDL_FLIP_NONE);
 
-	m_level_map->DrawMap();
+	m_level_map->DrawMap(m_camera);
 
 	if (mario->GetAlive())
 		mario->Render(m_camera);
+
+	koopa->Render(m_camera);
 }
 
 void GameScreenLevel2::Update(float deltaTime, SDL_Event e)
@@ -44,7 +47,7 @@ bool GameScreenLevel2::SetUpLevel()
 	bool success = true;
 	
 	m_background_Texture = new Texture2D(m_renderer);
-	if (!m_background_Texture->LoadFromFile("Images/test.bmp"))
+	if (!m_background_Texture->LoadFromFile("Images/test.png"))
 	{
 		cout << "Failed to load background texture" << endl;
 		success = false;
@@ -53,7 +56,7 @@ bool GameScreenLevel2::SetUpLevel()
 	SetLevelMap();
 
 	mario = new CharacterMario(m_renderer, "Images/MarioSprite.png", Vector2D(64, 330), m_level_map, 6);
-
+	koopa = new CharacterKoopa(m_renderer, "Images/KoopaSprite.png", m_level_map, Vector2D(500, 32), FACING_RIGHT, KOOPA_SPEED, 15);
 	return success;
 }
 
@@ -65,7 +68,7 @@ void GameScreenLevel2::SetLevelMap()
 										{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 										{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 										{ 0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0},
-										{ 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
+										{ 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 										{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 										{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 										{ 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1},
@@ -87,7 +90,7 @@ void GameScreenLevel2::SetLevelMap()
 void GameScreenLevel2::UpdateCamera()
 {
 	m_camera = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
-	m_camera.x = mario->getPosition().x - SCREEN_WIDTH;
+	m_camera.x = mario->getPosition().x - SCREEN_WIDTH/2;
 	if (m_camera.x <= 0)
 	{
 		m_camera.x = 0;

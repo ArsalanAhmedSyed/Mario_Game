@@ -22,7 +22,7 @@ void CharacterMario::Render(SDL_Rect rect)
 	}
 	else if (m_facing_direction == FACING_LEFT)
 	{
-		m_texture->Render(Vector2D(desRect.x,desRect.y), portion_of_sprite, SDL_FLIP_NONE);
+		m_texture->Render(portion_of_sprite, desRect, SDL_FLIP_NONE);
 	}
 }
 

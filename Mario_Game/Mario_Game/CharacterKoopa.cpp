@@ -29,7 +29,7 @@ void CharacterKoopa::Render(SDL_Rect rect)
 	if (m_alive)
 	{
 		SDL_Rect portion_of_sprite = { m_single_sprite_w * m_current_frame,0,m_single_sprite_w,m_single_sprite_h };
-		SDL_Rect destRect = { (int)(m_position.x), (int)(m_position.y), m_single_sprite_w, m_single_sprite_h };
+		SDL_Rect destRect = { (int)(m_position.x - rect.x), (int)(m_position.y - rect.y), m_single_sprite_w, m_single_sprite_h };
 
 		if (m_facing_direction == FACING_RIGHT)
 		{
@@ -37,7 +37,7 @@ void CharacterKoopa::Render(SDL_Rect rect)
 		}
 		else
 		{
-			m_texture->Render(Vector2D(0,0), portion_of_sprite, SDL_FLIP_HORIZONTAL);
+			m_texture->Render(portion_of_sprite, destRect, SDL_FLIP_HORIZONTAL);
 		}
 	}
 }
