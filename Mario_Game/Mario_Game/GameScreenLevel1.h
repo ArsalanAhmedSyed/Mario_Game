@@ -83,7 +83,10 @@ private:
 	void GameOver(float deltaTime, SDL_Event e);
 	bool m_play_gameover_music;
 	bool m_gameOver;
+
+	void UpdateCamera();
+
+	SDL_Rect m_camera{ 0,0,0,0 };
 };
 
 #endif // !_GAMESCREENLEVEL1_
-

@@ -95,6 +95,7 @@ void Character::Update(float deltaTime, SDL_Event e)
 		//collided with ground so can jump again
 		m_can_jump = true;
 		m_jump_Anim = false;
+		
 	}
 
 	KeepOnScreen(deltaTime);

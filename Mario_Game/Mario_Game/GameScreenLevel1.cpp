@@ -68,35 +68,39 @@ GameScreenLevel1::~GameScreenLevel1()
 
 void GameScreenLevel1::Render()
 {
-	m_background_Texture->Render(Vector2D(0,m_background_yPos), SDL_FLIP_NONE);
-	m_pow_block->Render();
+	m_background_Texture->Render(Vector2D(0,m_background_yPos),m_camera, SDL_FLIP_NONE);
+	m_pow_block->Render(m_camera);
+
+	m_level_map->DrawMap(m_camera);
 
 	//Render The text
 	RenderText();
 
-	////Characters render
-	//if(mario->GetAlive())
-	//	mario->Render();
+	//Characters render
+	if(mario->GetAlive())
+		mario->Render(m_camera);
 
-	//if(luigi->GetAlive())
-	//	luigi->Render();
+	if(luigi->GetAlive())
+		luigi->Render(m_camera);
 
-	//if (m_goomba->GetAlive())
-	//	m_goomba->Render();
-	//
-	//for (int i = 0; i < m_coins.size(); i++)
-	//{
-	//	m_coins[i]->Render();
-	//}
+	if (m_goomba->GetAlive())
+		m_goomba->Render(m_camera);
+	
+	for (int i = 0; i < m_coins.size(); i++)
+	{
+		m_coins[i]->Render(m_camera);
+	}
 
-	//for (int i = 0; i < m_enemies.size(); i++)
-	//{
-	//	m_enemies[i]->Render();
-	//}
+	for (int i = 0; i < m_enemies.size(); i++)
+	{
+		m_enemies[i]->Render(m_camera);
+	}
 }
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 {
+	UpdateCamera();
+
 	#pragma region ScreenShake
 	if (m_screenShake)
 	{
@@ -164,7 +168,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 void GameScreenLevel1::SetUpLevel()
 {
 	m_background_Texture = new Texture2D(m_renderer);
-	if (!m_background_Texture->LoadFromFile("Images/Background.png"))
+	if (!m_background_Texture->LoadFromFile("Images/test.png"))
 	{
 		cout << "Failed to load background texture!" << endl;
 	}
@@ -203,19 +207,19 @@ void GameScreenLevel1::SetUpLevel()
 
 void GameScreenLevel1::SetLevelMap()
 {
-	int map[MAP_HEIGHT][MAP_WIDTH] = { { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-					  { 1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1 },
-					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-					  { 0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0 },
-					  { 1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,0 },
-					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-					  { 0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0 },
-					  { 1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1 },
-					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-					  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-					  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 } };
+	int map[MAP_HEIGHT][MAP_WIDTH] = { { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+											{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+											{ 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1},
+											{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+											{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+											{ 0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0},
+											{ 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+											{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+											{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+											{ 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1},
+											{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+											{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+											{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1} };
 
 	//clear any old maps
 	if (m_level_map != nullptr)
@@ -484,5 +488,19 @@ void GameScreenLevel1::GameOver(float deltaTime, SDL_Event e)
 	if (m_gameover_text_timer <= 0)
 	{
 		m_render_gameOver_text = true;
+	}
+}
+
+void GameScreenLevel1::UpdateCamera()
+{
+	m_camera = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
+	m_camera.x = mario->getPosition().x - SCREEN_WIDTH / 2;
+	if (m_camera.x <= 0)
+	{
+		m_camera.x = 0;
+	}
+	else if (m_camera.x >= LEVEL_WIDTH - m_camera.w)
+	{
+		m_camera.x = LEVEL_WIDTH - m_camera.w;
 	}
 }

@@ -15,7 +15,7 @@ public:
 
 protected:
 	void Update(float deltaTime, SDL_Event e) override;
-	void Render(SDL_Rect rect) override;
+	void Render(SDL_Rect camera_rect) override;
 
 private:
 

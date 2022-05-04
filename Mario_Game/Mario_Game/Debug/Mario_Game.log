@@ -1,5 +1,4 @@
-﻿  GameScreenLevel2.cpp
-C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(31,134): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\Character.h(31,92): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel2.cpp(93,38): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  Mario_Game.vcxproj -> C:\Users\s017136l\Documents\GitHub\Mario_Game\Mario_Game\Debug\Mario_Game.exe
+﻿  Character.cpp
+C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\Character.h(31,134): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\Character.h(31,92): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Mario_Game.vcxproj -> C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Debug\Mario_Game.exe

@@ -32,5 +32,5 @@ void TextBase::Update(float deltaTime, SDL_Event e)
 
 void TextBase::Loadtxt() 
 {
-	m_text_render->LoadFont("Fonts/MarioFont.ttf",20, text + to_string(score), { 0,0,0 });
+	m_text_render->LoadFont("Fonts/MarioFont.ttf",20, text + to_string(score), { 255,255,255 });
 }

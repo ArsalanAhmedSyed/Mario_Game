@@ -13,7 +13,7 @@ public:
 	PowBlock(SDL_Renderer* renderer, LevelMap* map);
 	~PowBlock();
 
-	void Render();
+	void Render(SDL_Rect camera_rect);
 	void TakeHit();
 	bool IsAvailable() { return m_num_hits_left > 0; }
 

@@ -90,6 +90,7 @@ void GameScreenLevel2::SetLevelMap()
 void GameScreenLevel2::UpdateCamera()
 {
 	m_camera = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
+
 	m_camera.x = mario->getPosition().x - SCREEN_WIDTH/2;
 	if (m_camera.x <= 0)
 	{

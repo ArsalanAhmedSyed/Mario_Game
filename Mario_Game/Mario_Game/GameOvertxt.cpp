@@ -10,5 +10,5 @@ GameOvertxt::~GameOvertxt() {}
 
 void GameOvertxt::Loadtxt()
 {
-	m_text_render->LoadFont("Fonts/MarioFont.ttf", 50, text, { 0,0,0 });
+	m_text_render->LoadFont("Fonts/MarioFont.ttf", 50, text, { 255,255,255 });
 }

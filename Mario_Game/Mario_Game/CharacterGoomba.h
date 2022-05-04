@@ -10,7 +10,7 @@ public:
 	CharacterGoomba(SDL_Renderer* renderer, string imagePath, LevelMap* map, Vector2D start_position, FACING start_facing, float movement_speed, int frames);
 	~CharacterGoomba();
 
-	void Render();
+	void Render(SDL_Rect camera_rect);
 	void Update(float deltaTime, SDL_Event e);
 
 private:

@@ -19,12 +19,12 @@ CharacterGoomba::CharacterGoomba(SDL_Renderer* renderer, string imagePath, Level
 
 CharacterGoomba::~CharacterGoomba() {}
 
-void CharacterGoomba::Render()
+void CharacterGoomba::Render(SDL_Rect camera_rect)
 {
 	if (m_alive)
 	{
 		SDL_Rect portion_of_sprite = { m_single_sprite_w * m_current_frame,0,m_single_sprite_w,m_single_sprite_h };
-		SDL_Rect destRect = { (int)(m_position.x), (int)(m_position.y), m_single_sprite_w, m_single_sprite_h };
+		SDL_Rect destRect = { (int)(m_position.x - camera_rect.x), (int)(m_position.y - camera_rect.y), m_single_sprite_w, m_single_sprite_h };
 
 		if (m_facing_direction == FACING_RIGHT)
 		{

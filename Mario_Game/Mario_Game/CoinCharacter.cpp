@@ -12,10 +12,10 @@ CoinCharacter::CoinCharacter(SDL_Renderer* renderer, string imagePath, Vector2D 
 
 CoinCharacter::~CoinCharacter() {}
 
-void CoinCharacter::Render(SDL_Rect rect)
+void CoinCharacter::Render(SDL_Rect camera_rect)
 {
 	SDL_Rect portion_of_sprite = { m_single_sprite_w * m_current_frame, 0, m_single_sprite_w,m_single_sprite_h };
-	SDL_Rect destRect = { (int)(m_position.x), (int)(m_position.y), m_single_sprite_w, m_single_sprite_h };
+	SDL_Rect destRect = { (int)(m_position.x - camera_rect.x), (int)(m_position.y - camera_rect.y), m_single_sprite_w, m_single_sprite_h };
 
 	m_texture->Render(portion_of_sprite, destRect, SDL_FLIP_NONE);
 
