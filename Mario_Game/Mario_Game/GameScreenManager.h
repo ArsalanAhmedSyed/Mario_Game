@@ -25,6 +25,8 @@ private:
 
 	bool m_gameplay;
 	bool m_canChange;
+
+	CHARACTER selectedCharacter;
 };
 
 #endif // !_GAMESCREENMANAGER_H

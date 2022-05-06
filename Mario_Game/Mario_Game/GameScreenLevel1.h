@@ -22,7 +22,7 @@ class CharacterGoomba;
 class GameScreenLevel1 : GameScreen
 {
 public:
-	GameScreenLevel1(SDL_Renderer* renderer);
+	GameScreenLevel1(SDL_Renderer* renderer, CHARACTER character_select);
 	~GameScreenLevel1();
 
 	void Render() override;
@@ -91,7 +91,7 @@ private:
 
 	void RenderCharacter();
 
-	SelectionScreen* select;
+	CHARACTER m_character_selected;
 };
 
 #endif // !_GAMESCREENLEVEL1_

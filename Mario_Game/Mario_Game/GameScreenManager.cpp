@@ -42,6 +42,7 @@ void GameScreenManager::Update(float deltatime, SDL_Event e)
 
 	if (m_current_screen->GetSelection() == true)
 	{
+		selectedCharacter = m_current_screen->SelectedCharacter();
 		ChangeScreen(SCREEN_MENU);
 		m_current_screen->SetSelection(false);
 		m_gameplay = true;
@@ -117,7 +118,7 @@ void GameScreenManager::ChangeScreen(SCREENS new_screen)
 		tempControlScreen = nullptr;
 		break;
 	case SCREEN_LEVEL1:
-		tempScreen = new GameScreenLevel1(m_renderer);
+		tempScreen = new GameScreenLevel1(m_renderer, selectedCharacter);
 		m_current_screen = (GameScreen*)tempScreen;
 		tempScreen = nullptr;
 		m_play_music->PlayMusic(GAMEPLAY_MUSIC);

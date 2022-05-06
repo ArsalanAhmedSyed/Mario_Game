@@ -16,13 +16,16 @@ public:
 	virtual void Render();
 	virtual void Update(float deltaTime, SDL_Event e);
 	bool GetSelection() { return m_selected; }
+	CHARACTER SelectedCharacter() { return m_character_select; }
 	void SetSelection(bool change) { m_selected = change; }
 
 protected:
 	SDL_Renderer* m_renderer;
-	CHARACTER m_character_select;
+
 	bool m_selected;
-	bool character_select;
+
+	CHARACTER m_character_select;
+	
 };
 
 #endif // !_GAMESCREEN_H

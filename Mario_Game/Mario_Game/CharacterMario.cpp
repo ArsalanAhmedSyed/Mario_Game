@@ -28,87 +28,80 @@ void CharacterMario::Render(SDL_Rect camera_rect)
 
 void CharacterMario::Update(float deltaTime, SDL_Event e)
 {
-	if (m_alive)
+	if (m_moving_left && !m_kill_player)
 	{
-		if (m_moving_left && !m_kill_player)
-		{
-			MoveLeft(deltaTime);
+		MoveLeft(deltaTime);
 
-			if (!m_jump_Anim)
-				RunAnimation(deltaTime);
-		}
-		else if (m_moving_right && !m_kill_player)
-		{
-			MoveRight(deltaTime);
+		if (!m_jump_Anim)
+			RunAnimation(deltaTime);
+	}
+	else if (m_moving_right && !m_kill_player)
+	{
+		MoveRight(deltaTime);
 
-			if (!m_jump_Anim)
-				RunAnimation(deltaTime);
-		}
-		else
-		{
-			m_current_frame = 0;
-		}
-
-
-
-		if (m_jump_Anim && !m_kill_player)
-		{
-			m_current_frame = 4;
-		}
-
-		if (m_kill_player)
-		{
-			m_current_frame = 5;
-			Jump();
-			m_kill_timer -= deltaTime;
-			if (m_kill_timer <= 0)
-			{
-				m_alive = false;
-			}
-		}
-
-		switch (e.type)
-		{
-		case SDL_KEYDOWN:
-			switch (e.key.keysym.sym)
-			{
-			case SDLK_LEFT:
-				m_moving_left = true;
-				break;
-			case SDLK_RIGHT:
-				m_moving_right = true;
-				break;
-			case SDLK_UP:
-				if (!m_kill_player)
-				{
-					Jump();
-					if (m_play_jump_audio)
-					{
-						m_sound->Play(JUMP);
-					}
-				}
-				break;
-			}
-			break;
-
-		case SDL_KEYUP:
-			switch (e.key.keysym.sym)
-			{
-			case SDLK_LEFT:
-				m_moving_left = false;
-				break;
-			case SDLK_RIGHT:
-				m_moving_right = false;
-			}
-			break;
-		}
-
-		PlatformHit(deltaTime, centralX_position, centralY_position);
-
-		Character::Update(deltaTime, e);
+		if (!m_jump_Anim)
+			RunAnimation(deltaTime);
+	}
+	else
+	{
+		m_current_frame = 0;
 	}
 
-	
+	if (m_jump_Anim && !m_kill_player)
+	{
+		m_current_frame = 4;
+	}
+
+	if (m_kill_player)
+	{
+		m_current_frame = 5;
+		Jump();
+		m_kill_timer -= deltaTime;
+		if (m_kill_timer <= 0)
+		{
+			m_alive = false;
+		}
+	}
+
+	switch (e.type)
+	{
+	case SDL_KEYDOWN:
+		switch (e.key.keysym.sym)
+		{
+		case SDLK_LEFT:
+			m_moving_left = true;
+			break;
+		case SDLK_RIGHT:
+			m_moving_right = true;
+			break;
+		case SDLK_UP:
+			if (!m_kill_player)
+			{
+				Jump();
+				if (m_play_jump_audio)
+				{
+					m_sound->Play(JUMP);
+				}
+			}
+			break;
+		}
+		break;
+
+	case SDL_KEYUP:
+		switch (e.key.keysym.sym)
+		{
+		case SDLK_LEFT:
+			m_moving_left = false;
+			break;
+		case SDLK_RIGHT:
+			m_moving_right = false;
+		}
+		break;
+	}
+
+	PlatformHit(deltaTime, centralX_position, centralY_position);
+
+	Character::Update(deltaTime, e);
 }
 
 void CharacterMario::MoveRight(float deltaTime)
