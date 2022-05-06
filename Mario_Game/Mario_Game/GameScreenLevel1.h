@@ -16,6 +16,7 @@ class CharacterKoopa;
 class PowBlock;
 class SoundEffect;
 
+class SelectionScreen;
 class CharacterGoomba;
 
 class GameScreenLevel1 : GameScreen
@@ -80,13 +81,17 @@ private:
 	void UpdateCoins(float deltaTime, SDL_Event e);
 	void CreateCoins(Vector2D postiion);
 
-	void GameOver(float deltaTime, SDL_Event e);
+	void GameOver(float deltaTime);
 	bool m_play_gameover_music;
 	bool m_gameOver;
 
 	void UpdateCamera();
 
 	SDL_Rect m_camera{ 0,0,0,0 };
+
+	void RenderCharacter();
+
+	SelectionScreen* select;
 };
 
 #endif // !_GAMESCREENLEVEL1_

@@ -28,81 +28,87 @@ void CharacterMario::Render(SDL_Rect camera_rect)
 
 void CharacterMario::Update(float deltaTime, SDL_Event e)
 {
-	if (m_moving_left && !m_kill_player)
+	if (m_alive)
 	{
-		MoveLeft(deltaTime);
-
-		if(!m_jump_Anim)
-			RunAnimation(deltaTime);
-	}
-	else if (m_moving_right && !m_kill_player)
-	{
-		MoveRight(deltaTime);
-
-		if(!m_jump_Anim)
-			RunAnimation(deltaTime);
-	}
-	else
-	{
-		m_current_frame = 0;
-	}
-
-
-
-	if (m_jump_Anim && !m_kill_player)
-	{
-		m_current_frame = 4;
-	}
-
-	if (m_kill_player)
-	{
-		m_current_frame = 5;
-		Jump();
-		m_kill_timer -= deltaTime;
-		if (m_kill_timer <= 0)
+		if (m_moving_left && !m_kill_player)
 		{
-			m_alive = false;
+			MoveLeft(deltaTime);
+
+			if (!m_jump_Anim)
+				RunAnimation(deltaTime);
 		}
-	}
-
-	switch (e.type)
-	{
-	case SDL_KEYDOWN:
-		switch (e.key.keysym.sym)
+		else if (m_moving_right && !m_kill_player)
 		{
-		case SDLK_LEFT:
-			m_moving_left = true;
-			break;
-		case SDLK_RIGHT:
-			m_moving_right = true;
-			break;
-		case SDLK_UP:
-			if (!m_kill_player)
+			MoveRight(deltaTime);
+
+			if (!m_jump_Anim)
+				RunAnimation(deltaTime);
+		}
+		else
+		{
+			m_current_frame = 0;
+		}
+
+
+
+		if (m_jump_Anim && !m_kill_player)
+		{
+			m_current_frame = 4;
+		}
+
+		if (m_kill_player)
+		{
+			m_current_frame = 5;
+			Jump();
+			m_kill_timer -= deltaTime;
+			if (m_kill_timer <= 0)
 			{
-				Jump();
-				if (m_play_jump_audio)
+				m_alive = false;
+			}
+		}
+
+		switch (e.type)
+		{
+		case SDL_KEYDOWN:
+			switch (e.key.keysym.sym)
+			{
+			case SDLK_LEFT:
+				m_moving_left = true;
+				break;
+			case SDLK_RIGHT:
+				m_moving_right = true;
+				break;
+			case SDLK_UP:
+				if (!m_kill_player)
 				{
-					m_sound->Play(JUMP);
+					Jump();
+					if (m_play_jump_audio)
+					{
+						m_sound->Play(JUMP);
+					}
 				}
+				break;
+			}
+			break;
+
+		case SDL_KEYUP:
+			switch (e.key.keysym.sym)
+			{
+			case SDLK_LEFT:
+				m_moving_left = false;
+				break;
+			case SDLK_RIGHT:
+				m_moving_right = false;
 			}
 			break;
 		}
-		break;
 
-	case SDL_KEYUP:
-		switch (e.key.keysym.sym)
-		{
-		case SDLK_LEFT:
-			m_moving_left = false;
-			break;
-		case SDLK_RIGHT:
-			m_moving_right = false;
-		}
-		break;
+		PlatformHit(deltaTime, centralX_position, centralY_position);
+
+		Character::Update(deltaTime, e);
 	}
 
-	//KeepOnScreen(deltaTime);
-	Character::Update(deltaTime, e);
+	
 }
 
 void CharacterMario::MoveRight(float deltaTime)
@@ -115,6 +121,23 @@ void CharacterMario::MoveLeft(float deltaTime)
 {
 	m_position.x -= deltaTime * MOVEMENT_SPEED;
 	m_facing_direction = FACING_LEFT;
+}
+
+void CharacterMario::PlatformHit(float deltaTime, int central_X, int central_Y)
+{
+	if (m_current_level_map->GetTileAt(central_Y, central_X) == 1)
+	{
+		if (m_facing_direction = FACING_RIGHT)
+		{
+			m_facing_direction = FACING_LEFT;
+			m_position.x += deltaTime * MOVEMENT_SPEED;
+		}
+		else if (m_facing_direction = FACING_LEFT)
+		{
+			m_facing_direction = FACING_RIGHT;
+			m_position.x -= deltaTime * MOVEMENT_SPEED;
+		}
+	}
 }
 
 void CharacterMario::KeepOnScreen(float deltaTime)

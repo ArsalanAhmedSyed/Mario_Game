@@ -36,8 +36,6 @@ public:
 	void setKill(bool isKilled) { m_kill_player = isKilled; }
 	bool GetKill() { return m_kill_player; }
 
-	//bool GetcentralPos() { return (m_texture->GetWidth() /m_animation_frames * 0.5)}
-
 protected:
 	SDL_Renderer* m_renderer;
 	Vector2D m_position;
@@ -45,6 +43,11 @@ protected:
 
 	//keep everything in screen
 	virtual void KeepOnScreen(float deltaTime);
+	virtual void PlatformHit(float deltaTime, int central_X, int central_Y);
+
+	int centralX_position;
+	int centralY_position;
+	int foot_position;
 
 	//Movement
 	float m_movement_speed;

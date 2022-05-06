@@ -158,6 +158,7 @@
     <ClCompile Include="LevelMap.cpp" />
     <ClCompile Include="MainMenuScreen.cpp" />
     <ClCompile Include="PowBlock.cpp" />
+    <ClCompile Include="SelectionScreen.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="TextBase.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="LevelMap.h" />
     <ClInclude Include="MainMenuScreen.h" />
     <ClInclude Include="PowBlock.h" />
+    <ClInclude Include="SelectionScreen.h" />
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="TextBase.h" />
     <ClInclude Include="TextRenderer.h" />

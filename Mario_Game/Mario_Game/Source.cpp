@@ -27,9 +27,6 @@ SDL_Renderer* g_Renderer = nullptr;
 GameScreenManager* game_screen_manager = nullptr;
 Uint32 g_old_time;
 
-//veraible
-bool GamePlay = true;
-
 //Initialise SDL
 bool InitSDL()
 {
@@ -111,39 +108,6 @@ bool Update()
 	case SDL_QUIT:
 		return true;
 		break;
-	case SDL_KEYDOWN:
-		switch (e.key.keysym.sym)
-		{
-			case SDLK_ESCAPE:
-				if (!GamePlay)
-				{
-					game_screen_manager->ChangeScreen(SCREEN_MENU);
-					GamePlay = true;
-				}
-				break;
-			case SDLK_0:
-				if (GamePlay)
-				{
-					game_screen_manager->ChangeScreen(SCREEN_CONTROLS);
-					GamePlay = false;
-				}
-				break;
-			case SDLK_1:
-				if (GamePlay)
-				{
-					game_screen_manager->ChangeScreen(SCREEN_LEVEL1);
-					GamePlay = false;
-					break;
-				}
-			case SDLK_2:
-				if (GamePlay)
-				{
-					game_screen_manager->ChangeScreen(SCREEN_LEVEL2);
-					GamePlay = false;
-				}
-				break;
-		}
-		break;
 	}
 
 	game_screen_manager->Update((float)(new_time - g_old_time) / 1000.0f, e);
@@ -179,7 +143,7 @@ int main(int argc, char* args[])
 {
 	if (InitSDL())
 	{
-		game_screen_manager = new GameScreenManager(g_Renderer, SCREEN_MENU);
+		game_screen_manager = new GameScreenManager(g_Renderer, SCREEN_SELECTION);
 
 		g_old_time = SDL_GetTicks();
 

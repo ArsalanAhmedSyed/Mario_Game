@@ -20,8 +20,11 @@ public:
 
 private:
 	SDL_Renderer* m_renderer;
-	GameScreen* m_Current_Screen;
+	GameScreen* m_current_screen;
 	SoundEffect* m_play_music;
+
+	bool m_gameplay;
+	bool m_canChange;
 };
 
 #endif // !_GAMESCREENMANAGER_H

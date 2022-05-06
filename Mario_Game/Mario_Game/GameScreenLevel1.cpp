@@ -12,7 +12,6 @@
 #include "SoundEffect.h"
 #include "Cointxt.h"
 #include "GameOvertxt.h"
-
 #include "CharacterGoomba.h"
 
 using namespace std;
@@ -76,12 +75,7 @@ void GameScreenLevel1::Render()
 	//Render The text
 	RenderText();
 
-	//Characters render
-	if(mario->GetAlive())
-		mario->Render(m_camera);
-
-	if(luigi->GetAlive())
-		luigi->Render(m_camera);
+	RenderCharacter();
 
 	if (m_goomba->GetAlive())
 		m_goomba->Render(m_camera);
@@ -136,7 +130,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 
 	//GameOver Check
 	if (!mario->GetAlive() && !luigi->GetAlive())
-		GameOver(deltaTime, e);
+		GameOver(deltaTime);
 
 	//Objects
 	UpdateCoins(deltaTime,e);
@@ -157,12 +151,13 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 		if (create_koopa_timer <= 0)
 		{
 			cout << "koopa created!" << endl;
-			CreateKoopa(Vector2D(150, 32), FACING_RIGHT, KOOPA_SPEED);
-			CreateKoopa(Vector2D(325, 32), FACING_LEFT, KOOPA_SPEED);
+			CreateKoopa(Vector2D(800, 330), FACING_RIGHT, KOOPA_SPEED);
+			CreateKoopa(Vector2D(700, 330), FACING_LEFT, KOOPA_SPEED);
 			create_koopa_timer = 10.0f;
 		}
 	}
 	#pragma endregion
+	GameScreen::Update(deltaTime,e);
 }
 
 void GameScreenLevel1::SetUpLevel()
@@ -193,15 +188,15 @@ void GameScreenLevel1::SetUpLevel()
 	m_goomba = new CharacterGoomba(m_renderer, "Images/GoombaSprite.png", m_level_map, Vector2D(200, 30), FACING_RIGHT, KOOPA_SPEED, 11.5);
 
 	//objects
-	CreateCoins(Vector2D(150, 350));
-	CreateCoins(Vector2D(100, 250));
-	CreateCoins(Vector2D(400, 250));
-	CreateCoins(Vector2D(170, 40));
-	CreateCoins(Vector2D(400, 40));
+	CreateCoins(Vector2D(150, 340));
+	CreateCoins(Vector2D(100, 340));
+	CreateCoins(Vector2D(400, 340));
+	CreateCoins(Vector2D(170, 340));
+	CreateCoins(Vector2D(400, 340));
 
 	//Enemies
-	CreateKoopa(Vector2D(150, 32), FACING_RIGHT, KOOPA_SPEED);
-	CreateKoopa(Vector2D(325, 32), FACING_LEFT, KOOPA_SPEED);
+	CreateKoopa(Vector2D(400, 330), FACING_RIGHT, KOOPA_SPEED);
+	CreateKoopa(Vector2D(625, 330), FACING_LEFT, KOOPA_SPEED);
 	#pragma endregion
 }
 
@@ -209,16 +204,16 @@ void GameScreenLevel1::SetLevelMap()
 {
 	int map[MAP_HEIGHT][MAP_WIDTH] = { { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 											{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-											{ 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1},
 											{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 											{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-											{ 0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0},
-											{ 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 											{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 											{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-											{ 1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1},
 											{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 											{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+											{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+											{ 1,1,1,1,1,1,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,0,0,0,0,0,0},
+											{ 0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0},
+											{ 0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0},
 											{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1} };
 
 	//clear any old maps
@@ -327,7 +322,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 			{
 				//is the enemy off screen to the left/right?
 				if (m_enemies[i]->getPosition().x < (float)(-m_enemies[i]->getCollisionBox().width * 0.5)
-					|| m_enemies[i]->getPosition().x > SCREEN_WIDTH - (float)(m_enemies[i]->getCollisionBox().width * 0.5))
+					|| m_enemies[i]->getPosition().x > LEVEL_WIDTH - (float)(m_enemies[i]->getCollisionBox().width * 0.5))
 				{
 					m_enemies[i]->SetAlive(false);
 				}
@@ -339,7 +334,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 
 			//check to see if enemy collides with screen edge
 			if ((m_enemies[i]->getPosition().y > 500.0f || m_enemies[i]->getPosition().y <= 64.0f && (m_enemies[i]->getPosition().x < 64.0f
-				|| m_enemies[i]->getPosition().x > SCREEN_WIDTH - 96.0f)))
+				|| m_enemies[i]->getPosition().x > LEVEL_WIDTH - 96.0f)))
 			{
 				//ignore collisions if behind pipe
 			}
@@ -474,7 +469,7 @@ void GameScreenLevel1::UpdateCoins(float deltaTime, SDL_Event e)
 	}
 }
 
-void GameScreenLevel1::GameOver(float deltaTime, SDL_Event e)
+void GameScreenLevel1::GameOver(float deltaTime)
 {
 	m_gameOver = true;
 
@@ -491,10 +486,29 @@ void GameScreenLevel1::GameOver(float deltaTime, SDL_Event e)
 	}
 }
 
+void GameScreenLevel1::RenderCharacter()
+{
+	//Characters render
+	if (m_character_select == MARIO)
+	{
+		luigi->SetAlive(false);
+		if (mario->GetAlive())
+			mario->Render(m_camera);
+	}
+	
+	if (m_character_select == LUIGI)
+	{
+		mario->SetAlive(false);
+		if (luigi->GetAlive())
+			luigi->Render(m_camera);
+	}
+}
+
 void GameScreenLevel1::UpdateCamera()
 {
 	m_camera = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
 	m_camera.x = mario->getPosition().x - SCREEN_WIDTH / 2;
+	//m_camera.x = luigi->getPosition().x - SCREEN_WIDTH / 2;
 	if (m_camera.x <= 0)
 	{
 		m_camera.x = 0;

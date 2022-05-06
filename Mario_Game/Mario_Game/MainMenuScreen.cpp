@@ -25,7 +25,7 @@ bool MainMenuScreen::SetupMenu()
 	m_menuBackground_texture = new Texture2D(m_renderer);
 	if (!m_menuBackground_texture->LoadFromFile("Images/MainMenu.png"))
 	{
-		cout << "Could not load background!" << endl;
+		cout << "Could not load menu background!" << endl;
 		success = false;
 	}
 

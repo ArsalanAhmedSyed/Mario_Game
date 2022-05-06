@@ -1,5 +1,6 @@
 #include "Character.h"
 #include "LevelMap.h"
+#include "CharacterMario.h"
 
 Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_position, LevelMap* map, int frames)
 {
@@ -80,8 +81,9 @@ void Character::Update(float deltaTime, SDL_Event e)
 	}
 
 	//collision position variables
-	int centralX_position = (int)(m_position.x + (m_texture->GetWidth() / m_animation_frames * 0.5)) / TILE_WIDTH;
-	int foot_position = (int)(m_position.y + m_texture->GetHeight()) / TILE_HEIGHT;
+	centralX_position = (int)(m_position.x + (m_texture->GetWidth() / m_animation_frames * 0.5)) / TILE_WIDTH;
+	centralY_position = (int)(m_position.y + (m_texture->GetHeight() * 0.5)) / TILE_HEIGHT;
+	foot_position = (int)(m_position.y + m_texture->GetHeight()) / TILE_HEIGHT;
 
 	if (m_current_level_map->GetTileAt(foot_position, centralX_position) == 0)
 	{
@@ -94,10 +96,10 @@ void Character::Update(float deltaTime, SDL_Event e)
 	{
 		//collided with ground so can jump again
 		m_can_jump = true;
-		m_jump_Anim = false;
-		
+		m_jump_Anim = false;		
 	}
 
+	PlatformHit(deltaTime, centralX_position,centralY_position);
 	KeepOnScreen(deltaTime);
 }
 
@@ -119,7 +121,7 @@ void Character::Jump()
 
 void Character::KeepOnScreen(float deltaTime)
 {
-	if (m_position.x + m_texture->GetWidth() / m_animation_frames > SCREEN_WIDTH)
+	if (m_position.x + m_texture->GetWidth() / m_animation_frames > LEVEL_WIDTH)
 	{
 		m_facing_direction = FACING_LEFT;
 		m_position.x -= deltaTime * MOVEMENT_SPEED;
@@ -146,5 +148,22 @@ void Character::RunAnimation(float deltaTime)
 
 		if (m_current_frame > 3)
 			m_current_frame = 1;
+	}
+}
+
+void Character::PlatformHit(float deltaTime, int central_X, int central_Y)
+{
+	if (m_current_level_map->GetTileAt(central_Y, central_X) == 1)
+	{
+		if (m_facing_direction = FACING_LEFT)
+		{
+			m_facing_direction = FACING_RIGHT;
+			m_position.x += deltaTime * MOVEMENT_SPEED;
+		}
+		else if (m_facing_direction = FACING_RIGHT)
+		{
+			m_facing_direction = FACING_LEFT;
+			m_position.x -= deltaTime * MOVEMENT_SPEED;
+		}
 	}
 }

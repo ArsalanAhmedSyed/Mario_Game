@@ -99,7 +99,7 @@ void CharacterKoopa::TakeDamage()
 
 void CharacterKoopa::KeepOnScreen(float deltaTime)
 {
-	if (m_position.x + m_texture->GetWidth() / m_animation_frames > SCREEN_WIDTH)
+	if (m_position.x + m_texture->GetWidth() / m_animation_frames > LEVEL_WIDTH)
 	{
 		m_turn_anim = true;
 		m_current_frame = 6;
