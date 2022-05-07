@@ -43,11 +43,17 @@ protected:
 
 	//keep everything in screen
 	virtual void KeepOnScreen(float deltaTime);
-	virtual void PlatformHit(float deltaTime, int central_X, int central_Y);
+	virtual void PlatformHit(float deltaTime, int Right_X, int LeftX, int central_Y);
 
+	//Character body position
 	int centralX_position;
 	int centralY_position;
+
+	int RightX_position;
+	int LeftX_position;
+
 	int foot_position;
+	int head_position;
 
 	//Movement
 	float m_movement_speed;

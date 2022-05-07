@@ -14,7 +14,7 @@ public:
 
 	void MoveRight(float deltaTime) override;
 	void MoveLeft(float deltaTime) override;
-	void PlatformHit(float deltaTime, int central_X, int central_Y) override;
+	void PlatformHit(float deltaTime, int Right_X, int LeftX, int central_Y) override;
 
 protected:
 	void Update(float deltaTime, SDL_Event e) override;

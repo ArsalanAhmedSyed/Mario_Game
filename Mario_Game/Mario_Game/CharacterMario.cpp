@@ -99,7 +99,7 @@ void CharacterMario::Update(float deltaTime, SDL_Event e)
 		break;
 	}
 
-	PlatformHit(deltaTime, centralX_position, centralY_position);
+	PlatformHit(deltaTime, RightX_position, LeftX_position, centralY_position);
 
 	Character::Update(deltaTime, e);
 }
@@ -116,19 +116,25 @@ void CharacterMario::MoveLeft(float deltaTime)
 	m_facing_direction = FACING_LEFT;
 }
 
-void CharacterMario::PlatformHit(float deltaTime, int central_X, int central_Y)
+void CharacterMario::PlatformHit(float deltaTime, int Right_X, int LeftX, int central_Y)
 {
-	if (m_current_level_map->GetTileAt(central_Y, central_X) == 1)
+	if (m_current_level_map->GetTileAt(centralY_position, RightX_position) == 1)
 	{
-		if (m_facing_direction = FACING_RIGHT)
-		{
-			m_facing_direction = FACING_LEFT;
-			m_position.x += deltaTime * MOVEMENT_SPEED;
-		}
-		else if (m_facing_direction = FACING_LEFT)
+		m_position.x -= deltaTime * MOVEMENT_SPEED;
+
+		if (m_facing_direction == FACING_RIGHT)
 		{
 			m_facing_direction = FACING_RIGHT;
-			m_position.x -= deltaTime * MOVEMENT_SPEED;
+		}
+	}
+
+	if (m_current_level_map->GetTileAt(centralY_position, LeftX_position) == 1)
+	{
+		m_position.x += deltaTime * MOVEMENT_SPEED;
+
+		if (m_facing_direction == FACING_LEFT)
+		{
+			m_facing_direction = FACING_LEFT;
 		}
 	}
 }

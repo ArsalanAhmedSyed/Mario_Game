@@ -82,9 +82,16 @@ void Character::Update(float deltaTime, SDL_Event e)
 
 	//collision position variables
 	centralX_position = (int)(m_position.x + (m_texture->GetWidth() / m_animation_frames * 0.5)) / TILE_WIDTH;
-	centralY_position = (int)(m_position.y + (m_texture->GetHeight() * 0.5)) / TILE_HEIGHT;
-	foot_position = (int)(m_position.y + m_texture->GetHeight()) / TILE_HEIGHT;
+	centralY_position = (int)(m_position.y + m_texture->GetHeight() * 0.5) / TILE_HEIGHT;
 
+	foot_position = (int)(m_position.y + m_texture->GetHeight()) / TILE_HEIGHT;
+	head_position = (int)(m_position.y + m_texture->GetHeight() * 0.2) / TILE_HEIGHT;
+
+	RightX_position = (int)(m_position.x + (m_texture->GetWidth() / m_animation_frames)) / TILE_WIDTH;
+	LeftX_position = (int)(m_position.x + (m_texture->GetWidth() / m_animation_frames* 0.2)) / TILE_WIDTH;
+
+
+	//foot check
 	if (m_current_level_map->GetTileAt(foot_position, centralX_position) == 0)
 	{
 		// deal with gravity
@@ -99,7 +106,13 @@ void Character::Update(float deltaTime, SDL_Event e)
 		m_jump_Anim = false;		
 	}
 
-	PlatformHit(deltaTime, centralX_position,centralY_position);
+	//head check
+	if (m_current_level_map->GetTileAt(head_position, centralX_position) == 1)
+	{
+		m_jumping = false;
+	}
+
+	PlatformHit(deltaTime, RightX_position,LeftX_position, centralY_position);
 	KeepOnScreen(deltaTime);
 }
 
@@ -151,19 +164,27 @@ void Character::RunAnimation(float deltaTime)
 	}
 }
 
-void Character::PlatformHit(float deltaTime, int central_X, int central_Y)
+void Character::PlatformHit(float deltaTime, int Right_X, int LeftX, int central_Y)
 {
-	if (m_current_level_map->GetTileAt(central_Y, central_X) == 1)
+	//side check
+	if (m_current_level_map->GetTileAt(centralY_position, RightX_position) == 1)
 	{
-		if (m_facing_direction = FACING_LEFT)
-		{
-			m_facing_direction = FACING_RIGHT;
-			m_position.x += deltaTime * MOVEMENT_SPEED;
-		}
-		else if (m_facing_direction = FACING_RIGHT)
+		m_position.x -= deltaTime * MOVEMENT_SPEED;
+
+		if (m_facing_direction == FACING_RIGHT)
 		{
 			m_facing_direction = FACING_LEFT;
-			m_position.x -= deltaTime * MOVEMENT_SPEED;
 		}
 	}
+
+	if (m_current_level_map->GetTileAt(centralY_position, LeftX_position) == 1)
+	{
+		m_position.x += deltaTime * MOVEMENT_SPEED;
+
+		if (m_facing_direction == FACING_LEFT)
+		{
+			m_facing_direction = FACING_RIGHT;
+		}
+	}
+	
 }
