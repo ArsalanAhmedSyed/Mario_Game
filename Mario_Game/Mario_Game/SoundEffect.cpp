@@ -98,6 +98,10 @@ void SoundEffect::Play(AUDIO sound)
 		LoadFromFile("Audio/Death&GameOver.wav");
 		Mix_PlayChannel(-1, m_sound_effect, 0);
 		break;
+	case LEVELEND:
+		LoadFromFile("Audio/LevelEnd.wav");
+		Mix_PlayChannel(-1, m_sound_effect, 0);
+		break;
 	default:
 		break;
 	}

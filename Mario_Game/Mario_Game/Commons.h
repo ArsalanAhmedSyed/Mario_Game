@@ -84,6 +84,7 @@ enum FACING
 
 enum AUDIO
 {
+	LEVELEND,
 	GAMEOVER,
 	POWBLOCK,
 	JUMP,

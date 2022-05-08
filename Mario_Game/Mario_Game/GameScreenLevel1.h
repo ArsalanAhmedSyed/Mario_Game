@@ -18,6 +18,7 @@ class SoundEffect;
 
 class SelectionScreen;
 class CharacterGoomba;
+class LevelEndCharacter;
 
 class GameScreenLevel1 : GameScreen
 {
@@ -35,13 +36,18 @@ private:
 	Texture2D* m_background_Texture;
 	LevelMap* m_level_map;
 	PowBlock* m_pow_block;
-	CoinCharacter* coin;
-	CharacterGoomba* m_goomba;
 
 	//Characters
 	Character* mario;
 	Character* luigi;
-	CharacterKoopa* Koopa_Character;
+	CharacterKoopa* Koopa_character;
+	CharacterGoomba* goomba_character;
+	CoinCharacter* coin;
+	LevelEndCharacter* peech_character;
+
+	//Mario & Luigi
+	void RenderCharacter();
+	CHARACTER m_character_selected;
 
 	//Audio
 	SoundEffect* m_sound;
@@ -50,9 +56,7 @@ private:
 	TextBase* m_text;
 	TextBase* m_cointxt;
 	TextBase* m_gameOver_txt;
-
-	bool m_render_gameOver_text;
-	float m_gameover_text_timer;
+	TextBase* m_levelEnd_txt;
 
 	//Text functions
 	void UpdateText(float deltaTime, SDL_Event e);
@@ -81,17 +85,19 @@ private:
 	void UpdateCoins(float deltaTime, SDL_Event e);
 	void CreateCoins(Vector2D postiion);
 
+	//GameOver
 	void GameOver(float deltaTime);
-	bool m_play_gameover_music;
 	bool m_gameOver;
+	bool m_play_gameover_music;
+	bool m_render_gameOver_text;
+	float m_gameover_text_timer;
 
+	//Camera
 	void UpdateCamera();
-
 	SDL_Rect m_camera{ 0,0,0,0 };
 
-	void RenderCharacter();
-
-	CHARACTER m_character_selected;
+	void LevelEnd();
+	bool m_levelEnd;
 };
 
 #endif // !_GAMESCREENLEVEL1_

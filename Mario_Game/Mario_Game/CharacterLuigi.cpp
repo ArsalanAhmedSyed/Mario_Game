@@ -12,7 +12,6 @@ CharacterLuigi::~CharacterLuigi() {}
 
 void CharacterLuigi::Render(SDL_Rect camera_rect)
 {
-	
 	SDL_Rect portion_of_sprite = { m_single_sprite_w * m_current_frame, 0, m_single_sprite_w, m_single_sprite_h };
 	SDL_Rect desRect = { (int)(m_position.x - camera_rect.x), (int)(m_position.y - camera_rect.y), m_single_sprite_w, m_single_sprite_h };
 

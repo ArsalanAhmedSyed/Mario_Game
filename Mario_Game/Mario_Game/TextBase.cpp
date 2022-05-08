@@ -1,5 +1,4 @@
 #include "TextBase.h"
-#include "TextRenderer.h"
 
 TextBase::TextBase(SDL_Renderer* renderer)
 {
@@ -8,7 +7,7 @@ TextBase::TextBase(SDL_Renderer* renderer)
 
 	score = 0;
 	old_score = 0;
-	text = "Score ";
+	m_text = "Score ";
 }
 TextBase::~TextBase()
 {
@@ -32,5 +31,5 @@ void TextBase::Update(float deltaTime, SDL_Event e)
 
 void TextBase::Loadtxt() 
 {
-	m_text_render->LoadFont("Fonts/MarioFont.ttf",20, text + to_string(score), { 255,255,255 });
+	m_text_render->LoadFont("Fonts/MarioFont.ttf",20, m_text + to_string(score), { 255,255,255 });
 }

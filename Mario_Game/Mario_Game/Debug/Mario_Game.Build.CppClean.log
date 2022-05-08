@@ -1,11 +1,11 @@
 c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\vc142.pdb
 c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\vc142.idb
-c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\source.obj
-c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\soundeffect.obj
 c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\selectionscreen.obj
 c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\powblock.obj
 c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\mainmenuscreen.obj
 c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\levelmap.obj
+c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\levelendtxt.obj
+c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\levelendcharacter.obj
 c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\gamescreenmanager.obj
 c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\gamescreenlevel2.obj
 c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\gamescreenlevel1.obj
@@ -23,6 +23,8 @@ c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_g
 c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\texture2d.obj
 c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\textrenderer.obj
 c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\textbase.obj
+c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\source.obj
+c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\soundeffect.obj
 c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\debug\mario_game.exe
 c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\mario_game\debug\mario_game.ilk
 c:\users\sarsa\documents\my work\university\github\mario_game\mario_game\mario_game\debug\mario_game.pdb

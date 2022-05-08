@@ -34,9 +34,7 @@ Character::Character(SDL_Renderer* renderer, string imagePath, Vector2D start_po
 	}
 
 	m_sound = new SoundEffect();
-	m_play_jump_audio = false;
-
-	
+	m_play_jump_audio = false;	
 }
 
 Character::~Character()

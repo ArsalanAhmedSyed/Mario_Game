@@ -24,12 +24,12 @@ CharacterKoopa::CharacterKoopa(SDL_Renderer* renderer, string imagePath, LevelMa
 
 CharacterKoopa::~CharacterKoopa() {}
 
-void CharacterKoopa::Render(SDL_Rect rect)
+void CharacterKoopa::Render(SDL_Rect camera_rect)
 {
 	if (m_alive)
 	{
 		SDL_Rect portion_of_sprite = { m_single_sprite_w * m_current_frame,0,m_single_sprite_w,m_single_sprite_h };
-		SDL_Rect destRect = { (int)(m_position.x - rect.x), (int)(m_position.y - rect.y), m_single_sprite_w, m_single_sprite_h };
+		SDL_Rect destRect = { (int)(m_position.x - camera_rect.x), (int)(m_position.y - camera_rect.y), m_single_sprite_w, m_single_sprite_h };
 
 		if (m_facing_direction == FACING_RIGHT)
 		{
@@ -93,9 +93,19 @@ void CharacterKoopa::TakeDamage()
 
 	m_injured = true;
 	m_injured_time = INJURED_TIME;
-
+	m_jump_force = INIITAL_JUMP_FORCE_SMALL;
 	Jump();
 }
+
+//void CharacterKoopa::Jump()
+//{
+//	if (!m_jumping)
+//	{
+//		m_jump_force = INIITAL_JUMP_FORCE_SMALL;
+//		m_jumping = true;
+//		m_can_jump = false;
+//	}
+//}
 
 void CharacterKoopa::KeepOnScreen(float deltaTime)
 {

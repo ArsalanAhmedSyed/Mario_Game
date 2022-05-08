@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include <iostream>
+#include <string>
 #include "Commons.h"
 #include "constants.h"
 #include "Texture2D.h"
@@ -29,6 +30,8 @@ public:
 	Vector2D getPosition();
 	Circle2D GetCollisionCircle() { return Circle2D(m_position.x, m_position.y, m_collision_radius); }
 	Rect2D getCollisionBox() { return Rect2D(m_position.x, m_position.y, m_texture->GetWidth()/ m_animation_frames, m_texture->GetHeight()); }
+
+	virtual void Jump();
 
 	void SetAlive(bool isAlive) { m_alive = isAlive; }
 	bool GetAlive() { return m_alive; }
@@ -69,7 +72,6 @@ protected:
 	float m_jump_force;
 
 	virtual void AddGravity(float deltaTime);
-	virtual void Jump();
 
 	//Collision
 	float m_collision_radius;

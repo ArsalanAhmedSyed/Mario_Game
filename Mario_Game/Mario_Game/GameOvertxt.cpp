@@ -1,14 +1,13 @@
 #include "GameOvertxt.h"
-#include "TextRenderer.h"
 
 GameOvertxt::GameOvertxt(SDL_Renderer* renderer) : TextBase(renderer) 
 {
-	text = "GAMEOVER";
+	m_text = "GAMEOVER";
 }
 
 GameOvertxt::~GameOvertxt() {}
 
 void GameOvertxt::Loadtxt()
 {
-	m_text_render->LoadFont("Fonts/MarioFont.ttf", 50, text, { 255,255,255 });
+	m_text_render->LoadFont("Fonts/MarioFont.ttf", 50, m_text, { 255,255,255 });
 }

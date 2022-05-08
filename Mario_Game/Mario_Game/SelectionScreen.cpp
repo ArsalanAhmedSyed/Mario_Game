@@ -54,7 +54,7 @@ bool SelectionScreen::SetupSelection()
 	//m_screen_level1 = new GameScreenLevel1(m_renderer, m_character_select);
 
 	m_background_texture = new Texture2D(m_renderer);
-	if (!m_background_texture->LoadFromFile("Images/test.bmp"))
+	if (!m_background_texture->LoadFromFile("Images/SelectionMenu.png"))
 	{
 		cout << "Failed to load selection screen background" << endl;
 		success = false;

@@ -14,5 +14,3 @@ public:
 };
 
 #endif // !_GAMEOVERTXT_H
-
-

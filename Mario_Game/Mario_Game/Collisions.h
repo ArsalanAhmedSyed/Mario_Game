@@ -14,6 +14,7 @@ public:
 
 	bool Circle(Circle2D object1, Circle2D object2);
 	bool Box(Rect2D rect1, Rect2D rect2);
+	bool Hit(Rect2D player, Rect2D enemy);
 
 private:
 	Collisions();

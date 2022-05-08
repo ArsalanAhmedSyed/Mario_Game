@@ -26,6 +26,8 @@ private:
 	void RunAnimation(float deltaTime) override;
 	void KeepOnScreen(float deltaTime) override;
 
+	//void Jump() override;
+
 	float m_injured_time;
 	bool m_injured;
 

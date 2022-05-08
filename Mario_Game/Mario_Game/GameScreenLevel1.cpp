@@ -12,24 +12,34 @@
 #include "SoundEffect.h"
 #include "Cointxt.h"
 #include "GameOvertxt.h"
+#include "LevelEndtxt.h"
 #include "CharacterGoomba.h"
+#include "LevelEndCharacter.h"
 
 using namespace std;
 
 GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer, CHARACTER character_select) : GameScreen(renderer)
 {
-	m_level_map = nullptr;
 	SetUpLevel();
 
+	m_level_map = nullptr;
+
+	//Koopa Timer 
 	create_koopa_timer = 10.0f;
 
+	//PowBlock shake duraton
 	m_shake_time = 0.0f;
 	m_wobble = 0.0f;
 	m_background_yPos = 0.0f;
 
+	//GameOver 
 	m_play_gameover_music = true;
 	m_gameover_text_timer = 1.5f;
 
+	//End level
+	m_levelEnd = false;
+
+	//Character selected from selection screen
 	m_character_selected = character_select;
 }
 
@@ -56,12 +66,6 @@ GameScreenLevel1::~GameScreenLevel1()
 	delete m_text;
 	m_text = nullptr;
 
-	delete m_cointxt;
-	m_cointxt = nullptr;
-
-	delete m_gameOver_txt;
-	m_gameOver_txt = nullptr;
-
 	m_enemies.clear();
 
 	m_coins.clear();
@@ -70,23 +74,33 @@ GameScreenLevel1::~GameScreenLevel1()
 void GameScreenLevel1::Render()
 {
 	m_background_Texture->Render(Vector2D(0,m_background_yPos),m_camera, SDL_FLIP_NONE);
+
+	//Render powblock sprtie
 	m_pow_block->Render(m_camera);
 
+	//Render Level map platform sprites
 	m_level_map->DrawMap(m_camera);
 
 	//Render The text
 	RenderText();
 
+	//Render Peech
+	peech_character->Render(m_camera);
+
+	//Render Mario & Luigi
 	RenderCharacter();
 
-	if (m_goomba->GetAlive())
-		m_goomba->Render(m_camera);
+	// Render GOOMBA
+	if (goomba_character->GetAlive())
+		goomba_character->Render(m_camera);
 	
+	//Render all the COINS
 	for (int i = 0; i < m_coins.size(); i++)
 	{
 		m_coins[i]->Render(m_camera);
 	}
 
+	//Render all the KOOPA
 	for (int i = 0; i < m_enemies.size(); i++)
 	{
 		m_enemies[i]->Render(m_camera);
@@ -95,101 +109,99 @@ void GameScreenLevel1::Render()
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 {
-	UpdateCamera();
-
-	#pragma region ScreenShake
-	if (m_screenShake)
+	if (!m_levelEnd)
 	{
-		//start screenshake
-		m_shake_time -= deltaTime;
-		m_wobble++;
-		m_background_yPos = sin(m_wobble);
-		m_background_yPos *= 3.0f;
+		LevelEnd();
 
-		//End shake after duration
-		if (m_shake_time <= 0.0f)
+		UpdateCamera();
+
+		#pragma region ScreenShake
+		if (m_screenShake)
 		{
-			m_screenShake = false;
-			m_shake_time = 0.0f;
-			m_background_yPos = 0.0f;
+			//start screenshake
+			m_shake_time -= deltaTime;
+			m_wobble++;
+			m_background_yPos = sin(m_wobble);
+			m_background_yPos *= 3.0f;
+
+			//End shake after duration
+			if (m_shake_time <= 0.0f)
+			{
+				m_screenShake = false;
+				m_shake_time = 0.0f;
+				m_background_yPos = 0.0f;
+			}
 		}
-	}
-	#pragma endregion 
+		#pragma endregion 
 
-	if (Collisions::Instance()->Circle(mario->GetCollisionCircle(), luigi->GetCollisionCircle()))
-	{
-		//cout << "Circle Hit!" << endl;
-	}
+		//Objects
+		UpdateCoins(deltaTime, e);
+		UpdatePOWBlock();
 
-	if (Collisions::Instance()->Box(mario->getCollisionBox(), luigi->getCollisionBox()))
-	{
-		//cout << "Box Hit!" << endl;
-	}
+		//Update the text
+		UpdateText(deltaTime, e);
 
-	//Characters
-	if(m_character_selected == MARIO)
-		mario->Update(deltaTime, e);
-	if(m_character_selected == LUIGI)
-		luigi->Update(deltaTime, e);
+		//GameOver Check
+		if (!mario->GetAlive() && !luigi->GetAlive())
+			GameOver(deltaTime);
 
-	//GameOver Check
-	if (!mario->GetAlive() && !luigi->GetAlive())
-		GameOver(deltaTime);
+		//Characters
+		if (m_character_selected == MARIO)
+			mario->Update(deltaTime, e);
+		if (m_character_selected == LUIGI)
+			luigi->Update(deltaTime, e);
 
-	//Objects
-	UpdateCoins(deltaTime,e);
-	UpdatePOWBlock();
+		peech_character->Update(deltaTime, e);
 
-	//Update the text
-	UpdateText(deltaTime,e);
+		//Enemies
+		goomba_character->Update(deltaTime, e);
 
-	m_goomba->Update(deltaTime, e);
-
-	//Enemies
-	#pragma region KoopaUpdate
-
-	UpdateEnemies(deltaTime, e);
-	if (!m_gameOver)
-	{
-		create_koopa_timer -= deltaTime;
-		if (create_koopa_timer <= 0)
+		#pragma region KoopaUpdate
+		UpdateEnemies(deltaTime, e);
+		if (!m_gameOver)
 		{
-			cout << "koopa created!" << endl;
-			CreateKoopa(Vector2D(800, 330), FACING_RIGHT, KOOPA_SPEED);
-			CreateKoopa(Vector2D(700, 330), FACING_LEFT, KOOPA_SPEED);
-			create_koopa_timer = 10.0f;
+			// Repeatedly create koopa
+			create_koopa_timer -= deltaTime;
+			if (create_koopa_timer <= 0)
+			{
+				cout << "koopa created!" << endl;
+				CreateKoopa(Vector2D(800, 330), FACING_RIGHT, KOOPA_SPEED);
+				CreateKoopa(Vector2D(700, 330), FACING_LEFT, KOOPA_SPEED);
+				create_koopa_timer = 10.0f;
+			}
 		}
+		#pragma endregion
 	}
-	#pragma endregion
-	GameScreen::Update(deltaTime,e);
 }
 
 void GameScreenLevel1::SetUpLevel()
 {
+	//Initialize Texture
 	m_background_Texture = new Texture2D(m_renderer);
-	if (!m_background_Texture->LoadFromFile("Images/test.png"))
+	if (!m_background_Texture->LoadFromFile("Images/Background.png"))
 	{
 		cout << "Failed to load background texture!" << endl;
 	}
 
+	//Initialize audio
 	m_sound = new SoundEffect();
 	if(m_sound == nullptr)
 	{
 		cout << "Failed to initalize the sound" << endl;
 	}
 
-	TextSetup();
-
 	SetLevelMap();
+	TextSetup();
 
 	//powblock render
 	m_pow_block = new PowBlock(m_renderer, m_level_map);
 
-	#pragma region Character Render
+	#pragma region Initialize Characters
+	//Initialized all the Characters in the level
 	mario = new CharacterMario(m_renderer, "Images/MarioSprite.png", Vector2D(64, 330), m_level_map, 6);
 	luigi = new CharacterLuigi(m_renderer, "Images/LuigiSprite.png", Vector2D(100, 330), m_level_map, 6);
-
-	m_goomba = new CharacterGoomba(m_renderer, "Images/GoombaSprite.png", m_level_map, Vector2D(200, 30), FACING_RIGHT, KOOPA_SPEED, 11.5);
+	goomba_character = new CharacterGoomba(m_renderer, "Images/GoombaSprite.png", m_level_map, Vector2D(200, 30), FACING_RIGHT, KOOPA_SPEED, 11.5);
+	peech_character = new LevelEndCharacter(m_renderer, "Images/PeechSpritesheet.png", Vector2D(150, 230), m_level_map, 2);
 
 	//objects
 	CreateCoins(Vector2D(150, 340));
@@ -215,7 +227,7 @@ void GameScreenLevel1::SetLevelMap()
 											{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 											{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 											{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-											{ 1,1,1,1,1,1,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,0,0,0,0,0,0},
+											{ 1,1,1,1,1,1,0,0,0,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,0,0,0,0,0,0},
 											{ 0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0},
 											{ 0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0},
 											{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1} };
@@ -232,6 +244,7 @@ void GameScreenLevel1::SetLevelMap()
 
 void GameScreenLevel1::TextSetup()
 {
+	//load text renderer
 	m_text = new TextBase(m_renderer);
 	m_text->Loadtxt();
 
@@ -240,19 +253,28 @@ void GameScreenLevel1::TextSetup()
 
 	m_gameOver_txt = new GameOvertxt(m_renderer);
 	m_gameOver_txt->Loadtxt();
+
+	m_levelEnd_txt = new LevelEndtxt(m_renderer);
+	m_levelEnd_txt->Loadtxt();
 }
 
 void GameScreenLevel1::UpdateText(float deltaTime,SDL_Event e)
 {
+	//Update the Text
 	m_text->Update(deltaTime, e);
 	m_cointxt->Update(deltaTime, e);
 	m_gameOver_txt->Update(deltaTime, e);
+	m_levelEnd_txt->Update(deltaTime, e);
 }
 
 void GameScreenLevel1::RenderText()
 {
+	//Render all text
 	if (m_render_gameOver_text)
 		m_gameOver_txt->Render(66, 108);
+
+	if (m_levelEnd)
+		m_levelEnd_txt->Render(66, 108);
 
 	m_text->Render(70, 10);
 	m_cointxt->Render(300, 10);
@@ -260,6 +282,7 @@ void GameScreenLevel1::RenderText()
 
 void GameScreenLevel1::UpdatePOWBlock()
 {
+	//Check for MARIO collision with POWBlock
 	if (m_character_selected == MARIO)
 	{
 		if (Collisions::Instance()->Box(mario->getCollisionBox(), m_pow_block->GetCollisionBox()))
@@ -277,6 +300,7 @@ void GameScreenLevel1::UpdatePOWBlock()
 		}
 	}
 	
+	//Check for LUIGI collision with POWBLOCK
 	if (m_character_selected == LUIGI)
 	{
 		if (Collisions::Instance()->Box(luigi->getCollisionBox(), m_pow_block->GetCollisionBox()))
@@ -297,10 +321,12 @@ void GameScreenLevel1::UpdatePOWBlock()
 
 void GameScreenLevel1::DoScreenShake()
 {
+	//Perform screenshake
 	m_screenShake = true;
 	m_shake_time = SHAKE_DURATION;
 	m_wobble = 0.0f;
 
+	//Injure all KOOPA enemies
 	for (unsigned int i = 0; i < m_enemies.size(); i++)
 	{
 		m_enemies[i]->TakeDamage();
@@ -309,12 +335,14 @@ void GameScreenLevel1::DoScreenShake()
 
 void GameScreenLevel1::CreateKoopa(Vector2D position, FACING direction, float speed)
 {
-	Koopa_Character = new CharacterKoopa(m_renderer, "Images/KoopaSprite.png", m_level_map, position, direction, speed, 15);
-	m_enemies.push_back(Koopa_Character);
+	//Initialize KOOPA
+	Koopa_character = new CharacterKoopa(m_renderer, "Images/KoopaSprite.png", m_level_map, position, direction, speed, 15);
+	m_enemies.push_back(Koopa_character);
 }
 
 void GameScreenLevel1::CreateCoins(Vector2D position)
 {
+	//Initialize COIN
 	coin = new CoinCharacter(m_renderer, "Images/Coin.png", position, m_level_map, 3);
 	m_coins.push_back(coin);
 }
@@ -354,6 +382,15 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 
 				if (m_character_selected == MARIO)
 				{
+					// Check for collision from MARIO feet
+					if (Collisions::Instance()->Hit(mario->getCollisionBox(), m_enemies[i]->getCollisionBox()))
+					{
+						cout << "enemy killed" << endl;
+						mario->CancelJump();
+						mario->Jump();
+						m_enemies[i]->TakeDamage();
+					}
+
 					//Check Collision between koopa and mario
 					if (Collisions::Instance()->Circle(m_enemies[i]->GetCollisionCircle(), mario->GetCollisionCircle()))
 					{
@@ -372,16 +409,11 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 							{
 								//Kill mario
 								if (luigi->GetAlive())
-								{
 									m_sound->Play(DEATH);
-								}
 								else
-								{
 									m_sound->Play(GAMEOVER);
-								}
 
 								mario->CancelJump();
-								//Take away lives
 								mario->setKill(true);
 							}
 						}
@@ -390,6 +422,15 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 
 				if (m_character_selected == LUIGI)
 				{
+					// Check for collision from LUIGI feet
+					if (Collisions::Instance()->Hit(luigi->getCollisionBox(), m_enemies[i]->getCollisionBox()))
+					{
+						cout << "enemy killed" << endl;
+						luigi->CancelJump();
+						luigi->Jump();
+						m_enemies[i]->TakeDamage();
+					}
+
 					if (Collisions::Instance()->Circle(m_enemies[i]->GetCollisionCircle(), luigi->GetCollisionCircle()))
 					{
 						if (m_enemies[i]->GetInjured())
@@ -407,13 +448,9 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 							{
 								//Kill luigi
 								if (mario->GetAlive())
-								{
 									m_sound->Play(DEATH);
-								}
 								else
-								{
 									m_sound->Play(GAMEOVER);
-								}
 
 								luigi->CancelJump();
 								//Take away lives
@@ -422,7 +459,6 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 						}
 					}
 				}
-				
 				#pragma endregion
 			}
 
@@ -448,8 +484,10 @@ void GameScreenLevel1::UpdateCoins(float deltaTime, SDL_Event e)
 
 		for (unsigned int i = 0; i < m_coins.size(); i++)
 		{
+			//Update COINS
 			m_coins[i]->Update(deltaTime, e);
 
+			//Check for MARIO collision with COINS
 			if (m_character_selected == MARIO)
 			{
 				if (Collisions::Instance()->Circle(mario->GetCollisionCircle(), m_coins[i]->GetCollisionCircle()))
@@ -465,6 +503,7 @@ void GameScreenLevel1::UpdateCoins(float deltaTime, SDL_Event e)
 				}
 			}
 			
+			//Check for LUIGI collision with COINS
 			if (m_character_selected == LUIGI)
 			{
 				if (Collisions::Instance()->Circle(luigi->GetCollisionCircle(), m_coins[i]->GetCollisionCircle()))
@@ -497,12 +536,14 @@ void GameScreenLevel1::GameOver(float deltaTime)
 {
 	m_gameOver = true;
 
+	//Play gameOver sound effect
 	if (m_play_gameover_music)
 	{
 		m_sound->PlayMusic(STOP_MUSIC);
 		m_play_gameover_music = false;
 	}
 
+	//Render GameOver Text
 	m_gameover_text_timer -= deltaTime;
 	if (m_gameover_text_timer <= 0)
 	{
@@ -528,8 +569,20 @@ void GameScreenLevel1::RenderCharacter()
 	}
 }
 
+void GameScreenLevel1::LevelEnd()
+{
+	// End level when collide with PEECH 
+	if (Collisions::Instance()->Circle(mario->GetCollisionCircle(), peech_character->GetCollisionCircle()))
+	{
+		m_sound->PlayMusic(STOP_MUSIC);
+		m_sound->Play(LEVELEND);
+		m_levelEnd = true;
+	}
+}
+
 void GameScreenLevel1::UpdateCamera()
 {
+	//Make CAMERA follow Characters
 	m_camera = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
 	if(m_character_selected == MARIO)
 		m_camera.x = mario->getPosition().x - SCREEN_WIDTH / 2;

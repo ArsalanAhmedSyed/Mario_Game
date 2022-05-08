@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <string>
 #include <iostream>
+#include "TextRenderer.h"
 
 using namespace std;
 
@@ -23,7 +24,7 @@ public:
 	void IncremrentScore(int addScore) { score += addScore; }
 
 protected:
-	string text;
+	string m_text;
 	int score, old_score;
 	TextRenderer* m_text_render;
 
