@@ -20,6 +20,7 @@ LevelMap::LevelMap(int map[MAP_HEIGHT][MAP_WIDTH], SDL_Renderer* renderer)
 		}
 	}
 
+	//Render platform texture
 	m_platform = new Texture2D(renderer);
 	if (!m_platform->LoadFromFile("Images/Platform.png"))
 	{
@@ -31,6 +32,7 @@ LevelMap::LevelMap(int map[MAP_HEIGHT][MAP_WIDTH], SDL_Renderer* renderer)
 
 LevelMap::~LevelMap()
 {
+	//Delete the values insdie the array
 	for (unsigned int i = 0; i < MAP_HEIGHT; i++)
 	{
 		delete[] m_map[i];
@@ -52,9 +54,11 @@ void LevelMap::DrawMap(SDL_Rect rect)
 		{
 			type = m_map[i][j];
 
+			//Add ddistance between each platform
 			desRect.x = j * 35 - rect.x;
 			desRect.y = i * 32 - rect.y;
 
+			//Render Texture places where there are once
 			if (type == 1)
 			{
 				m_platform->Render(srcRect, desRect, SDL_FLIP_NONE);
@@ -65,6 +69,7 @@ void LevelMap::DrawMap(SDL_Rect rect)
 
 int LevelMap::GetTileAt(unsigned int h, unsigned int w)
 {
+	//Get the location of the tile
 	if (h < MAP_HEIGHT && w < MAP_WIDTH)
 	{
 		return m_map[h][w];
@@ -75,5 +80,6 @@ int LevelMap::GetTileAt(unsigned int h, unsigned int w)
 
 void LevelMap::ChangeTileAt(unsigned int row, unsigned int column, unsigned int new_value)
 {
+	//Change Tile at specific place
 	m_map[column][row] = new_value;
 }

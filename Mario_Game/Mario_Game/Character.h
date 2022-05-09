@@ -20,22 +20,28 @@ public:
 	Character(SDL_Renderer* renderer, string imagePath, Vector2D start_position, LevelMap* map, int frames);
 	~Character();
 
-	virtual void Render(SDL_Rect rect);
+	virtual void Render(SDL_Rect camera_rect);
 	virtual void Update(float deltaTime, SDL_Event e);
 
-	void SetPosition(Vector2D new_position);
+	void SetPosition(Vector2D new_position) { m_position = new_position; }
+
+	//Jump condition function
 	bool IsJumping() { return m_jumping; }
 	void CancelJump() { m_jumping = false; }
 
-	Vector2D getPosition();
+	Vector2D getPosition() { return m_position; }
+	//Get Circle Collision
 	Circle2D GetCollisionCircle() { return Circle2D(m_position.x, m_position.y, m_collision_radius); }
+	//Get box Collision
 	Rect2D getCollisionBox() { return Rect2D(m_position.x, m_position.y, m_texture->GetWidth()/ m_animation_frames, m_texture->GetHeight()); }
 
 	virtual void Jump();
 
+	//Check or change character alive condition
 	void SetAlive(bool isAlive) { m_alive = isAlive; }
 	bool GetAlive() { return m_alive; }
 
+	//Kill Character or check condition
 	void setKill(bool isKilled) { m_kill_player = isKilled; }
 	bool GetKill() { return m_kill_player; }
 
@@ -43,26 +49,42 @@ protected:
 	SDL_Renderer* m_renderer;
 	Vector2D m_position;
 	Texture2D* m_texture;
+	LevelMap* m_current_level_map;
+
+	SoundEffect* m_sound;
+	bool m_play_jump_audio;
 
 	//keep everything in screen
 	virtual void KeepOnScreen(float deltaTime);
+	//Check if player collides with platform
 	virtual void PlatformHit(float deltaTime, int Right_X, int LeftX, int central_Y);
+	//Check Update character functions
+	virtual void CharacterCondition(float deltaTime);
 
-	//Character body position
+	//Character Central position
 	int centralX_position;
 	int centralY_position;
 
+	//Character horizontal collision check veriables
 	int RightX_position;
 	int LeftX_position;
 
+	//Character vertical collision check veraibles
 	int foot_position;
 	int head_position;
+
+	//Character Dimensions
+	virtual void CharacterDimension();
+	//Sprite dimensions
+	float m_single_sprite_w;
+	float m_single_sprite_h;
+
 
 	//Movement
 	float m_movement_speed;
 	bool m_moving_left;
 	bool m_moving_right;
-
+	//Movement Function
 	virtual void MoveLeft(float deltaTime);
 	virtual void MoveRight(float deltaTime);
 
@@ -85,20 +107,12 @@ protected:
 	FACING m_facing_direction;
 	int m_animation_frames;
 	bool m_jump_Anim;
-
-	float m_single_sprite_w;
-	float m_single_sprite_h;
 	int m_current_frame;
 	float m_frame_delay;
+	//Animation function
+	virtual void DefaultAnimation(float deltaTime);
 
-	virtual void RunAnimation(float deltaTime);
-
-	SoundEffect* m_sound;
-	bool m_play_jump_audio;
-	LevelMap* m_current_level_map;
-
-	SDL_Rect m_source{ 0,0,0,0};
-	SDL_Rect m_draw_rect{ 0,0,0,0 };
+	bool m_grounded;
 
 private:
 };

@@ -7,11 +7,13 @@ SoundEffect::SoundEffect()
 
 SoundEffect::~SoundEffect()
 {
+	//Free sound effect
 	if (m_sound_effect != nullptr)
 	{
 		Mix_FreeChunk(m_sound_effect);
 	}
-
+	
+	//Free music
 	if (m_music != nullptr)
 	{
 		Mix_FreeMusic(m_music);
@@ -20,12 +22,14 @@ SoundEffect::~SoundEffect()
 
 bool SoundEffect::LoadFromFile(string path)
 {
+	//Free Sound effect
 	if (m_sound_effect != nullptr)
 	{
 		Mix_FreeChunk(m_sound_effect);
 		m_sound_effect = nullptr;
 	}
 
+	//Load Sound effect from file
 	m_sound_effect = Mix_LoadWAV(path.c_str());
 	if (m_sound_effect == nullptr)
 	{
@@ -37,6 +41,7 @@ bool SoundEffect::LoadFromFile(string path)
 
 bool SoundEffect::LoadMusicFile(string music_path)
 {
+	//Free music
 	if (m_music != nullptr)
 	{
 		if (Mix_PlayingMusic() == 1)
@@ -45,6 +50,7 @@ bool SoundEffect::LoadMusicFile(string music_path)
 		}
 	}
 
+	//Load music from file
 	m_music = Mix_LoadMUS(music_path.c_str());
 	if (m_music == nullptr)
 	{
@@ -56,6 +62,7 @@ bool SoundEffect::LoadMusicFile(string music_path)
 
 void SoundEffect::PlayMusic(MUSIC music)
 {
+	//Pass in Music to play them
 	switch (music)
 	{
 	case MENU_MUSIC:
@@ -76,6 +83,7 @@ void SoundEffect::PlayMusic(MUSIC music)
 
 void SoundEffect::Play(AUDIO sound)
 {
+	//Pass in sound effect to be played
 	switch (sound)
 	{
 	case JUMP:

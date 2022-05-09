@@ -13,12 +13,14 @@ SelectionScreen::SelectionScreen(SDL_Renderer* renderer) : GameScreen(renderer)
 
 SelectionScreen::~SelectionScreen()
 {
+	//Clear the texture
 	delete m_background_texture;
 	m_background_texture = nullptr;
 }
 
 void SelectionScreen::Render()
 {
+	//Render background of character selection screen
 	m_background_texture->Render(Vector2D(0, 0), SDL_FLIP_NONE);
 }
 
@@ -30,14 +32,13 @@ void SelectionScreen::Update(float deltaTime, SDL_Event e)
 		switch (e.key.keysym.sym)
 		{
 		case SDLK_m:
+			//Select mario
 			m_character_select = MARIO;
-
-			cout << "Chracter Mario select update!" << endl;
 			m_selected = true;
 			break;
 		case SDLK_l:
+			//Select Luigi
 			m_character_select = LUIGI;
-			cout << "Chracter Luigi select update!" << endl;
 			m_selected = true;
 			break;
 		}
@@ -51,8 +52,7 @@ bool SelectionScreen::SetupSelection()
 {
 	bool success = true;
 
-	//m_screen_level1 = new GameScreenLevel1(m_renderer, m_character_select);
-
+	//Render Selection screen Background texture
 	m_background_texture = new Texture2D(m_renderer);
 	if (!m_background_texture->LoadFromFile("Images/SelectionMenu.png"))
 	{

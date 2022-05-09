@@ -36,6 +36,7 @@ bool Texture2D::LoadFromFile(string path)
 	//free existing texture
 	Free();
 
+	//Get Texture file
 	SDL_Surface* p_Surface = IMG_Load(path.c_str());
 	if (p_Surface == nullptr)
 	{
@@ -44,6 +45,7 @@ bool Texture2D::LoadFromFile(string path)
 	else
 	{
 		SDL_SetColorKey(p_Surface, SDL_TRUE, SDL_MapRGB(p_Surface->format, 0, 0XFF, 0XFF));
+		//Create Texture from surface
 		m_Texture = SDL_CreateTextureFromSurface(m_Renderer, p_Surface);
 		if (m_Texture == nullptr)
 		{
@@ -81,11 +83,13 @@ int Texture2D::GetHeight() { return m_height; }
 
 void Texture2D::Render(SDL_Rect src_rect, SDL_Rect src_dest, SDL_RendererFlip flip, double angle)
 {
+	//Used to render characters/Objects in specific places
 	SDL_RenderCopyEx(m_Renderer, m_Texture, &src_rect, &src_dest, angle, nullptr, flip);
 }
 
 void Texture2D::Render(Vector2D new_position, SDL_Rect clip, SDL_RendererFlip flip, double angle)
 {
+	//Used to render background for camera
 	SDL_Rect m_render_location  { new_position.x, new_position.y, m_width, m_height };
 
 	if (clip.w != NULL)

@@ -1,24 +1,19 @@
 #include "CharacterKoopa.h"
-#include "constants.h"
 
-CharacterKoopa::CharacterKoopa(SDL_Renderer* renderer, string imagePath, LevelMap* map, Vector2D start_position, FACING start_facing, float movement_speed, int frames) : Character(renderer, imagePath, start_position, map, frames)
+CharacterKoopa::CharacterKoopa(SDL_Renderer* renderer, string imagePath, LevelMap* map, Vector2D start_position, FACING start_facing, int frames) : Character(renderer, imagePath, start_position, map, frames)
 {
-	m_texture = new Texture2D(m_renderer);
-	if (!m_texture->LoadFromFile(imagePath))
-	{
-		cout << "Failed to load texture!" << endl;
-	}
-
+	//Pass the parameter values
 	m_facing_direction = start_facing;
-	m_movement_speed = movement_speed;
 	m_position = start_position;
+	m_animation_frames = frames;
 
+	//Set default values
 	m_injured = false;
 	m_turn_anim = false;
 	m_roll_anim = false;
-
-
-	m_single_sprite_w = m_texture->GetWidth() / frames;
+	
+	//Get Sprites width and height
+	m_single_sprite_w = m_texture->GetWidth() / m_animation_frames;
 	m_single_sprite_h = m_texture->GetHeight();
 }
 
@@ -26,45 +21,70 @@ CharacterKoopa::~CharacterKoopa() {}
 
 void CharacterKoopa::Render(SDL_Rect camera_rect)
 {
-	if (m_alive)
-	{
-		SDL_Rect portion_of_sprite = { m_single_sprite_w * m_current_frame,0,m_single_sprite_w,m_single_sprite_h };
-		SDL_Rect destRect = { (int)(m_position.x - camera_rect.x), (int)(m_position.y - camera_rect.y), m_single_sprite_w, m_single_sprite_h };
+	//set SDL_Rect
+	SDL_Rect m_source = { m_single_sprite_w * m_current_frame, 0, m_single_sprite_w, m_single_sprite_h };
+	SDL_Rect m_draw_rect = { (int)m_position.x - camera_rect.x, (int)m_position.y - camera_rect.y, m_texture->GetWidth() / m_animation_frames,m_texture->GetHeight() };
 
-		if (m_facing_direction == FACING_RIGHT)
-		{
-			m_texture->Render(portion_of_sprite, destRect, SDL_FLIP_NONE);
-		}
-		else
-		{
-			m_texture->Render(portion_of_sprite, destRect, SDL_FLIP_HORIZONTAL);
-		}
+	//Render Texture according to the character facing direction
+	if (m_facing_direction == FACING_LEFT)
+	{
+		m_texture->Render(m_source, m_draw_rect, SDL_FLIP_HORIZONTAL);
+	}
+	else if (m_facing_direction == FACING_RIGHT)
+	{
+		m_texture->Render(m_source, m_draw_rect, SDL_FLIP_NONE);
 	}
 }
 
 void CharacterKoopa::Update(float deltaTime, SDL_Event e)
 {
+	CharacterCondition(deltaTime);
+	PlatformHit(deltaTime, RightX_position, LeftX_position, centralY_position);
+	KeepOnScreen(deltaTime);
+
+	Character::Update(deltaTime, e);
+}
+
+void CharacterKoopa::TakeDamage()
+{
+	//Change to injured sprite
+	m_current_frame = 9;
+
+	//Setup injured veriables
+	m_injured = true;
+	m_injured_time = INJURED_TIME;
+	m_jump_force = INIITAL_JUMP_FORCE_SMALL;
+	
+	Jump();
+}
+
+void CharacterKoopa::CharacterCondition(float deltaTime)
+{
 	if (!m_injured)
 	{
 		if (!m_turn_anim && !m_roll_anim)
 		{
+			//Default walk animation
+			DefaultAnimation(deltaTime);
+
+			//Move towards the direction koopa is facing
 			if (m_facing_direction == FACING_LEFT)
 			{
 				MoveLeft(deltaTime);
-				RunAnimation(deltaTime);
 			}
 			else if (m_facing_direction == FACING_RIGHT)
 			{
 				MoveRight(deltaTime);
-				RunAnimation(deltaTime);
 			}
 		}
 
+		//Play turn Animation on turn
 		if (m_turn_anim)
 		{
 			TurnAnimation(deltaTime);
 		}
 
+		//Play roll over Annimation 
 		if (m_roll_anim)
 		{
 			RollOverAnimation(deltaTime);
@@ -72,10 +92,11 @@ void CharacterKoopa::Update(float deltaTime, SDL_Event e)
 	}
 	else
 	{
-
+		//Deny movement when injured
 		m_moving_right = false;
 		m_moving_left = false;
 
+		//Start injured timer to make injured false
 		m_injured_time -= deltaTime;
 		if (m_injured_time <= 0.0f)
 		{
@@ -84,51 +105,46 @@ void CharacterKoopa::Update(float deltaTime, SDL_Event e)
 		}
 	}
 
-	Character::Update(deltaTime, e);
 }
 
-void CharacterKoopa::TakeDamage()
+void CharacterKoopa::PlatformHit(float deltaTime, int Right_X, int LeftX, int central_Y)
 {
-	m_current_frame = 9;
 
-	m_injured = true;
-	m_injured_time = INJURED_TIME;
-	m_jump_force = INIITAL_JUMP_FORCE_SMALL;
-	Jump();
-}
-
-//void CharacterKoopa::Jump()
-//{
-//	if (!m_jumping)
-//	{
-//		m_jump_force = INIITAL_JUMP_FORCE_SMALL;
-//		m_jumping = true;
-//		m_can_jump = false;
-//	}
-//}
-
-void CharacterKoopa::KeepOnScreen(float deltaTime)
-{
-	if (m_position.x + m_texture->GetWidth() / m_animation_frames > LEVEL_WIDTH)
+	//foot check
+	if (m_current_level_map->GetTileAt(foot_position, centralX_position) == 0)
 	{
-		m_turn_anim = true;
-		m_current_frame = 6;
-		m_position.x -= deltaTime * MOVEMENT_SPEED;
+		//deal with gravity
+		AddGravity(deltaTime);
 	}
-	else if (m_position.x < 0)
+
+	//Check if there are tiles on the right side of the character
+	if (m_current_level_map->GetTileAt(centralY_position, RightX_position) == 1)
 	{
+		m_position.x -= deltaTime * ENEMY_SPEED;
 		m_turn_anim = true;
 		m_current_frame = 6;
-		m_position.x += deltaTime * MOVEMENT_SPEED;
+
+		ChangeDirection();
+	}
+
+	//Check if there are tiles on the Left side of the character
+	if (m_current_level_map->GetTileAt(centralY_position, LeftX_position) == 1)
+	{
+		m_position.x += deltaTime * ENEMY_SPEED;
+		m_turn_anim = true;
+		m_current_frame = 6;
+
+		ChangeDirection();
 	}
 }
 
-void CharacterKoopa::RunAnimation(float deltaTime)
+void CharacterKoopa::DefaultAnimation(float deltaTime)
 {
+	//Perform walking animation
 	m_frame_delay -= deltaTime;
 	if (m_frame_delay <= 0.0f)
 	{
-		m_frame_delay = ANIMATION_DELAY;
+		m_frame_delay = KOOPA_ANIMATION_DELAY;
 
 		m_current_frame++;
 
@@ -139,10 +155,11 @@ void CharacterKoopa::RunAnimation(float deltaTime)
 
 void CharacterKoopa::TurnAnimation(float deltaTime)
 {
+	//Perform Turning rotaion
 	m_frame_delay -= deltaTime;
 	if (m_frame_delay <= 0.0f)
 	{
-		m_frame_delay = ANIMATION_DELAY;
+		m_frame_delay = KOOPA_ANIMATION_DELAY;
 
 		m_current_frame++;
 
@@ -151,24 +168,18 @@ void CharacterKoopa::TurnAnimation(float deltaTime)
 			m_current_frame = 0;
 			m_turn_anim = false;
 
-			if (m_facing_direction == FACING_RIGHT)
-			{
-				m_facing_direction = FACING_LEFT;
-			}
-			else if (m_facing_direction == FACING_LEFT)
-			{
-				m_facing_direction = FACING_RIGHT;
-			}
+			ChangeDirection();
 		}
 	}
 }
 
 void CharacterKoopa::RollOverAnimation(float deltaTime)
 {
+	//Perform roll over animation
 	m_frame_delay -= deltaTime;
 	if (m_frame_delay <= 0.0f)
 	{
-		m_frame_delay = ANIMATION_DELAY;
+		m_frame_delay = KOOPA_ANIMATION_DELAY;
 
 		m_current_frame++;
 
@@ -180,14 +191,42 @@ void CharacterKoopa::RollOverAnimation(float deltaTime)
 	}
 }
 
+void CharacterKoopa::KeepOnScreen(float deltaTime)
+{
+	if (m_position.x + m_texture->GetWidth() / m_animation_frames > LEVEL_WIDTH)
+	{
+		m_turn_anim = true;
+		m_current_frame = 6;
+		m_position.x -= deltaTime * ENEMY_SPEED;
+	}
+	else if (m_position.x < 0)
+	{
+		m_turn_anim = true;
+		m_current_frame = 6;
+		m_position.x += deltaTime * ENEMY_SPEED;
+	}
+}
+
 void CharacterKoopa::MoveRight(float deltaTime)
 {
-	m_position.x += deltaTime * MOVEMENT_SPEED;
+	m_position.x += deltaTime * ENEMY_SPEED;
 	m_facing_direction = FACING_RIGHT;
 }
 
 void CharacterKoopa::MoveLeft(float deltaTime)
 {
-	m_position.x -= deltaTime * MOVEMENT_SPEED;
+	m_position.x -= deltaTime * ENEMY_SPEED;
 	m_facing_direction = FACING_LEFT;
+}
+
+void CharacterKoopa::ChangeDirection()
+{
+	if (m_facing_direction == FACING_RIGHT)
+	{
+		m_facing_direction = FACING_LEFT;
+	}
+	else if (m_facing_direction == FACING_LEFT)
+	{
+		m_facing_direction = FACING_RIGHT;
+	}
 }

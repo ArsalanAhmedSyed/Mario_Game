@@ -16,6 +16,7 @@ public:
 	void Render();
 	void Update(float deltatime, SDL_Event e);
 
+	//Change Screen by passing in enum to load specific screen
 	void ChangeScreen(SCREENS new_screen);
 
 private:

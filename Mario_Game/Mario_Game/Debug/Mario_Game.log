@@ -1,9 +1,12 @@
-﻿  GameScreenLevel1.cpp
-C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\Character.h(32,134): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\Character.h(32,92): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(89,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(94,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(201,139): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(580,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\GameScreenLevel1.cpp(582,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+﻿  Character.cpp
+C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\Character.h(36,134): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\Character.h(36,92): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\Character.cpp(42,44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\Character.cpp(43,42): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\Character.cpp(59,41): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\Character.cpp(59,41): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\Character.cpp(59,63): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\Character.cpp(59,63): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\Character.cpp(59,82): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Mario_Game\Character.cpp(59,82): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
   Mario_Game.vcxproj -> C:\Users\sarsa\Documents\MY WORK\University\GitHub\Mario_Game\Mario_Game\Mario_Game\Debug\Mario_Game.exe

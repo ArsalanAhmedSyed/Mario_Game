@@ -64,10 +64,16 @@ private:
 	void RenderText();
 
 	//Create Koopa
-	std::vector<CharacterKoopa*> m_enemies;
-	void UpdateEnemies(float deltaTime, SDL_Event e);
-	void CreateKoopa(Vector2D position, FACING direction, float speed);
-	float create_koopa_timer;
+	/*std::vector<CharacterKoopa*> m_Koopas;*/
+	void UpdateKoopas(float deltaTime, SDL_Event e);
+	/*void CreateKoopa(Vector2D position, FACING direction);
+	float create_koopa_timer;*/
+
+	std::vector<CharacterGoomba*> m_Goombas;
+	void UpdateGoombas(float deltaTime, SDL_Event e);
+	void CreateGoomba(Vector2D position, FACING direction);
+	float create_Goomba_timer;
+	bool m_spawn;
 
 	//Setup level
 	void SetUpLevel();

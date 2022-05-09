@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL.h>
 
+//For positon
 struct Vector2D
 {
 	float x;
@@ -20,6 +21,7 @@ struct Vector2D
 
 };
 
+//For box Collision
 struct Rect2D
 {
 	float x;
@@ -44,6 +46,7 @@ struct Rect2D
 	}
 };
 
+//For raidus collision
 struct Circle2D
 {
 	float x;
@@ -65,6 +68,7 @@ struct Circle2D
 	}
 };
 
+//List of screen
 enum SCREENS
 {
 	SCREEN_SELECTION,
@@ -72,16 +76,16 @@ enum SCREENS
 	SCREEN_MENU,
 	SCREEN_LEVEL1,
 	SCREEN_LEVEL2,
-	SCREEN_GAMEOVER,
-	SCREEN_HIGHSCOORES
 };
 
+//Direction of facing
 enum FACING
 {
 	FACING_LEFT,
 	FACING_RIGHT
 };
 
+//List of sound effects 
 enum AUDIO
 {
 	LEVELEND,
@@ -92,6 +96,7 @@ enum AUDIO
 	COIN,
 };
 
+//List of Music
 enum MUSIC
 {
 	MENU_MUSIC,
@@ -99,6 +104,7 @@ enum MUSIC
 	STOP_MUSIC
 };
 
+//List of characters
 enum CHARACTER
 {
 	MARIO,

@@ -6,33 +6,36 @@
 class CharacterKoopa : public Character
 {
 public:
-	CharacterKoopa(SDL_Renderer* renderer, string imagePath, LevelMap* map, Vector2D start_position, FACING start_facing, float movement_speed, int frames);
+	CharacterKoopa(SDL_Renderer* renderer, string imagePath, LevelMap* map, Vector2D start_position, FACING start_facing, int frames);
 	~CharacterKoopa();
 
-	void Render(SDL_Rect rect) override;
 	void Update(float deltaTime, SDL_Event e) override;
-
+	void Render(SDL_Rect camrea_rect);
+	
+	//Damage relate functions
 	void TakeDamage();
 	bool GetInjured() { return m_injured; }
 
+	//Movement functions
 	void MoveRight(float deltaTime) override;
 	void MoveLeft(float deltaTime) override;
 
 private:
-	//void FlipRightwayUp(float deltaTime);
+	//Animations
 	void TurnAnimation(float deltaTime);
 	void RollOverAnimation(float deltaTime);
+	void DefaultAnimation(float deltaTime) override;
+	bool m_turn_anim;
+	bool m_roll_anim;
 
-	void RunAnimation(float deltaTime) override;
 	void KeepOnScreen(float deltaTime) override;
+	void CharacterCondition(float deltaTime) override;
+	void PlatformHit(float deltaTime, int Right_X, int LeftX, int central_Y);
 
-	//void Jump() override;
+	void ChangeDirection();
 
 	float m_injured_time;
 	bool m_injured;
-
-	bool m_turn_anim;
-	bool m_roll_anim;
 };
 
 #endif // _CHARACTERKOOPA_H

@@ -19,8 +19,6 @@ private:
 
 	GameScreenLevel1* m_screen_level1;
 
-	
-
 	bool SetupSelection();
 };
 

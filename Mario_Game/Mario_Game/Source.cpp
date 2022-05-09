@@ -21,7 +21,7 @@ void CloseSDL();
 bool Update();
 void Render();
 
-
+//Create Classes
 SDL_Window* g_Window = nullptr;
 SDL_Renderer* g_Renderer = nullptr;
 GameScreenManager* game_screen_manager = nullptr;
@@ -110,14 +110,17 @@ bool Update()
 		break;
 	}
 
+	//Create DeltaTime
 	game_screen_manager->Update((float)(new_time - g_old_time) / 1000.0f, e);
 	g_old_time = new_time;
+
 	return false;
 }
 
 //close everything
 void CloseSDL()
 {
+	//Call game manager decunstructor
 	delete game_screen_manager;
 	game_screen_manager = nullptr;
 
@@ -143,8 +146,8 @@ int main(int argc, char* args[])
 {
 	if (InitSDL())
 	{
+		//Initalize Game screen manager
 		game_screen_manager = new GameScreenManager(g_Renderer, SCREEN_SELECTION);
-
 		g_old_time = SDL_GetTicks();
 
 		bool quit = false;

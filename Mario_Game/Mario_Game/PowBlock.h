@@ -10,13 +10,16 @@ class Texture2D;
 class PowBlock
 {
 public:
-	PowBlock(SDL_Renderer* renderer, LevelMap* map);
+	PowBlock(SDL_Renderer* renderer, LevelMap* map, Vector2D position);
 	~PowBlock();
 
 	void Render(SDL_Rect camera_rect);
+
 	void TakeHit();
+	//Return the number of hits left
 	bool IsAvailable() { return m_num_hits_left > 0; }
 
+	//Get box collision for the powblock
 	Rect2D GetCollisionBox() { return Rect2D(m_position.x, m_position.y, m_single_sprite_w, m_single_sprite_h); }
 	
 private:

@@ -13,10 +13,13 @@ public:
 	void Update(float deltaTime, SDL_Event e) override;
 
 private:
+	//Veribles
 	float m_single_sprite_w;
 	float m_single_sprite_h;
 	float m_frame_delay;
 	int m_current_frame;
+
+	void DefaultAnimation(float deltaTime) override;
 };
 
 #endif // !_COINCHARACTER_H
