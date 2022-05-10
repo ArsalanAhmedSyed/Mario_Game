@@ -37,12 +37,14 @@ public:
 
 	virtual void Jump();
 
+	void SetGrounded(bool grounded) { m_grounded = grounded; }
+
 	//Check or change character alive condition
 	void SetAlive(bool isAlive) { m_alive = isAlive; }
 	bool GetAlive() { return m_alive; }
 
 	//Kill Character or check condition
-	void setKill(bool isKilled) { m_kill_player = isKilled; }
+	void SetKill(bool isKilled) { m_kill_player = isKilled; }
 	bool GetKill() { return m_kill_player; }
 
 protected:

@@ -213,20 +213,14 @@ void GameScreenLevel1::SetUpLevel()
 
 	#pragma region Initialize Characters
 	//Initialized all the Characters in the level
-	mario = new CharacterMario(m_renderer, "Images/MarioSprite.png", Vector2D(20, 200), m_level_map, 6);
-	luigi = new CharacterLuigi(m_renderer, "Images/LuigiSprite.png", Vector2D(20, 330), m_level_map, 6);
+	mario = new CharacterMario(m_renderer, "Images/MarioSprite.png", Vector2D(20, 335), m_level_map, 6);
+	luigi = new CharacterLuigi(m_renderer, "Images/LuigiSprite.png", Vector2D(20, 335), m_level_map, 6);
 
-	
-	
 	//Initialize Peech 
 	peech_character = new LevelEndCharacter(m_renderer, "Images/PeechSpritesheet.png", Vector2D(1620, 340), m_level_map, 2);
 
-	//objects
-	CreateCoins(Vector2D(150, 340));
-	CreateCoins(Vector2D(100, 340));
-	CreateCoins(Vector2D(400, 340));
-	CreateCoins(Vector2D(170, 340));
-	CreateCoins(Vector2D(400, 340));
+	//Create Coins
+	SetupCoins();
 
 	//Enemies
 	//Initialize koopa
@@ -246,7 +240,7 @@ void GameScreenLevel1::SetLevelMap()
 						  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0 },
 						  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 						  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0 },
-						  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 						  { 0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 						  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0 },
 						  { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0 },
@@ -290,10 +284,10 @@ void GameScreenLevel1::RenderText()
 {
 	//Render all text
 	if (m_render_gameOver_text)
-		m_gameOver_txt->Render(66, 108);
+		m_gameOver_txt->Render(80, 108);
 
 	if (m_levelEnd)
-		m_levelEnd_txt->Render(66, 108);
+		m_levelEnd_txt->Render(60, 108);
 
 	m_text->Render(70, 10);
 	m_cointxt->Render(300, 10);
@@ -312,7 +306,7 @@ void GameScreenLevel1::UpdatePOWBlock()
 				{
 					m_sound->Play(POWBLOCK);
 					DoScreenShake();
-					m_pow_block->TakeHit();
+					m_pow_block->TakeHit(34,8);
 					mario->CancelJump();
 				}
 			}
@@ -330,7 +324,7 @@ void GameScreenLevel1::UpdatePOWBlock()
 				{
 					m_sound->Play(POWBLOCK);
 					DoScreenShake();
-					m_pow_block->TakeHit();
+					m_pow_block->TakeHit(34,8);
 					luigi->CancelJump();
 				}
 			}
@@ -399,32 +393,35 @@ void GameScreenLevel1::UpdateGoombas(float deltaTime, SDL_Event e)
 			}
 			else
 			{
-				#pragma region Mario and Luigi collision
+			#pragma region Mario and Luigi collision
 				if (m_character_selected == MARIO)
 				{
-					if (!mario->GetKill())
+					if (mario->GetAlive())
 					{
-						// Check for collision from MARIO feet
-						if (Collisions::Instance()->Hit(mario->getCollisionBox(), m_Goombas[i]->getCollisionBox()))
+						if (!mario->GetKill())
 						{
-							cout << "enemy killed" << endl;
-							mario->CancelJump();
-							mario->Jump();
-							m_Goombas[i]->SetAlive(false);
-
-							//Increase score
-							m_text->IncremrentScore(200);
-						}
-
-						//Check Collision between koopa and mario
-						if (Collisions::Instance()->Circle(m_Goombas[i]->GetCollisionCircle(), mario->GetCollisionCircle()))
-						{
-							if (mario->GetAlive() && !mario->GetKill())
+							// Check for collision from MARIO feet
+							if (Collisions::Instance()->Hit(mario->getCollisionBox(), m_Goombas[i]->getCollisionBox()))
 							{
-								//Kill mario
-								m_sound->Play(GAMEOVER);
+								mario->SetGrounded(true);
 								mario->CancelJump();
-								mario->setKill(true);
+								mario->Jump();
+								m_Goombas[i]->SetAlive(false);
+
+								//Increase score
+								m_text->IncremrentScore(200);
+							}
+
+							//Check Collision between koopa and mario
+							if (Collisions::Instance()->Circle(m_Goombas[i]->GetCollisionCircle(), mario->GetCollisionCircle()))
+							{
+								if (mario->GetAlive() && !mario->GetKill())
+								{
+									//Kill mario
+									m_sound->Play(GAMEOVER);
+									mario->CancelJump();
+									mario->SetKill(true);
+								}
 							}
 						}
 					}
@@ -432,34 +429,37 @@ void GameScreenLevel1::UpdateGoombas(float deltaTime, SDL_Event e)
 
 				if (m_character_selected == LUIGI)
 				{
-					if (!luigi->GetKill())
+					if (luigi->GetAlive())
 					{
-						// Check for collision betwwen enemy to see if it hits the feet
-						if (Collisions::Instance()->Hit(luigi->getCollisionBox(), m_Goombas[i]->getCollisionBox()))
+						if (!luigi->GetKill())
 						{
-							cout << "enemy killed" << endl;
-							luigi->CancelJump();
-							luigi->Jump();
-							m_Goombas[i]->SetAlive(false);
-
-							//Increase score
-							m_text->IncremrentScore(200);
-						}
-
-						//Check Collision between koopa and luigi
-						if (Collisions::Instance()->Circle(luigi->GetCollisionCircle(), m_Goombas[i]->GetCollisionCircle()))
-						{
-							if (luigi->GetAlive() && !luigi->GetKill())
+							// Check for collision betwwen enemy to see if it hits the feet
+							if (Collisions::Instance()->Hit(luigi->getCollisionBox(), m_Goombas[i]->getCollisionBox()))
 							{
-								//Kill luigi
-								m_sound->Play(GAMEOVER);
+								luigi->SetGrounded(true);
 								luigi->CancelJump();
-								luigi->setKill(true);
+								luigi->Jump();
+								m_Goombas[i]->SetAlive(false);
+
+								//Increase score
+								m_text->IncremrentScore(200);
+							}
+
+							//Check Collision between koopa and luigi
+							if (Collisions::Instance()->Circle(luigi->GetCollisionCircle(), m_Goombas[i]->GetCollisionCircle()))
+							{
+								if (luigi->GetAlive() && !luigi->GetKill())
+								{
+									//Kill luigi
+									m_sound->Play(GAMEOVER);
+									luigi->CancelJump();
+									luigi->SetKill(true);
+								}
 							}
 						}
 					}
 				}
-				#pragma endregion
+			#pragma endregion
 			}
 
 			//if the enemy is no longer alive then schedule it for deletion
@@ -483,40 +483,47 @@ void GameScreenLevel1::UpdateKoopas(float delaTime, SDL_Event e)
 
 	if (m_character_selected == MARIO)
 	{
-		// Check for collision from MARIO feet
-		if (Collisions::Instance()->Hit(mario->getCollisionBox(), Koopa_character->getCollisionBox()))
+		if (mario->GetAlive())
 		{
-			if (Koopa_character->GetAlive())
+			if (!mario->GetKill())
 			{
-				if (Koopa_character->GetInjured())
+				if (Koopa_character->GetAlive())
 				{
-					cout << "enemy killed" << endl;
-					mario->CancelJump();
-					mario->Jump();
-					Koopa_character->SetAlive(false);
-
-					//Increase score
-					m_text->IncremrentScore(200);
+					// Check for collision from MARIO feet
+					if (Collisions::Instance()->Hit(mario->getCollisionBox(), Koopa_character->getCollisionBox()))
+					{
+						if (!Koopa_character->GetInjured())
+						{
+							mario->SetGrounded(true);
+							mario->CancelJump();
+							mario->Jump();
+							Koopa_character->TakeDamage();
+						}
+					}
 				}
-				else
-				{
-					Koopa_character->TakeDamage();
-				}
-				
-			}
-		}
 
-		//Check Collision between koopa and mario
-		if (Collisions::Instance()->Circle (Koopa_character->GetCollisionCircle(), mario->GetCollisionCircle()))
-		{
-			if (Koopa_character->GetAlive())
-			{
-				if (mario->GetAlive() && !mario->GetKill())
+				//Check Collision between koopa and mario
+				if (Collisions::Instance()->Circle(Koopa_character->GetCollisionCircle(), mario->GetCollisionCircle()))
 				{
-					//Kill mario
-					m_sound->Play(GAMEOVER);
-					mario->CancelJump();
-					mario->setKill(true);
+					if (Koopa_character->GetAlive())
+					{
+						if (Koopa_character->GetInjured())
+						{
+							Koopa_character->SetAlive(false);
+							//Increase score
+							m_text->IncremrentScore(200);
+						}
+						else
+						{
+							if (mario->GetAlive() && !mario->GetKill())
+							{
+								//Kill mario
+								m_sound->Play(GAMEOVER);
+								mario->CancelJump();
+								mario->SetKill(true);
+							}
+						}
+					}
 				}
 			}
 		}
@@ -524,32 +531,47 @@ void GameScreenLevel1::UpdateKoopas(float delaTime, SDL_Event e)
 
 	if (m_character_selected == LUIGI)
 	{
-		// Check for collision from MARIO feet
-		if (Collisions::Instance()->Hit(luigi->getCollisionBox(), Koopa_character->getCollisionBox()))
+		if (luigi->GetAlive())
 		{
-			if (Koopa_character->GetAlive())
+			if (!luigi->GetKill())
 			{
-				cout << "enemy killed" << endl;
-				luigi->CancelJump();
-				luigi->Jump();
-				Koopa_character->SetAlive(false);
-
-				//Increase score
-				m_text->IncremrentScore(200);
-			}
-		}
-
-		//Check Collision between koopa and mario
-		if (Collisions::Instance()->Circle(luigi->GetCollisionCircle(), Koopa_character->GetCollisionCircle()))
-		{
-			if (Koopa_character->GetAlive())
-			{
-				if (luigi->GetAlive() && !luigi->GetKill())
+				// Check for collision from MARIO feet
+				if (Collisions::Instance()->Hit(luigi->getCollisionBox(), Koopa_character->getCollisionBox()))
 				{
-					//Kill mario
-					m_sound->Play(GAMEOVER);
-					luigi->CancelJump();
-					luigi->setKill(true);
+					if (Koopa_character->GetAlive())
+					{
+						if (!Koopa_character->GetInjured())
+						{
+							luigi->SetGrounded(true);
+							luigi->CancelJump();
+							luigi->Jump();
+							Koopa_character->TakeDamage();
+						}
+					}
+				}
+
+				//Check Collision between koopa and mario
+				if (Collisions::Instance()->Circle(luigi->GetCollisionCircle(), Koopa_character->GetCollisionCircle()))
+				{
+					if (Koopa_character->GetAlive())
+					{
+						if (Koopa_character->GetInjured())
+						{
+							Koopa_character->SetAlive(false);
+							//Increase score
+							m_text->IncremrentScore(200);
+						}
+						else
+						{
+							if (luigi->GetAlive() && !luigi->GetKill())
+							{
+								//Kill luigi
+								m_sound->Play(GAMEOVER);
+								luigi->CancelJump();
+								luigi->SetKill(true);
+							}
+						}
+					}
 				}
 			}
 		}
@@ -652,11 +674,24 @@ void GameScreenLevel1::RenderCharacter()
 void GameScreenLevel1::LevelEnd()
 {
 	// End level when collide with PEECH 
-	if (Collisions::Instance()->Circle(mario->GetCollisionCircle(), peech_character->GetCollisionCircle()))
+	if (m_character_selected == MARIO)
 	{
-		m_sound->PlayMusic(STOP_MUSIC);
-		m_sound->Play(LEVELEND);
-		m_levelEnd = true;
+		if (Collisions::Instance()->Circle(mario->GetCollisionCircle(), peech_character->GetCollisionCircle()))
+		{
+			m_sound->PlayMusic(STOP_MUSIC);
+			m_sound->Play(LEVELEND);
+			m_levelEnd = true;
+		}
+	}
+	
+	if (m_character_selected == LUIGI)
+	{
+		if (Collisions::Instance()->Circle(luigi->GetCollisionCircle(), peech_character->GetCollisionCircle()))
+		{
+			m_sound->PlayMusic(STOP_MUSIC);
+			m_sound->Play(LEVELEND);
+			m_levelEnd = true;
+		}
 	}
 }
 
@@ -677,4 +712,23 @@ void GameScreenLevel1::UpdateCamera()
 	{
 		m_camera.x = LEVEL_WIDTH - m_camera.w;
 	}
+}
+
+void GameScreenLevel1::SetupCoins()
+{
+	CreateCoins(Vector2D(190, 260));
+	CreateCoins(Vector2D(230, 260));
+	CreateCoins(Vector2D(260, 260));
+	CreateCoins(Vector2D(490, 290));
+	CreateCoins(Vector2D(520, 290));
+	CreateCoins(Vector2D(700, 250));
+	CreateCoins(Vector2D(740, 250));
+	CreateCoins(Vector2D(880, 290));
+	CreateCoins(Vector2D(920, 290));
+	CreateCoins(Vector2D(1020, 190));
+	CreateCoins(Vector2D(1070, 190));
+	CreateCoins(Vector2D(1110, 190));
+	CreateCoins(Vector2D(1000, 335));
+	CreateCoins(Vector2D(1100, 335));
+	CreateCoins(Vector2D(1210, 335));
 }

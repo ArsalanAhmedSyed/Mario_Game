@@ -75,7 +75,7 @@ enum SCREENS
 	SCREEN_CONTROLS,
 	SCREEN_MENU,
 	SCREEN_LEVEL1,
-	SCREEN_LEVEL2,
+	SCREEN_LEVEL2
 };
 
 //Direction of facing
@@ -93,7 +93,7 @@ enum AUDIO
 	POWBLOCK,
 	JUMP,
 	DEATH,
-	COIN,
+	COIN
 };
 
 //List of Music

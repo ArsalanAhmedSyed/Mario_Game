@@ -29,22 +29,16 @@ public:
 	void Render() override;
 	void Update(float deltaTime, SDL_Event e) override;
 
-	void UpdatePOWBlock();
-
 private:
 	//Classes
 	Texture2D* m_background_Texture;
 	LevelMap* m_level_map;
-	PowBlock* m_pow_block;
 
 	//Characters
 	Character* mario;
 	Character* luigi;
-	CharacterKoopa* Koopa_character;
-	CharacterGoomba* goomba_character;
 	CoinCharacter* coin;
-	LevelEndCharacter* peech_character;
-
+	
 	//Mario & Luigi
 	void RenderCharacter();
 	CHARACTER m_character_selected;
@@ -63,12 +57,12 @@ private:
 	void TextSetup();
 	void RenderText();
 
-	//Create Koopa
-	/*std::vector<CharacterKoopa*> m_Koopas;*/
+	//Koopa veriables/ functions
+	CharacterKoopa* Koopa_character;
 	void UpdateKoopas(float deltaTime, SDL_Event e);
-	/*void CreateKoopa(Vector2D position, FACING direction);
-	float create_koopa_timer;*/
 
+	//Goomba Functions/ veriables
+	CharacterGoomba* goomba_character;
 	std::vector<CharacterGoomba*> m_Goombas;
 	void UpdateGoombas(float deltaTime, SDL_Event e);
 	void CreateGoomba(Vector2D position, FACING direction);
@@ -79,12 +73,14 @@ private:
 	void SetUpLevel();
 	void SetLevelMap();
 	
-	//ScreenShake
+	//ScreenShake/PowBlock
+	PowBlock* m_pow_block;
 	bool m_screenShake;
 	float m_shake_time;
 	float m_wobble;
 	float m_background_yPos;
 	void DoScreenShake();
+	void UpdatePOWBlock();
 
 	//Coins
 	std::vector<CoinCharacter*> m_coins;
@@ -102,8 +98,12 @@ private:
 	void UpdateCamera();
 	SDL_Rect m_camera{ 0,0,0,0 };
 
+	//Level End
+	LevelEndCharacter* peech_character;
 	void LevelEnd();
 	bool m_levelEnd;
+
+	void SetupCoins();
 };
 
 #endif // !_GAMESCREENLEVEL1_

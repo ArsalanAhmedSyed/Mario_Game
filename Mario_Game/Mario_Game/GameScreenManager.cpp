@@ -136,9 +136,9 @@ void GameScreenManager::ChangeScreen(SCREENS new_screen)
 		m_play_music->PlayMusic(GAMEPLAY_MUSIC);
 		break;
 	case SCREEN_LEVEL2:
-		/*tempScreen2 = new GameScreenLevel2(m_renderer);
+		tempScreen2 = new GameScreenLevel2(m_renderer,selectedCharacter);
 		m_current_screen = (GameScreen*)tempScreen2;
-		tempScreen2 = nullptr;*/
+		tempScreen2 = nullptr;
 		m_play_music->PlayMusic(GAMEPLAY_MUSIC);
 		break;
 	default:

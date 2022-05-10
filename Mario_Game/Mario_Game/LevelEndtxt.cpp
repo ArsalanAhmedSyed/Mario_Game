@@ -11,5 +11,5 @@ LevelEndtxt::~LevelEndtxt() {}
 void LevelEndtxt::Loadtxt()
 {
 	//Render text
-	m_text_render->LoadFont("Fonts/MarioFont.ttf", 50, m_text, { 255,255,255 });
+	m_text_render->LoadFont("Fonts/MarioFont.ttf", 50, m_text, { 0,0,0 });
 }

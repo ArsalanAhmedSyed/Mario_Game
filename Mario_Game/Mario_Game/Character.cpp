@@ -107,7 +107,7 @@ void Character::AddGravity(float deltaTime)
 void Character::Jump() 
 {
 	//Setup veriables to allow the character to jump
-	if (!m_jumping)
+	if (!m_jumping && m_grounded)
 	{
 		m_jump_force = INITIAL_JUMP_FORCE;
 		m_jumping = true;
@@ -202,6 +202,7 @@ void Character::CharacterCondition(float deltaTime)
 
 	if (m_kill_player)
 	{
+		m_grounded = true;
 		m_current_frame = 5;
 		Jump();
 		m_kill_timer -= deltaTime;
@@ -235,6 +236,7 @@ void Character::PlatformHit(float deltaTime, int Right_X, int LeftX, int central
 	if (m_current_level_map->GetTileAt(head_position, centralX_position) == 1)
 	{
 		//stop the character from jumping further
+		m_grounded = false;
 		m_jumping = false;
 	}
 

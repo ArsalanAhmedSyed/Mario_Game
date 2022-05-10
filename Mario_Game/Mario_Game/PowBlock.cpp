@@ -49,7 +49,7 @@ void PowBlock::Render(SDL_Rect camera_rect)
 	}
 }
 
-void PowBlock::TakeHit()
+void PowBlock::TakeHit(int w, int h)
 {
 	//Reduce the number of hit left
 	m_num_hits_left--;
@@ -57,6 +57,6 @@ void PowBlock::TakeHit()
 	{
 		//Change specific tile from 1 to 0 when powblock is gone
 		m_num_hits_left = 0;
-		m_level_map->ChangeTileAt(34, 8, 0);
+		m_level_map->ChangeTileAt(w, h, 0);
 	}
 }
