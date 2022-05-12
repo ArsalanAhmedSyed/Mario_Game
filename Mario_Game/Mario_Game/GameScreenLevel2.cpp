@@ -334,6 +334,12 @@ void GameScreenLevel2::DoScreenShake()
 	{
 		m_Koopas[i]->TakeDamage();
 	}
+
+	for (unsigned int i = 0; i < m_Goombas.size(); i++)
+	{
+		m_Goombas[i]->SetAlive(false);
+		m_text->IncremrentScore(200);
+	}
 }
 
 void GameScreenLevel2::CreateKoopa(Vector2D position, FACING direction)

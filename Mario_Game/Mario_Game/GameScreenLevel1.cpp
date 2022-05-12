@@ -343,6 +343,7 @@ void GameScreenLevel1::DoScreenShake()
 	for (unsigned int i = 0; i < m_Goombas.size(); i++)
 	{
 		m_Goombas[i]->SetAlive(false);
+		m_text->IncremrentScore(200);
 	}
 
 	Koopa_character->TakeDamage();
